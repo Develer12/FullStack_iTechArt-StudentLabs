@@ -1,0 +1,209 @@
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="index.css">
+        <link href='http://fonts.googleapis.com/css?family=Open+Sans&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
+        <script src="index.js"></script>
+    </head>
+    <body onload="start()">
+        <div class="main">
+            <div class="list_bar" id="list_bar">
+                <div class="list">
+                    <div id="list_control">
+                        <button class="back_ico min_but" id="order_back"></button> 
+                        <p class="text_header" id="order_count">Orders </p>
+                    </div>
+                    <div id="list_search">
+                        <form>
+                            <input type="text" placeholder="Поиск">
+                            <button class="search_ico min_but" id="search" type="submit"></button>
+                            <button class="update_ico min_but" id="update" type="submit"></button>
+                        </form>
+                    </div>
+                    <div id="list_order">
+                        <div class="list_order_c">
+                            <div onclick="OpenOrder(this)" id="order_7777" class="list_order_content">
+                                <div class="order_content_l">
+                                    <p class="fat big">Order 7777</p>
+                                    <p>fsdsd sdfssfd</p>
+                                    <p>Shipped: 25 sept. 2019</p>
+                                </div>
+                                <div class="order_content_r right">
+                                    <p class="fat big">12.12.1212</p>
+                                    <p class="Intime">In time</p>
+                                </div>
+                            </div>
+                            <hr>
+                        </div>
+                        <div class="list_order_c">
+                            <div class="list_order_content">
+                                <div class="order_content_l">
+                                    <p class="fat big">Order 7777</p>
+                                    <p>fsdsd sdfssfd</p>
+                                    <p>Shipped: 25 sept. 2019</p>
+                                </div>
+                                <div class="order_content_r right">
+                                    <p class="fat big">12.12.1212</p>
+                                    <p class="Urgent">Urgent</p>
+                                </div>
+                            </div>
+                            <hr>
+                        </div>
+                        <div class="list_order_c">
+                            <div class="list_order_content">
+                                <div class="order_content_l">
+                                    <p class="fat big">Order 7777</p>
+                                    <p>fsdsd sdfssfd</p>
+                                    <p>Shipped: 25 sept. 2019</p>
+                                </div>
+                                <div class="order_content_r right">
+                                    <p class="fat big">12.12.1212</p>
+                                    <p class="Intime">In time</p>
+                                </div>
+                            </div>
+                            <hr>
+                        </div>
+                        <div class="list_order_c">
+                            <div class="list_order_content">
+                                <div class="order_content_l">
+                                    <p class="fat big">Order 7777</p>
+                                    <p>fsdsd sdfssfd</p>
+                                    <p>Shipped: 25 sept. 2019</p>
+                                </div>
+                                <div class="order_content_r right">
+                                    <p class="fat big">12.12.1212</p>
+                                    <p class="Urgent">Urgent</p>
+                                </div>
+                            </div>
+                            <hr>
+                        </div>
+                    </div>
+                    <div id="footer">
+                        <div>
+                            <button class="filter_ico min_but" id=""></button> 
+                            <button class="order_ico min_but" id=""></button> 
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="order_bar" id="order_bar">
+                <div id="header">
+                    <p class="blue_header text_header">Order</p>
+                    <hr>
+                </div>
+                <div id="order_scroll">
+                    <div class="blue_header" id="order_info">
+                        <div class="order_bar_c">
+                            <div class="order_bar_c left">
+                                <span class="fat big">Order 7918</span>
+                                <span>Customer: Иван Иванов</span>
+                                <span>Ordered: 19 sept. 2019</span>
+                                <span>Shiped: 25 sept. 2019</span>
+                            </div>
+                            <div class="right money">
+                                <span class="big">154 000,13</span>
+                                <span>EUR</span>
+                            </div>
+                        </div>
+                        <div class="order_bar_butt">
+                            <button class="din_buttC deliveryC" onclick="OpenStatus(this)" id="delivery"></button> 
+                            <button class="din_butt processor" onclick="OpenStatus(this)" id="processor"></button> 
+                        </div>
+                    </div>
+                    <hr>
+                    <div id="order_status">
+
+                    </div>
+                    <hr>
+                    <div id="order_items">
+                        <div class="left">
+                            <span id="items_count" class="fat big">Line Items (0)</span>
+                            <div>
+                                <table class="order-table table">
+                                    <thead>
+                                        <tr class="right">
+                                            <td class="left">Product</td>
+                                            <td>Unit Price</td>
+                                            <td>Quantity</td>
+                                            <td>Total</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="table_items">
+                                        <tr class="right">
+                                            <td class="left">
+                                                <span class="black">Aniseed Syrup</span>
+                                                <br>
+                                                <span>1412</span>
+                                            </td>
+                                            <td>
+                                                <span class="black">65.89</span> 
+                                                <span class="money">EUR</span>
+                                            </td>
+                                            <td>1060</td>
+                                            <td>
+                                                <span class="black">59 231,11</span> 
+                                                <span class="money">EUR</span>
+                                            </td>
+                                        </tr>
+                                        <tr class="right">
+                                            <td class="left">
+                                                <span class="black">Aniseed Syrup</span>
+                                                <br>
+                                                <span>1412</span>
+                                            </td>
+                                            <td>
+                                                <span class="black">65.89</span> 
+                                                <span class="money">EUR</span>
+                                            </td>
+                                            <td>1060</td>
+                                            <td>
+                                                <span class="black">59 231,11</span> 
+                                                <span class="money">EUR</span>
+                                            </td>
+                                        </tr>
+                                        <tr class="right">
+                                            <td class="left">
+                                                <span class="black">Aniseed Syrup</span>
+                                                <br>
+                                                <span>1412</span>
+                                            </td>
+                                            <td>
+                                                <span class="black">65.89</span> 
+                                                <span class="money">EUR</span>
+                                            </td>
+                                            <td>1060</td>
+                                            <td>
+                                                <span class="black">59 231,11</span> 
+                                                <span class="money">EUR</span>
+                                            </td>
+                                        </tr>
+                                        <tr class="right">
+                                            <td class="left">
+                                                <span class="black">Aniseed Syrup</span>
+                                                <br>
+                                                <span>1412</span>
+                                            </td>
+                                            <td>
+                                                <span class="black">65.89</span> 
+                                                <span class="money">EUR</span>
+                                            </td>
+                                            <td>1060</td>
+                                            <td>
+                                                <span class="black">59 231,11</span> 
+                                                <span class="money">EUR</span>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                    </div>
+                </div>
+            </div>
+            <div class="foo" id="footer">
+                <div>
+                    <button class="mail_ico min_but" id="sendmail"></button> 
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
