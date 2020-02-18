@@ -42,6 +42,7 @@ input {
     border-color: #cecece;
     border-width: 1px;
     border-style: solid;
+    padding-right: 24%;
 }
 table{
     border-collapse:collapse;
@@ -61,6 +62,9 @@ table thead{
 }
 tbody{
     font-size: 0.8em;
+}
+button{
+    cursor: pointer;
 }
 .min_but{
     background: none;
@@ -116,7 +120,7 @@ tbody{
     background-repeat: no-repeat;
     position: relative;
     margin-top: 5;
-    margin-left: 2%;
+    margin-left: 5%;
 }
 .order_ico{
     background-image: url(resourse/list.png);
@@ -214,6 +218,10 @@ tbody{
 }
 .blue_header.text_header{
     padding-right: 50%;
+    padding-left: 30%;
+}
+.blue_header.order_header{
+    padding-right: 30%;
 }
 .text_header{
     text-align: right;
@@ -228,11 +236,9 @@ tbody{
     overflow-x: hidden;
 }
 #order_items{
-    background-color: #fafafa;
     height: 30%;
     min-height: 210;
-    padding: 2%;
-    padding-top: 4%;
+    padding: 2% 5% 0% 5%;
 }
 #order_status{
     height: 20%;
@@ -284,6 +290,15 @@ tbody{
     padding-left: 12px;
     padding-right: 12px;
 }
+.list_order_content:hover{
+    background-color: #eeeeee;
+}
+.list_order_contentC{
+    background-color: #d7e4f3;
+}
+.list_order_contentC:hover{
+    background-color: #d7e4f3;
+}
 .order_bar_c{
     display: flex;
     width: 100%;
@@ -298,6 +313,7 @@ tbody{
 .list_order_c{
     display: flex;
     flex-direction: column;
+    cursor: pointer;
 }
 .right{
     text-align: right;
@@ -305,9 +321,6 @@ tbody{
 .left{
     flex-direction: column;
     text-align: left;
-}
-.list_order_c:hover{
-    background-color: #e8eff5;
 }
 #list_bar hr{
     color: #f2f2f2; 

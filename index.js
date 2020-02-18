@@ -1,4 +1,5 @@
-let openid = 'delivery';
+let openInfo = 'delivery';
+let openOrder = '';
 
 let Stat = {
 delivery: 
@@ -26,6 +27,10 @@ processor: ``
 }
 
 window.addEventListener(`resize`, event => {
+    checkMobile();
+}, false);
+
+function checkMobile(){
     let list_bar = document.getElementById('list_bar');
     let order_bar = document.getElementById('order_bar');
     let header = document.getElementById('header');
@@ -56,13 +61,15 @@ window.addEventListener(`resize`, event => {
         `<p class="blue_header text_header">Order</p>
         <hr>`
     }
-  }, false);
+}
+
 
 function start()
 {
-    StatusO(document.getElementById(openid), openid);
+    StatusO(document.getElementById(openInfo), openInfo);
     OrderCount();
     ItemCount();
+    checkMobile();
     let CountListener = new MutationObserver((mutations)=>{
         mutations.forEach((mutation)=>{
             OrderCount();
@@ -79,8 +86,8 @@ function start()
 
 function OpenStatus(elem){
     let id = elem.id;
-    if(id!=openid){
-        StatusC(document.getElementById(openid));
+    if(id!=openInfo){
+        StatusC(document.getElementById(openInfo));
         StatusO(elem, id);
     }
 }
@@ -89,21 +96,57 @@ function StatusO(elem, id){
     elem.classList.add('din_buttC');
     elem.classList.add(id+'C');
     elem.innerHTML=`<div class="hr"></div>`
-    openid = id;
-    document.getElementById('order_status').innerHTML=Stat[openid];
+    openInfo = id;
+    document.getElementById('order_status').innerHTML=Stat[openInfo];
 }
+
+function OrderClicked(elem){
+    let id = elem.id;
+    if(id!=openInfo){
+        StatusC(document.getElementById(openInfo));
+        StatusO(elem, id);
+    }
+}
+
 function StatusC(elem){
     elem.classList = ' ';
     elem.classList.add('din_butt');
-    elem.classList.add(openid);
+    elem.classList.add(openInfo);
     elem.innerHTML =' '
     document.getElementById('order_status').innerHTML=' ';
 }
 
-function OpenOrder(elem){
-    alert("ID: "+elem.id);
+function StatusO(elem, id){
+    elem.classList = ' ';
+    elem.classList.add('din_buttC');
+    elem.classList.add(id+'C');
+    elem.innerHTML=`<div class="hr"></div>`
+    openInfo = id;
+    document.getElementById('order_status').innerHTML=Stat[openInfo];
+}
 
+function OpenOrder(elem){
+    let id = elem.id;
+    if(id!=openOrder){
+        if(openOrder)
+            OrderC(document.getElementById(openOrder));
+        OrderO(elem, id);
+
+    }
     ItemCount();
+}
+
+function OrderC(elem){
+    elem.classList = ' ';
+    elem.classList.add('list_order_content');
+    document.getElementById('order_status');
+}
+
+function OrderO(elem, id){
+    elem.classList = ' ';
+    elem.classList.add('list_order_content');
+    elem.classList.add('list_order_contentC');
+    openOrder = id;
 }
 
 function OrderCount(){
@@ -115,3 +158,4 @@ function ItemCount(){
     let Count  = document.getElementById('table_items').childElementCount;
     document.getElementById('items_count').innerHTML = `Line Items (${Count})`;
 }
+
