@@ -139,6 +139,7 @@ span.fat{
     width: 100%;
     padding-left: 12px;
     padding-right: 12px;
+    justify-content: space-between;
 }
 .list_order_content:hover{
     background-color: #eeeeee;
@@ -208,9 +209,27 @@ span.fat{
 .black{
     color: #6d6e70;
     font-weight:bolder;}
+
+/* Text color of order status*/
 .Intime{
     color: #84b584;
 }
 .Urgent{
     color: orange;
+}
+
+/* Text cut style */
+.textCut{
+    display: -webkit-box;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-box-orient: vertical;
+}
+.order_content_l .textCut{
+    width: 100%;
+    -webkit-line-clamp: 2;
+}
+.order_bar_c .textCut{
+    width: 70%;
+    -webkit-line-clamp: 1;
 }
