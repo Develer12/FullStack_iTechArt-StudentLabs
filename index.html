@@ -1,9 +1,11 @@
 <html>
     <head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="index.css">
+        <link rel="stylesheet" href="resourse/style/tagStyle.css">
+        <link rel="stylesheet" href="resourse/style/buttons.css">
+        <link rel="stylesheet" href="resourse/style/index.css">
         <link href='http://fonts.googleapis.com/css?family=Open+Sans&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
-        <script src="index.js"></script>
+        <script src="resourse/script/index.js"></script>
     </head>
     <body onload="start()">
         <div class="main">
@@ -87,123 +89,126 @@
                 </div>
             </div>
             <div class="order_bar" id="order_bar">
-                <div id="header">
-                    <p class="blue_header text_header">Order</p>
-                    <hr>
-                </div>
-                <div id="order_scroll">
-                    <div class="blue_header" id="order_info">
-                        <div class="order_bar_c">
-                            <div class="order_bar_c left">
-                                <span class="fat big">Order 7918</span>
-                                <span>Customer: Иван Иванов</span>
-                                <span>Ordered: 19 sept. 2019</span>
-                                <span>Shiped: 25 sept. 2019</span>
-                            </div>
-                            <div class="right money">
-                                <span class="big">154 000,13</span>
-                                <span>EUR</span>
-                            </div>
-                        </div>
-                        <div class="order_bar_butt">
-                            <button class="din_buttC deliveryC" onclick="OpenStatus(this)" id="delivery"></button> 
-                            <button class="din_butt processor" onclick="OpenStatus(this)" id="processor"></button> 
-                        </div>
+                <div class="list">
+                    <div id="header">
+                        <p class="blue_header text_header">Order</p>
+                        <hr>
                     </div>
-                    <hr>
-                    <div id="order_status">
+                    <div id="order_scroll">
+                        <div class="blue_header" id="order_info">
+                            <div class="order_bar_c">
+                                <div class="order_bar_c left">
+                                    <span class="fat big">Order 7918</span>
+                                    <span>Customer: Иван Иванов</span>
+                                    <span>Ordered: 19 sept. 2019</span>
+                                    <span>Shiped: 25 sept. 2019</span>
+                                </div>
+                                <div class="right money">
+                                    <span class="big">154 000,13</span>
+                                    <span>EUR</span>
+                                </div>
+                            </div>
+                            <div class="order_bar_butt">
+                                <button class="din_buttC deliveryC" onclick="OpenStatus(this)" id="delivery"></button> 
+                                <button class="din_butt processor" onclick="OpenStatus(this)" id="processor"></button> 
+                            </div>
+                        </div>
+                        <hr>
+                        <div id="order_status">
 
+                        </div>
+                        <hr>
+                        <div id="order_items">
+                            <div class="left">
+                                <span id="items_count" class="fat big">Line Items (0)</span>
+                                <div>
+                                    <table class="order-table table">
+                                        <thead>
+                                            <tr class="right">
+                                                <td class="left">Product</td>
+                                                <td>Unit Price</td>
+                                                <td>Quantity</td>
+                                                <td>Total</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="table_items">
+                                            <tr class="right">
+                                                <td class="left">
+                                                    <span class="black">Aniseed Syrup</span>
+                                                    <br>
+                                                    <span>1412</span>
+                                                </td>
+                                                <td>
+                                                    <span class="black">65.89</span> 
+                                                    <span class="money">EUR</span>
+                                                </td>
+                                                <td>1060</td>
+                                                <td>
+                                                    <span class="black">59 231,11</span> 
+                                                    <span class="money">EUR</span>
+                                                </td>
+                                            </tr>
+                                            <tr class="right">
+                                                <td class="left">
+                                                    <span class="black">Aniseed Syrup</span>
+                                                    <br>
+                                                    <span>1412</span>
+                                                </td>
+                                                <td>
+                                                    <span class="black">65.89</span> 
+                                                    <span class="money">EUR</span>
+                                                </td>
+                                                <td>1060</td>
+                                                <td>
+                                                    <span class="black">59 231,11</span> 
+                                                    <span class="money">EUR</span>
+                                                </td>
+                                            </tr>
+                                            <tr class="right">
+                                                <td class="left">
+                                                    <span class="black">Aniseed Syrup</span>
+                                                    <br>
+                                                    <span>1412</span>
+                                                </td>
+                                                <td>
+                                                    <span class="black">65.89</span> 
+                                                    <span class="money">EUR</span>
+                                                </td>
+                                                <td>1060</td>
+                                                <td>
+                                                    <span class="black">59 231,11</span> 
+                                                    <span class="money">EUR</span>
+                                                </td>
+                                            </tr>
+                                            <tr class="right">
+                                                <td class="left">
+                                                    <span class="black">Aniseed Syrup</span>
+                                                    <br>
+                                                    <span>1412</span>
+                                                </td>
+                                                <td>
+                                                    <span class="black">65.89</span> 
+                                                    <span class="money">EUR</span>
+                                                </td>
+                                                <td>1060</td>
+                                                <td>
+                                                    <span class="black">59 231,11</span> 
+                                                    <span class="money">EUR</span>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                        </div>
                     </div>
-                    <hr>
-                    <div id="order_items">
-                        <div class="left">
-                            <span id="items_count" class="fat big">Line Items (0)</span>
-                            <div>
-                                <table class="order-table table">
-                                    <thead>
-                                        <tr class="right">
-                                            <td class="left">Product</td>
-                                            <td>Unit Price</td>
-                                            <td>Quantity</td>
-                                            <td>Total</td>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="table_items">
-                                        <tr class="right">
-                                            <td class="left">
-                                                <span class="black">Aniseed Syrup</span>
-                                                <br>
-                                                <span>1412</span>
-                                            </td>
-                                            <td>
-                                                <span class="black">65.89</span> 
-                                                <span class="money">EUR</span>
-                                            </td>
-                                            <td>1060</td>
-                                            <td>
-                                                <span class="black">59 231,11</span> 
-                                                <span class="money">EUR</span>
-                                            </td>
-                                        </tr>
-                                        <tr class="right">
-                                            <td class="left">
-                                                <span class="black">Aniseed Syrup</span>
-                                                <br>
-                                                <span>1412</span>
-                                            </td>
-                                            <td>
-                                                <span class="black">65.89</span> 
-                                                <span class="money">EUR</span>
-                                            </td>
-                                            <td>1060</td>
-                                            <td>
-                                                <span class="black">59 231,11</span> 
-                                                <span class="money">EUR</span>
-                                            </td>
-                                        </tr>
-                                        <tr class="right">
-                                            <td class="left">
-                                                <span class="black">Aniseed Syrup</span>
-                                                <br>
-                                                <span>1412</span>
-                                            </td>
-                                            <td>
-                                                <span class="black">65.89</span> 
-                                                <span class="money">EUR</span>
-                                            </td>
-                                            <td>1060</td>
-                                            <td>
-                                                <span class="black">59 231,11</span> 
-                                                <span class="money">EUR</span>
-                                            </td>
-                                        </tr>
-                                        <tr class="right">
-                                            <td class="left">
-                                                <span class="black">Aniseed Syrup</span>
-                                                <br>
-                                                <span>1412</span>
-                                            </td>
-                                            <td>
-                                                <span class="black">65.89</span> 
-                                                <span class="money">EUR</span>
-                                            </td>
-                                            <td>1060</td>
-                                            <td>
-                                                <span class="black">59 231,11</span> 
-                                                <span class="money">EUR</span>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
                     </div>
+                    <div id="footer">
+                        <div>
+                            <button class="mail_ico min_but" id="sendmail"></button> 
+                        </div>
+                    </div>
+        
                 </div>
             </div>
-            <div class="foo" id="footer">
-                <div>
-                    <button class="mail_ico min_but" id="sendmail"></button> 
-                </div>
-            </div>
-        </div>
     </body>
 </html>

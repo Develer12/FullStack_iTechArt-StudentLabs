@@ -1,0 +1,137 @@
+/* Style for imgs */
+.min_but{
+    background: none;
+    border: none;
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+.min_but::before {
+    width: 22px; 
+    height: 22px;
+    margin-left: 22px;
+    margin-bottom: 22px;
+    content: "";
+}
+
+
+/* Buttons imgs */
+.search_ico{
+    background-image: url(button/search.png);
+    background-size: 20px 20px;
+    background-repeat: no-repeat;
+    margin-right: 12%;
+    margin-top: 0.5%;
+    padding-right: 0;
+}
+.update_ico{
+    background-image: url(button/update.png);
+    background-size: 20px 20px;
+    background-repeat: no-repeat;
+    margin-right: -1%;
+    margin-top: 0.5%;
+}
+.back_ico{
+    background-image: url(button/back.png);
+    background-size: 20px 20px;
+    background-repeat: no-repeat;
+    position: relative;
+    margin-top: 3;
+    margin-left: 10;
+    padding-right: 0;
+}
+.mail_ico{
+    background-image: url(button/mailto.png);
+    background-size: 20px 20px;
+    background-repeat: no-repeat;
+    position: relative;
+    margin-top: 25%;
+    margin-bottom: 8%;
+    margin-right: 10;
+    padding-right: 0;
+}
+.menu_ico{
+    background-image: url(button/menu.png);
+    background-size: 20px 20px;
+    background-repeat: no-repeat;
+    position: relative;
+    margin-top: 5;
+    margin-left: 5%;
+}
+.order_ico{
+    background-image: url(button/list.png);
+    background-size: 20px 20px;
+    background-repeat: no-repeat;
+    background-position-y: 70%;
+    position: relative;
+    margin-top: 15%;
+    margin-bottom: 10%;
+    padding-right: 0;
+    margin-right: 10;
+}
+.filter_ico{
+    background-image: url(button/filter.png);
+    background-size: 20px 18px;
+    background-repeat: no-repeat;
+    position: relative;
+    margin-top: 15%;
+    margin-bottom: 10%;
+    padding-right: 0;
+    margin-right: 10;
+}
+
+
+/* Imgs for buttons of order_status */
+.delivery{
+    background-image: url(button/delivery_blue.png);
+    background-position-x: 40%;
+    background-position-y: -30%;
+}
+.deliveryC{
+    background-image: url(button/delivery_white.png);
+    background-position-x: 40%;
+    background-position-y: -30%;
+    outline: none;
+
+}
+.processor{
+    background-image: url(button/worker_blue.png);
+    background-position-x: 50%;
+    background-position-y: 50%;
+}
+.processorC{
+    background-image: url(button/worker_white.png);
+    background-position-x: 50%;
+    background-position-y: 50%;
+    outline: none;
+}
+
+
+/* Styles for buttons of order_status, where it's onClick */
+.din_butt{
+    border-radius: 100%;
+    border: solid #4378ae;
+    border-width: 2;
+    width: 40px;
+    height: 40px;
+    background-color: #eff4f8;
+    margin-left: 15;
+    margin-top: 15;
+    background-repeat: no-repeat;
+    background-size: 30px;
+}
+.din_buttC{
+    background-color: #4378ae;
+    border-radius: 100%;
+    border: solid #4378ae;
+    border-width: 2;
+    width: 40px;
+    height: 40px;
+    margin-left: 15;
+    margin-top: 15;
+    background-repeat: no-repeat;
+    background-size: 30px;
+}
+
+
+/*  */

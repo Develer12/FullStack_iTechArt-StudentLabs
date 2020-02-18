@@ -1,0 +1,77 @@
+/* Style for standart tags */
+* {box-sizing: border-box;}
+body{
+    margin: 0;
+    font-family: 'Open Sans';
+    color: #86878a;
+    font-size: 0.8em;
+}
+p{
+    margin: 4;
+}
+span{
+    margin: 4;
+}
+form {
+    position: relative;
+    width: auto;
+    margin: auto;
+}
+input {
+    width: 98%;
+    height: 22px;
+    margin-left: 1%;
+    border-color: #cecece;
+    border-width: 1px;
+    border-style: solid;
+    padding-right: 24%;
+}
+table{
+    border-collapse:collapse;
+    width: 100%;
+    border-top: 2px solid #d9e2eb;
+    margin-top: 2%;
+    margin-bottom: 3%;
+}
+tr{
+    border-bottom: 2px solid #d9e2eb;
+}
+td span{
+    margin: 0;
+}
+table thead{
+    background:#f7f7f7;
+}
+tbody{
+    font-size: 0.8em;
+}
+button{
+    cursor: pointer;
+}
+
+
+/* Style scrollbar */
+
+::-webkit-scrollbar{
+    width:12px;
+}
+::-webkit-scrollbar-thumb{
+    border-width:1px 1px 1px 2px;
+    border-color: #777;
+    background-color: #aaa;
+}
+::-webkit-scrollbar-thumb:hover{
+    border-width: 1px 1px 1px 2px;
+    border-color: #555;
+    background-color: #777;
+}
+::-webkit-scrollbar-track{
+    border-width:0;
+}
+::-webkit-scrollbar-track:hover{
+    border-left: solid 1px #aaa;
+    background-color: #eee;
+}
+
+
+/* Style for */
