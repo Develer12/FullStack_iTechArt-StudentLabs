@@ -1,3 +1,4 @@
+/* Font style */
 .fat{
     color: #6d6e70;
     font-weight:bold;
@@ -14,6 +15,12 @@ span.fat{
 .right.big{
     font-size: 1em;
 }
+.black{
+    color: #6d6e70;
+    font-weight:bolder;
+}
+
+
 .money{
     margin-top: 30;
 }
@@ -43,8 +50,9 @@ span.fat{
     height: 100%;
     display: flex;
     flex-direction: column;
-    min-width: 400;
+    min-width: 300;
 }
+
 .list_bar.hidden{
     display: none;
 }
@@ -57,10 +65,9 @@ span.fat{
 .order_bar.visible{
     width: 60%;
 }
-#footer{
+.footer{
     display: flex;
     justify-content: flex-end;
-    position: relative;
     min-height: 40;
     background-color: #2f3b47;
 }
@@ -71,7 +78,7 @@ span.fat{
     width: 100%;
     justify-content: space-between;
 }
-#list_order{
+.list_order{
     overflow-y: auto;
     overflow-x: hidden;
     height: 85%;
@@ -79,7 +86,7 @@ span.fat{
     flex-direction: column;
     width: 100%;
 }
-#list_search{
+.list_search{
     height: 5%;
     min-height: 27;
 }
@@ -99,27 +106,28 @@ span.fat{
     padding-top: 5;
     padding-bottom: 8;
     padding-right: 40%;
+    white-space: nowrap;
 }
-#order_scroll{
+.order_scroll{
     height: 95%;
     overflow-y: auto;
     overflow-x: hidden;
 }
-#order_items{
+.order_items{
     height: 30%;
     min-height: 210;
     padding: 2% 5% 0% 5%;
 }
-#order_status{
+.order_status{
     height: 20%;
     min-height: 180;
     padding: 2% 4% 0% 4%;
 }
-#order_info{
-    height: 35%;
+.order_info{
+    height: auto;
     min-height: 236;
 }
-#list_control{
+.list_control{
     display: flex;
     flex-direction: row;
     width: 100%;
@@ -173,26 +181,19 @@ span.fat{
     flex-direction: column;
     text-align: left;
 }
-#list_bar hr{
+.list_bar hr{
     color: #f2f2f2; 
     background-color: #f2f2f2;
     border: none;
     height: 2;
     margin: 0;
 }
-#order_bar hr{
+.order_bar hr{
     color: #d9e2eb; 
     background-color: #d9e2eb;
     border: none;
     height: 2;
     margin: 0;
-}
-.hr{
-    height: 2;
-    background-color: #4378ae;
-    width: 40;
-    margin-left: -8;
-    margin-top: 61;
 }
 .status_list{
     padding-left: 3%;
@@ -206,9 +207,6 @@ span.fat{
     flex-direction: column;
     font-size: 0.8em;
 }
-.black{
-    color: #6d6e70;
-    font-weight:bolder;}
 
 /* Text color of order status*/
 .Intime{
@@ -230,6 +228,6 @@ span.fat{
     -webkit-line-clamp: 2;
 }
 .order_bar_c .textCut{
-    width: 70%;
+    width: 80%;
     -webkit-line-clamp: 1;
 }

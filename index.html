@@ -12,24 +12,24 @@
         <div class="main">
             <div class="list_bar" id="list_bar">
                 <div class="list">
-                    <div id="list_control">
+                    <div class="list_control" id="list_control">
                         <button class="back_ico min_but" id="order_back"></button> 
                         <p class="text_header" id="order_count">Orders </p>
                     </div>
-                    <div id="list_search">
+                    <div class="list_search">
                         <form>
                             <input type="text" placeholder="Поиск">
                             <button class="search_ico min_but" id="search" type="submit"></button>
                             <button class="update_ico min_but" id="update" type="submit"></button>
                         </form>
                     </div>
-                    <div id="list_order">
+                    <div class="list_order" id="list_order">
                         <div class="list_order_c">
                             <div onclick="OpenOrder(this)" id="order_7777" class="list_order_content">
                                 <div class="order_content_l">
                                     <p class="fat big textCut">Order 7777</p>
-                                    <p>fsdsd sdfssfd</p>
-                                    <p>Shipped: 25 sept. 2019</p>
+                                    <p class="textCut">fsdsd sdfssfd</p>
+                                    <p class="textCut">Shipped: 25 sept. 2019</p>
                                 </div>
                                 <div class="order_content_r right">
                                     <p class="fat big">12.12.1212</p>
@@ -81,7 +81,7 @@
                             <hr>
                         </div>
                     </div>
-                    <div id="footer">
+                    <div class="footer">
                         <div>
                             <button class="filter_ico min_but" id=""></button> 
                             <button class="order_ico min_but" id=""></button> 
@@ -95,14 +95,14 @@
                         <p class="blue_header text_header">Order</p>
                         <hr>
                     </div>
-                    <div id="order_scroll">
-                        <div class="blue_header" id="order_info">
+                    <div class="order_scroll" id="order_scroll">
+                        <div class="order_info blue_header" id="order_info">
                             <div class="order_bar_c">
                                 <div class="order_bar_c left">
                                     <span class="fat big textCut">Order 7918</span>
-                                    <span>Customer: Иван Иванов</span>
-                                    <span>Ordered: 19 sept. 2019</span>
-                                    <span>Shiped: 25 sept. 2019</span>
+                                    <span class="textCut">Customer: Иван Иванов</span>
+                                    <span class="textCut">Ordered: 19 sept. 2019</span>
+                                    <span class="textCut">Shiped: 25 sept. 2019</span>
                                 </div>
                                 <div class="right money">
                                     <span class="big">154 000,13</span>
@@ -115,11 +115,11 @@
                             </div>
                         </div>
                         <hr>
-                        <div id="order_status">
+                        <div class="order_status" id="order_status">
 
                         </div>
                         <hr>
-                        <div id="order_items">
+                        <div class="order_items" id="order_items">
                             <div class="left">
                                 <span id="items_count" class="fat big">Line Items (0)</span>
                                 <div>
@@ -203,7 +203,7 @@
                         </div>
                     </div>
                     </div>
-                    <div id="footer">
+                    <div class="footer">
                         <div>
                             <button class="mail_ico min_but" id="sendmail"></button> 
                         </div>

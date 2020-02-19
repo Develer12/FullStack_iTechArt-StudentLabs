@@ -21,17 +21,14 @@ input {
     width: 98%;
     height: 22px;
     margin-left: 1%;
-    border-color: #cecece;
-    border-width: 1px;
-    border-style: solid;
+    border-color: 1px solid #cecece;
     padding-right: 24%;
 }
 table{
     border-collapse:collapse;
     width: 100%;
     border-top: 2px solid #d9e2eb;
-    margin-top: 2%;
-    margin-bottom: 3%;
+    margin: 2% 0 3% 0;
 }
 tr{
     border-bottom: 2px solid #d9e2eb;
@@ -47,6 +44,16 @@ tbody{
 }
 button{
     cursor: pointer;
+}
+
+
+/* Style for DIV, make blue stripe under the choosen button*/
+.hr{
+    height: 2;
+    background-color: #4378ae;
+    width: 40;
+    margin-left: -8;
+    margin-top: 61;
 }
 
 
