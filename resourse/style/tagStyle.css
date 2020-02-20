@@ -47,6 +47,28 @@ button{
 }
 
 
+/* Style for header tags */
+header{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-between;
+    height: 5%;
+    min-height: 32;
+}
+.order_bar header{
+    display: contents;
+}
+
+/* Style for footer tags */
+footer{
+    display: flex;
+    justify-content: flex-end;
+    min-height: 40;
+    background-color: #2f3b47;
+}
+
+
 /* Style for DIV, make blue stripe under the choosen button*/
 .hr{
     height: 2;

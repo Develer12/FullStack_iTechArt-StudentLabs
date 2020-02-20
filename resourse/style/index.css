@@ -65,12 +65,6 @@ span.fat{
 .order_bar.visible{
     width: 60%;
 }
-.footer{
-    display: flex;
-    justify-content: flex-end;
-    min-height: 40;
-    background-color: #2f3b47;
-}
 .list{
     height: 100%;
     display: flex;
@@ -126,14 +120,6 @@ span.fat{
 .order_info{
     height: auto;
     min-height: 236;
-}
-.list_control{
-    display: flex;
-    flex-direction: row;
-    width: 100%;
-    justify-content: space-between;
-    height: 5%;
-    min-height: 32;
 }
 .blue_header.order_header{
     display: flex;
