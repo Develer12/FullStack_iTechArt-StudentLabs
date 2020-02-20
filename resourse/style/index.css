@@ -32,7 +32,7 @@ span.fat{
     height: 100%;
     background: linear-gradient(180deg, #abc5de, #e6ebef);
 }
-.list_bar{
+.list-bar{
     background-color: white;
     box-shadow: -5px -5px 10px rgba(0,0,0,0.2);
     width: 20%;
@@ -43,7 +43,7 @@ span.fat{
     min-width: 270;
     border-right: solid 1.5px #ececec;
 }
-.order_bar{
+.order-bar{
     background-color: white;
     box-shadow: 10px -5px 20px rgba(65, 64, 64, 0.1);
     width: 60%;
@@ -53,16 +53,16 @@ span.fat{
     min-width: 300;
 }
 
-.list_bar.hidden{
+.list-bar.hidden{
     display: none;
 }
-.list_bar.visible{
+.list-bar.visible{
     display: block;
 }
-.order_bar.hidden{
+.order-bar.hidden{
     width: 100%;
 }
-.order_bar.visible{
+.order-bar.visible{
     width: 60%;
 }
 .list{
@@ -72,7 +72,7 @@ span.fat{
     width: 100%;
     justify-content: space-between;
 }
-.list_order{
+.list-order{
     overflow-y: auto;
     overflow-x: hidden;
     height: 85%;
@@ -80,21 +80,21 @@ span.fat{
     flex-direction: column;
     width: 100%;
 }
-.list_search{
+.list-search{
     height: 5%;
     min-height: 27;
 }
-.blue_header{
+.blue-header{
     background-color: #eff4f8;
 }
-.blue_header.text_header{
+.blue-header.text-header{
     padding-right: 50%;
     padding-left: 30%;
 }
-.blue_header.order_header{
+.blue-header.order-header{
     padding-right: 30%;
 }
-.text_header{
+.text-header{
     text-align: right;
     margin: 0;
     padding-top: 5;
@@ -102,32 +102,32 @@ span.fat{
     padding-right: 40%;
     white-space: nowrap;
 }
-.order_scroll{
+.order-scroll{
     height: 95%;
     overflow-y: auto;
     overflow-x: hidden;
 }
-.order_items{
+.order-items{
     height: 30%;
     min-height: 210;
     padding: 2% 5% 0% 5%;
 }
-.order_status{
+.order-status{
     height: 20%;
     min-height: 180;
     padding: 2% 4% 0% 4%;
 }
-.order_info{
+.order-info{
     height: auto;
     min-height: 236;
 }
-.blue_header.order_header{
+.blue-header.order-header{
     display: flex;
     flex-direction: row;
     padding-right: 20%;
     justify-content: space-between;
 }
-.list_order_content{
+.list-order-content{
     display: flex;
     flex-direction: row;
     width: 100%;
@@ -135,27 +135,27 @@ span.fat{
     padding-right: 12px;
     justify-content: space-between;
 }
-.list_order_content:hover{
+.list-order-content:hover{
     background-color: #eeeeee;
 }
-.list_order_contentC{
+.list-order-contentC{
     background-color: #d7e4f3;
 }
-.list_order_contentC:hover{
+.list-order-contentC:hover{
     background-color: #d7e4f3;
 }
-.order_bar_c{
+.order-bar-c{
     display: flex;
     width: 100%;
     padding-left: 12px;
     padding-right: 12px;
 }
-.order_bar_butt{
+.order-bar-butt{
     width: 100%;
     padding-left: 12px;
     padding-right: 12px;
 }
-.list_order_c{
+.list-order-c{
     display: flex;
     flex-direction: column;
     cursor: pointer;
@@ -167,21 +167,21 @@ span.fat{
     flex-direction: column;
     text-align: left;
 }
-.list_bar hr{
+.list-bar hr{
     color: #f2f2f2; 
     background-color: #f2f2f2;
     border: none;
     height: 2;
     margin: 0;
 }
-.order_bar hr{
+.order-bar hr{
     color: #d9e2eb; 
     background-color: #d9e2eb;
     border: none;
     height: 2;
     margin: 0;
 }
-.status_list{
+.status-list{
     padding-left: 3%;
     display: flex;
     flex-direction: row;
@@ -209,11 +209,11 @@ span.fat{
     text-overflow: ellipsis;
     -webkit-box-orient: vertical;
 }
-.order_content_l .textCut{
+.order-content-l .textCut{
     width: 100%;
     -webkit-line-clamp: 2;
 }
-.order_bar_c .textCut{
+.order-bar-c .textCut{
     width: 80%;
     -webkit-line-clamp: 1;
 }

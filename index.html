@@ -10,70 +10,70 @@
     </head>
     <body onload="start()">
         <div class="main">
-            <div class="list_bar" id="list_bar">
+            <div class="list-bar" id="list_bar">
                 <div class="list">
                     <header id="list_control">
-                        <button class="back_ico min_but" id="order_back"></button> 
-                        <p class="text_header" id="order_count">Orders </p>
+                        <button class="back-ico min-but" id="order_back"></button> 
+                        <p class="text-header" id="order_count">Orders </p>
                     </header>
-                    <div class="list_search">
-                        <form>
+                    <div class="list-search">
+                        <form onsubmit="SearchHandler(this); return false;">
                             <input type="text" placeholder="Поиск">
-                            <button class="search_ico min_but" id="search" type="submit"></button>
-                            <button class="update_ico min_but" id="update" type="submit"></button>
+                            <button class="search-ico min-but" id="search" type="submit"></button>
+                            <button class="update-ico min-but" id="update" type="submit"></button>
                         </form>
                     </div>
-                    <div class="list_order" id="list_order">
-                        <div class="list_order_c">
-                            <div onclick="OpenOrder(this)" id="order_7777" class="list_order_content">
-                                <div class="order_content_l">
+                    <div class="list-order" id="list_order">
+                        <div class="list-order-c">
+                            <div onclick="OpenOrder(this)" id="order_7777" class="list-order-content">
+                                <div class="order-content-l">
                                     <p class="fat big textCut">Order 7777</p>
                                     <p class="textCut">fsdsd sdfssfd</p>
                                     <p class="textCut">Shipped: 25 sept. 2019</p>
                                 </div>
-                                <div class="order_content_r right">
+                                <div class="order-content-r right">
                                     <p class="fat big">12.12.1212</p>
                                     <p class="Intime">In time</p>
                                 </div>
                             </div>
                             <hr>
                         </div>
-                        <div class="list_order_c">
-                            <div onclick="OpenOrder(this)" id="order_7778" class="list_order_content">
-                                <div class="order_content_l">
+                        <div class="list-order-c">
+                            <div onclick="OpenOrder(this)" id="order_7778" class="list-order-content">
+                                <div class="order-content-l">
                                     <p class="fat big textCut">Order 7778</p>
                                     <p>fsdsd sdfssfd</p>
                                     <p>Shipped: 25 sept. 2019</p>
                                 </div>
-                                <div class="order_content_r right">
+                                <div class="order-content-r right">
                                     <p class="fat big">12.12.1212</p>
                                     <p class="Urgent">Urgent</p>
                                 </div>
                             </div>
                             <hr>
                         </div>
-                        <div class="list_order_c">
-                            <div onclick="OpenOrder(this)" id="order_7779" class="list_order_content">
-                                <div class="order_content_l">
+                        <div class="list-order-c">
+                            <div onclick="OpenOrder(this)" id="order_7779" class="list-order-content">
+                                <div class="order-content-l">
                                     <p class="fat big textCut">Order 7779</p>
                                     <p>fsdsd sdfssfd</p>
                                     <p>Shipped: 25 sept. 2019</p>
                                 </div>
-                                <div class="order_content_r right">
+                                <div class="order-content-r right">
                                     <p class="fat big">12.12.1212</p>
                                     <p class="Intime">In time</p>
                                 </div>
                             </div>
                             <hr>
                         </div>
-                        <div class="list_order_c">
-                            <div onclick="OpenOrder(this)" id="order_7780" class="list_order_content">
-                                <div class="order_content_l">
+                        <div class="list-order-c">
+                            <div onclick="OpenOrder(this)" id="order_7780" class="list-order-content">
+                                <div class="order-content-l">
                                     <p class="fat big textCut">Order 7780</p>
                                     <p>fsdsd sdfssfd</p>
                                     <p>Shipped: 25 sept. 2019</p>
                                 </div>
-                                <div class="order_content_r right">
+                                <div class="order-content-r right">
                                     <p class="fat big">12.12.1212</p>
                                     <p class="Urgent">Urgent</p>
                                 </div>
@@ -83,22 +83,22 @@
                     </div>
                     <footer>
                         <div>
-                            <button class="filter_ico min_but" id=""></button> 
-                            <button class="order_ico min_but" id=""></button> 
+                            <button class="filter-ico min-but" id=""></button> 
+                            <button class="order-ico min-but" id=""></button> 
                         </div>
                     </footer>
                 </div>
             </div>
-            <div class="order_bar" id="order_bar">
+            <div class="order-bar" id="order_bar">
                 <div class="list">
                     <header id="header">
-                        <p class="blue_header text_header">Order</p>
+                        <p class="blue-header text-header">Order</p>
                         <hr>
                     </header>
-                    <div class="order_scroll" id="order_scroll">
-                        <div class="order_info blue_header" id="order_info">
-                            <div class="order_bar_c">
-                                <div class="order_bar_c left">
+                    <div class="order-scroll" id="order_scroll">
+                        <div class="order-info blue-header" id="order_info">
+                            <div class="order-bar-c">
+                                <div class="order-bar-c left">
                                     <span class="fat big textCut">Order 7918</span>
                                     <span class="textCut">Customer: Иван Иванов</span>
                                     <span class="textCut">Ordered: 19 sept. 2019</span>
@@ -109,17 +109,17 @@
                                     <span>EUR</span>
                                 </div>
                             </div>
-                            <div class="order_bar_butt">
-                                <button class="din_buttC deliveryC" onclick="OpenStatus(this)" id="delivery"></button> 
-                                <button class="din_butt processor" onclick="OpenStatus(this)" id="processor"></button> 
+                            <div class="order-bar-butt">
+                                <button class="din-buttC deliveryC" onclick="OpenStatus(this)" id="delivery"></button> 
+                                <button class="din-butt processor" onclick="OpenStatus(this)" id="processor"></button> 
                             </div>
                         </div>
                         <hr>
-                        <div class="order_status" id="order_status">
+                        <div class="order-status" id="order-status">
 
                         </div>
                         <hr>
-                        <div class="order_items" id="order_items">
+                        <div class="order-items" id="order-items">
                             <div class="left">
                                 <span id="items_count" class="fat big">Line Items (0)</span>
                                 <div>
@@ -205,7 +205,7 @@
                     </div>
                     <footer>
                         <div>
-                            <button class="mail_ico min_but" id="sendmail"></button> 
+                            <button class="mail-ico min-but" id="sendmail"></button> 
                         </div>
                     </footer>
                 </div>

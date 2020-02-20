@@ -1,12 +1,12 @@
 /* Style for imgs */
-.min_but{
+.min-but{
     background: none;
     border: none;
     position: absolute;
     top: 0;
     right: 0;
 }
-.min_but::before {
+.min-but::before {
     width: 22px; 
     height: 22px;
     margin-left: 22px;
@@ -16,7 +16,7 @@
 
 
 /* Buttons imgs */
-.search_ico{
+.search-ico{
     background-image: url(button/search.png);
     background-size: 20px 20px;
     background-repeat: no-repeat;
@@ -24,14 +24,14 @@
     margin-top: 0.5%;
     padding-right: 0;
 }
-.update_ico{
+.update-ico{
     background-image: url(button/update.png);
     background-size: 20px 20px;
     background-repeat: no-repeat;
     margin-right: -1%;
     margin-top: 0.5%;
 }
-.back_ico{
+.back-ico{
     background-image: url(button/back.png);
     background-size: 20px 20px;
     background-repeat: no-repeat;
@@ -40,7 +40,7 @@
     margin-left: 10;
     padding-right: 0;
 }
-.mail_ico{
+.mail-ico{
     background-image: url(button/mailto.png);
     background-size: 20px 20px;
     background-repeat: no-repeat;
@@ -50,7 +50,7 @@
     margin-right: 10;
     padding-right: 0;
 }
-.menu_ico{
+.menu-ico{
     background-image: url(button/menu.png);
     background-size: 20px 20px;
     background-repeat: no-repeat;
@@ -58,7 +58,7 @@
     margin-top: 5;
     margin-left: 5%;
 }
-.order_ico{
+.order-ico{
     background-image: url(button/list.png);
     background-size: 20px 20px;
     background-repeat: no-repeat;
@@ -69,7 +69,7 @@
     padding-right: 0;
     margin-right: 10;
 }
-.filter_ico{
+.filter-ico{
     background-image: url(button/filter.png);
     background-size: 20px 18px;
     background-repeat: no-repeat;
@@ -108,7 +108,7 @@
 
 
 /* Styles for buttons of order_status, where it's onClick */
-.din_butt{
+.din-butt{
     border-radius: 100%;
     border: solid #4378ae;
     border-width: 2;
@@ -120,7 +120,7 @@
     background-repeat: no-repeat;
     background-size: 30px;
 }
-.din_buttC{
+.din-buttC{
     background-color: #4378ae;
     border-radius: 100%;
     border: solid #4378ae;

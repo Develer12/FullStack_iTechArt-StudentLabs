@@ -36,29 +36,29 @@ function checkMobile(){
     let header = document.getElementById('header');
     if(window.innerWidth < 750){
         list_bar.classList = ' ';
-        list_bar.classList.add('list_bar');
+        list_bar.classList.add('list-bar');
         list_bar.classList.add('hidden');
 
         order_bar.classList = ' ';
-        order_bar.classList.add('order_bar');
+        order_bar.classList.add('order-bar');
         order_bar.classList.add('hidden');
         header.innerHTML = 
-        `<div class="blue_header order_header">
-            <button class="menu_ico min_but" id=""></button> 
-            <p class="text_header">Order</p>
+        `<div class="blue-header order-header">
+            <button class="menu-ico min-but" id=""></button> 
+            <p class="text-header">Order</p>
         </div>
         <hr>`
     }
     else{
         list_bar.classList = ' ';
-        list_bar.classList.add('list_bar');
+        list_bar.classList.add('list-bar');
         list_bar.classList.add('visible');
 
         order_bar.classList = ' ';
-        order_bar.classList.add('order_bar');
+        order_bar.classList.add('order-bar');
         order_bar.classList.add('visible');
         header.innerHTML = 
-        `<p class="blue_header text_header">Order</p>
+        `<p class="blue-header text-header">Order</p>
         <hr>`
     }
 }
@@ -91,14 +91,6 @@ function OpenStatus(elem){
         StatusO(elem, id);
     }
 }
-function StatusO(elem, id){
-    elem.classList = ' ';
-    elem.classList.add('din_buttC');
-    elem.classList.add(id+'C');
-    elem.innerHTML=`<div class="hr"></div>`
-    openInfo = id;
-    document.getElementById('order_status').innerHTML=Stat[openInfo];
-}
 
 function OrderClicked(elem){
     let id = elem.id;
@@ -110,7 +102,7 @@ function OrderClicked(elem){
 
 function StatusC(elem){
     elem.classList = ' ';
-    elem.classList.add('din_butt');
+    elem.classList.add('din-butt');
     elem.classList.add(openInfo);
     elem.innerHTML =' '
     document.getElementById('order_status').innerHTML=' ';
@@ -118,7 +110,7 @@ function StatusC(elem){
 
 function StatusO(elem, id){
     elem.classList = ' ';
-    elem.classList.add('din_buttC');
+    elem.classList.add('din-buttC');
     elem.classList.add(id+'C');
     elem.innerHTML=`<div class="hr"></div>`
     openInfo = id;
@@ -138,14 +130,14 @@ function OpenOrder(elem){
 
 function OrderC(elem){
     elem.classList = ' ';
-    elem.classList.add('list_order_content');
+    elem.classList.add('list-order-content');
     document.getElementById('order_status');
 }
 
 function OrderO(elem, id){
     elem.classList = ' ';
-    elem.classList.add('list_order_content');
-    elem.classList.add('list_order_contentC');
+    elem.classList.add('list-order-content');
+    elem.classList.add('list-order-contentC');
     openOrder = id;
 }
 
@@ -159,3 +151,13 @@ function ItemCount(){
     document.getElementById('items_count').innerHTML = `Line Items (${Count})`;
 }
 
+function SearchHandler(elem){
+    let input = elem.querySelector('input').value;
+    let searchArrea;
+    let id = elem.id;
+    alert(input);
+
+    if(input.indexOf('da') + 1) {
+        alert(input);
+    }
+}
