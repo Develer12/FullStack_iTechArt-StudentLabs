@@ -6,7 +6,7 @@ delivery:
 `<div class="left">
     <span class="fat big">Shipping Address</span>
     <hr>
-    <div class="status_list">
+    <div class="status-list">
         <div class="status right">
             <span>Name:</span>
             <span>Street:</span>
@@ -63,10 +63,14 @@ function checkMobile(){
     }
 }
 
+function GetOrders(){
+    
+}
 
 function start()
 {
     StatusO(document.getElementById(openInfo), openInfo);
+    GetOrders();
     OrderCount();
     ItemCount();
     checkMobile();
