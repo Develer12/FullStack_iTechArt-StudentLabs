@@ -63,10 +63,6 @@ function checkMobile(){
     }
 }
 
-function GetOrders(){
-    
-}
-
 function start()
 {
     StatusO(document.getElementById(openInfo), openInfo);
@@ -127,7 +123,15 @@ function OpenOrder(elem){
         if(openOrder)
             OrderC(document.getElementById(openOrder));
         OrderO(elem, id);
+        let LINK = `http://localhost:3000/api/orders/${id}`;
+        fetch(LINK, {method: 'GET'}).then(res => res.json()).then(res =>
+            {
+              console.log(`Get OrderList ${id}`)
+    
+              res.forEach(row => {
 
+              });
+            });
     }
     ItemCount();
 }
@@ -164,4 +168,38 @@ function SearchHandler(elem){
     if(input.indexOf('da') + 1) {
         alert(input);
     }
+}
+
+async function GetOrders(){
+    console.log("Get OrderList")
+
+    let LINK = 'http://localhost:3000/api/orders';
+    fetch(LINK, {method: 'GET'}).then(res => res.json()).then(res =>
+        {
+          let container = document.getElementById('list_order');
+          console.log("Get OrderList")
+
+          res.forEach(row => {
+            let status = 
+                row.status=='Accepted'?'class="Intime">In time'
+                : row.status=='Pending'?'class="Urgent">Urgent'
+                :'Unknown';
+            let div = document.createElement('div');
+            div.setAttribute('class', 'list-order-c');
+            div.innerHTML = `
+            <div onclick="OpenOrder(this)" id="${row.id}" class="list-order-content">
+                <div class="order-content-l">
+                    <p class="fat big textCut">Order ${row.id}</p>
+                    <p class="textCut">${row.customer}</p>
+                    <p class="textCut">Shipped: ${row.shippedAt}</p>
+                </div>
+                <div class="order-content-r right">
+                    <p class="fat big">${row.shippedAt}</p>
+                    <p ${status}</p>
+                </div>
+            </div>
+            <hr>`;
+            container.append(div);
+          });
+        });
 }
