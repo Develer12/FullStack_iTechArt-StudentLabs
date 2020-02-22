@@ -31,17 +31,17 @@ app.get('/api/orders', (req, res) =>{
 
 app.get('/api/orders/:n', (req, res) =>{ 
     let id = req.params.n;  
-    console.log("Get OrderList n");
-    let OrderList= [];
+    console.log("Get OrderList " + id);
+    let OrderList;
     data.forEach(element => {
         if(element.id == id)
-            OrderList.push( {
-                id: element.id, 
-                createdAt: element.OrderInfo.createdAt,
-                customer: element.OrderInfo.customer,
-                status: element.OrderInfo.status,
-                shippedAt: element.OrderInfo.shippedAt
-            });
+            OrderList = {
+                id: id,
+                OrderInfo: element.OrderInfo, 
+                ShipTo: element.ShipTo,
+                CustomerInfo: element.CustomerInfo,
+                products: element.products
+            };
     });
     res.json(OrderList);
 });

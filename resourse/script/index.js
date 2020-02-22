@@ -68,7 +68,6 @@ function start()
     StatusO(document.getElementById(openInfo), openInfo);
     GetOrders();
     OrderCount();
-    ItemCount();
     checkMobile();
     let CountListener = new MutationObserver((mutations)=>{
         mutations.forEach((mutation)=>{
@@ -117,23 +116,49 @@ function StatusO(elem, id){
     document.getElementById('order_status').innerHTML=Stat[openInfo];
 }
 
-function OpenOrder(elem){
+async function OpenOrder(elem){
     let id = elem.id;
     if(id!=openOrder){
         if(openOrder)
             OrderC(document.getElementById(openOrder));
         OrderO(elem, id);
         let LINK = `http://localhost:3000/api/orders/${id}`;
-        fetch(LINK, {method: 'GET'}).then(res => res.json()).then(res =>
-            {
-              console.log(`Get OrderList ${id}`)
-    
-              res.forEach(row => {
-
-              });
+        fetch(LINK, {method: 'GET'}).then(res => res.json()).then(res =>{
+            let container = document.getElementById('table_items');
+            container.innerHTML = ' ';
+            let priceF = 0;
+            res.products.forEach(row => {
+                priceF += Number(row.totalPrice);
+                let tab = document.createElement('tr');
+                tab.setAttribute('class', 'right');
+                tab.innerHTML = `
+                <td class="left">
+                    <span class="black" id="products_name">${row.name}</span>
+                    <br>
+                    <span id="product_id">${row.id}</span>
+                </td>
+                <td>
+                    <span class="black" id="product_price">${row.price}</span> 
+                    <span class="money" id="product_currency">${row.currency}</span>
+                </td>
+                <td>${row.quantity}</td>
+                <td>
+                    <span class="black" id="product_totalPrice">${row.totalPrice}</span> 
+                    <span class="money" id="product_currency">${row.currency}</span>
+                </td>`;
+                container.append(tab);
             });
+
+            document.getElementById('order_priceF').innerHTML = priceF;
+            document.getElementById('order_currency').innerHTML = res.products[0].currency;
+            document.getElementById('order_ship').innerHTML = `Shipped: ${res.OrderInfo.shippedAt}`;
+            document.getElementById('order_ord').innerHTML = `Ordered: ${res.OrderInfo.createdAt}`;
+            document.getElementById('order_customer').innerHTML = `Customer: ${res.CustomerInfo.firstName} ${res.CustomerInfo.lastName}`;
+            document.getElementById('order_id').innerHTML = `Order ${res.id}`;
+
+
+        }).then(() => ItemCount());
     }
-    ItemCount();
 }
 
 function OrderC(elem){
@@ -174,12 +199,11 @@ async function GetOrders(){
     console.log("Get OrderList")
 
     let LINK = 'http://localhost:3000/api/orders';
-    fetch(LINK, {method: 'GET'}).then(res => res.json()).then(res =>
-        {
-          let container = document.getElementById('list_order');
-          console.log("Get OrderList")
+    fetch(LINK, {method: 'GET'}).then(res => res.json()).then(res =>{
+        let container = document.getElementById('list_order');
+        container.innerHTML = ' ';
 
-          res.forEach(row => {
+        res.forEach(row => {
             let status = 
                 row.status=='Accepted'?'class="Intime">In time'
                 : row.status=='Pending'?'class="Urgent">Urgent'
@@ -194,12 +218,12 @@ async function GetOrders(){
                     <p class="textCut">Shipped: ${row.shippedAt}</p>
                 </div>
                 <div class="order-content-r right">
-                    <p class="fat big">${row.shippedAt}</p>
+                    <p class="fat big">${row.createdAt}</p>
                     <p ${status}</p>
                 </div>
             </div>
             <hr>`;
             container.append(div);
-          });
         });
+    });
 }
