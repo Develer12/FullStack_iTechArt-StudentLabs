@@ -184,15 +184,19 @@ function ItemCount(){
     document.getElementById('items_count').innerHTML = `Line Items (${Count})`;
 }
 
-function SearchHandler(elem){
+async function SearchHandler(elem){
     let input = elem.querySelector('input').value;
-    let searchArrea;
     let id = elem.id;
-    alert(input);
 
-    if(input.indexOf('da') + 1) {
-        alert(input);
-    }
+    let LINK = `http://localhost:3000/api/orders/search?i=${input}`;
+    fetch(LINK, {method: 'GET'}).then(res => res.json()).then(res =>{
+            let container = document.getElementById('list_order');
+            container.innerHTML = ' ';
+
+            res.forEach(row => {
+                container.append(DrowOrderList(row));
+            });
+    });
 }
 
 async function GetOrders(){
@@ -204,26 +208,30 @@ async function GetOrders(){
         container.innerHTML = ' ';
 
         res.forEach(row => {
-            let status = 
-                row.status=='Accepted'?'class="Intime">In time'
-                : row.status=='Pending'?'class="Urgent">Urgent'
-                :'Unknown';
-            let div = document.createElement('div');
-            div.setAttribute('class', 'list-order-c');
-            div.innerHTML = `
-            <div onclick="OpenOrder(this)" id="${row.id}" class="list-order-content">
-                <div class="order-content-l">
-                    <p class="fat big textCut">Order ${row.id}</p>
-                    <p class="textCut">${row.customer}</p>
-                    <p class="textCut">Shipped: ${row.shippedAt}</p>
-                </div>
-                <div class="order-content-r right">
-                    <p class="fat big">${row.createdAt}</p>
-                    <p ${status}</p>
-                </div>
-            </div>
-            <hr>`;
-            container.append(div);
+            container.append(DrowOrderList(row));
         });
     });
+}
+
+function DrowOrderList(row){
+    let status = 
+    row.status=='Accepted'?'class="Intime">In time'
+        : row.status=='Pending'?'class="Urgent">Urgent'
+        :'Unknown';
+    let div = document.createElement('div');
+    div.setAttribute('class', 'list-order-c');
+    div.innerHTML = `
+        <div onclick="OpenOrder(this)" id="${row.id}" class="list-order-content">
+            <div class="order-content-l">
+                <p class="fat big textCut">Order ${row.id}</p>
+                <p class="textCut">${row.customer}</p>
+                <p class="textCut">Shipped: ${row.shippedAt}</p>
+            </div>
+            <div class="order-content-r right">
+                <p class="fat big">${row.createdAt}</p>
+                <p ${status}</p>
+            </div>
+        </div>
+        <hr>`;
+    return div;
 }

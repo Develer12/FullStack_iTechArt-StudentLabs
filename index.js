@@ -14,7 +14,7 @@ app.get('/orders', (req, res) =>{
     res.sendFile(__dirname + '/index.html');
 });
 
-app.get('/api/orders', (req, res) =>{   
+app.get('/api/orders', (req, res) =>{  
     console.log("Get OrderList");
     let OrderList= [];
     data.forEach(element => {
@@ -25,6 +25,28 @@ app.get('/api/orders', (req, res) =>{
             status: element.OrderInfo.status,
             shippedAt: element.OrderInfo.shippedAt
         });
+    });
+    res.json(OrderList);
+});
+
+app.get('/api/orders/search', (req, res) =>{   
+    let input = req.query.i; 
+    console.log('search:' + input)
+
+    let OrderList= [];
+    data.forEach(element => {
+        if((element.id.indexOf(input) + 1) || 
+        (element.OrderInfo.createdAt.indexOf(input) + 1) ||
+        (element.OrderInfo.customer.indexOf(input) + 1) || 
+        (element.OrderInfo.status.indexOf(input) + 1) ||
+        (element.OrderInfo.shippedAt.indexOf(input) + 1))
+            OrderList.push({
+                id: element.id, 
+                createdAt: element.OrderInfo.createdAt,
+                customer: element.OrderInfo.customer,
+                status: element.OrderInfo.status,
+                shippedAt: element.OrderInfo.shippedAt
+            });
     });
     res.json(OrderList);
 });
