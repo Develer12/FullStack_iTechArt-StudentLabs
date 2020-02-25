@@ -17,8 +17,8 @@
                         <p class="text-header" id="order_count">Orders </p>
                     </header>
                     <div class="list-search">
-                        <form onsubmit="SearchHandler(this); return false;">
-                            <input type="text" placeholder="Поиск">
+                        <form id="order-search" onsubmit="SearchHandler(this); return false;">
+                            <input type="text" placeholder="Search">
                             <button class="search-ico min-but" id="search" type="submit"></button>
                             <button onclick="GetOrders()" class="update-ico min-but" id="update" type="button"></button>
                         </form>
@@ -65,25 +65,29 @@
                         </div>
                         <hr>
                         <div class="order-items" id="order_items">
-                            <div class="left">
+                            <div class="items-header">
                                 <span id="items_count" class="fat big">Line Items (0)</span>
                                 <div>
-                                    <table class="order-table table">
-                                        <thead>
-                                            <tr class="right">
-                                                <td class="left">Product</td>
-                                                <td>Unit Price</td>
-                                                <td>Quantity</td>
-                                                <td>Total</td>
-                                            </tr>
-                                        </thead>
-                                        <tbody id="table_items">
-
-                                        </tbody>
-                                    </table>
+                                    <form id="order-items-search" onsubmit="SearchHandler(this); return false;">
+                                        <input type="text" placeholder="Search">
+                                        <button class="search-ico min-but" id="search" type="submit"></button>
+                                    </form>
                                 </div>
+                            </div>
+                            <table class="order-table table">
+                                <thead>
+                                    <tr class="right">
+                                        <td class="left">Product</td>
+                                        <td>Unit Price</td>
+                                        <td>Quantity</td>
+                                        <td>Total</td>
+                                    </tr>
+                                </thead>
+                                <tbody id="table_items">
+
+                                </tbody>
+                            </table>
                         </div>
-                    </div>
                     </div>
                     <footer>
                         <div>

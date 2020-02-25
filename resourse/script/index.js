@@ -128,25 +128,7 @@ async function OpenOrder(elem){
             container.innerHTML = ' ';
             let priceF = 0;
             res.products.forEach(row => {
-                priceF += Number(row.totalPrice);
-                let tab = document.createElement('tr');
-                tab.setAttribute('class', 'right');
-                tab.innerHTML = `
-                <td class="left">
-                    <span class="black" id="products_name">${row.name}</span>
-                    <br>
-                    <span id="product_id">${row.id}</span>
-                </td>
-                <td>
-                    <span class="black" id="product_price">${row.price}</span> 
-                    <span class="money" id="product_currency">${row.currency}</span>
-                </td>
-                <td>${row.quantity}</td>
-                <td>
-                    <span class="black" id="product_totalPrice">${row.totalPrice}</span> 
-                    <span class="money" id="product_currency">${row.currency}</span>
-                </td>`;
-                container.append(tab);
+                priceF = DrowOrderItemsList(container, row, priceF);
             });
 
             document.getElementById('order_priceF').innerHTML = priceF;
@@ -187,16 +169,28 @@ function ItemCount(){
 async function SearchHandler(elem){
     let input = elem.querySelector('input').value;
     let id = elem.id;
-
-    let LINK = `http://localhost:3000/api/orders/search?i=${input}`;
-    fetch(LINK, {method: 'GET'}).then(res => res.json()).then(res =>{
-            let container = document.getElementById('list_order');
-            container.innerHTML = ' ';
-
-            res.forEach(row => {
-                container.append(DrowOrderList(row));
-            });
-    });
+    if(id == 'order-items-search'){
+        let LINK = `http://localhost:3000/api/orders/items/search?i=${input}&id=${openOrder}`;
+        fetch(LINK, {method: 'GET'}).then(res => res.json()).then(res =>{
+                let container = document.getElementById('table_items');
+                container.innerHTML = ' ';
+    
+                res.forEach(row => {
+                    DrowOrderItemsList(container, row, null);
+                });
+        });
+    }
+    else if(id == 'order-search'){
+        let LINK = `http://localhost:3000/api/orders/search?i=${input}`;
+        fetch(LINK, {method: 'GET'}).then(res => res.json()).then(res =>{
+                let container = document.getElementById('list_order');
+                container.innerHTML = ' ';
+    
+                res.forEach(row => {
+                    container.append(DrowOrderList(row));
+                });
+        });
+    }
 }
 
 async function GetOrders(){
@@ -234,4 +228,27 @@ function DrowOrderList(row){
         </div>
         <hr>`;
     return div;
+}
+
+function DrowOrderItemsList(container, row, priceF){
+    priceF += Number(row.totalPrice);
+    let tab = document.createElement('tr');
+    tab.setAttribute('class', 'right');
+    tab.innerHTML = `
+        <td class="left">
+            <span class="black" id="products_name">${row.name}</span>
+            <br>
+            <span id="product_id">${row.id}</span>
+        </td>
+        <td>
+            <span class="black" id="product_price">${row.price}</span> 
+            <span class="money" id="product_currency">${row.currency}</span>
+        </td>
+        <td>${row.quantity}</td>
+        <td>
+            <span class="black" id="product_totalPrice">${row.totalPrice}</span> 
+            <span class="money" id="product_currency">${row.currency}</span>
+        </td>`;
+    container.append(tab);
+    return priceF;
 }

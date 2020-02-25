@@ -59,6 +59,12 @@ span.fat{
 .list-bar.visible{
     display: block;
 }
+.list-bar.side-bar{
+        display: block;
+        position: absolute;
+        width: 80%;
+        margin-left: -10%;
+}
 .order-bar.hidden{
     width: 100%;
 }
@@ -112,10 +118,24 @@ span.fat{
     min-height: 210;
     padding: 2% 5% 0% 5%;
 }
+.items-header{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.items-header .big{
+    margin: 0;
+}
+.items-header input{
+    margin: 0;
+}
+.items-header .search-ico{
+    margin: 0;
+}
 .order-status{
     height: 20%;
     min-height: 180;
-    padding: 2% 4% 0% 4%;
+    padding: 2% 5% 0% 5%;
 }
 .order-info{
     height: auto;

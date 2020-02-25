@@ -21,8 +21,14 @@ input {
     width: 98%;
     height: 22px;
     margin-left: 1%;
-    border-color: 1px solid #cecece;
+    border: 1px solid #cecece;
     padding-right: 24%;
+    font-family: 'Open Sans';
+    color: #86878a;
+}
+input[placeholder]{
+    padding-left: 4%;
+    font-style: italic;
 }
 table{
     border-collapse:collapse;

@@ -31,8 +31,6 @@ app.get('/api/orders', (req, res) =>{
 
 app.get('/api/orders/search', (req, res) =>{   
     let input = req.query.i; 
-    console.log('search:' + input)
-
     let OrderList= [];
     data.forEach(element => {
         if((element.id.indexOf(input) + 1) || 
@@ -49,6 +47,32 @@ app.get('/api/orders/search', (req, res) =>{
             });
     });
     res.json(OrderList);
+});
+
+app.get('/api/orders/items/search', (req, res) =>{   
+    let input = req.query.i;
+    let id = req.query.id;  
+    let ItemsList= [];
+    data.forEach(element => {
+        if(element.id == id)
+            element.products.forEach(elem => {
+                if((elem.id.indexOf(input) + 1) || 
+                (elem.name.indexOf(input) + 1) || 
+                (elem.price.indexOf(input) + 1) ||
+                (elem.totalPrice.indexOf(input) + 1) || 
+                (elem.currency.indexOf(input) + 1) ||
+                (elem.quantity.indexOf(input) + 1))
+                    ItemsList.push({
+                        id: elem.id,
+                        name: elem.name,
+                        price: elem.price,
+                        totalPrice: elem.totalPrice,
+                        quantity: elem.quantity,
+                        currency: elem.currency
+                    });
+            });
+    });
+    res.json(ItemsList);
 });
 
 app.get('/api/orders/:n', (req, res) =>{ 
