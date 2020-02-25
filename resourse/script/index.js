@@ -34,7 +34,7 @@ function checkMobile(){
     let list_bar = document.getElementById('list_bar');
     let order_bar = document.getElementById('order_bar');
     let header = document.getElementById('header');
-    if(window.innerWidth < 750){
+    if(window.innerWidth < window.innerHeight){
         list_bar.classList = ' ';
         list_bar.classList.add('list-bar');
         list_bar.classList.add('hidden');
@@ -44,10 +44,10 @@ function checkMobile(){
         order_bar.classList.add('hidden');
         header.innerHTML = 
         `<div class="blue-header order-header">
-            <button class="menu-ico min-but" id=""></button> 
+            <button class="menu-ico min-but" onclick="SideBar(this)" id="OpenSideBar"></button> 
             <p class="text-header">Order</p>
         </div>
-        <hr>`
+        <hr>`;
     }
     else{
         list_bar.classList = ' ';
@@ -59,12 +59,37 @@ function checkMobile(){
         order_bar.classList.add('visible');
         header.innerHTML = 
         `<p class="blue-header text-header">Order</p>
-        <hr>`
+        <hr>`;
     }
 }
 
-function start()
-{
+function SideBar(elem){
+    let id = elem.id;
+    let itemsearch = document.getElementById('order-items-search');
+    let sidebar = document.getElementById('list_bar');
+    if(id == 'OpenSideBar'){
+        elem.id = 'CloseSideBar';
+        elem.classList.remove('visible');
+        elem.classList.add('hidden');
+        itemsearch.classList.remove('visible');
+        itemsearch.classList.add('hidden');
+        sidebar.classList = ' ';
+        sidebar.classList.add('list-bar');
+        sidebar.classList.add('side-bar');
+    }
+    else{
+        elem.id = 'OpenSideBar';
+        elem.classList.remove('hidden');
+        elem.classList.add('visible');
+        itemsearch.classList.remove('hidden');
+        itemsearch.classList.add('visible');
+        sidebar.classList = ' ';
+        sidebar.classList.add('list-bar');
+        sidebar.classList.add('hiden');
+    }
+}
+
+function start(){
     StatusO(document.getElementById(openInfo), openInfo);
     GetOrders();
     OrderCount();

@@ -52,11 +52,10 @@ span.fat{
     flex-direction: column;
     min-width: 300;
 }
-
-.list-bar.hidden{
+.hidden{
     display: none;
 }
-.list-bar.visible{
+.visible{
     display: block;
 }
 .list-bar.side-bar{
@@ -65,7 +64,11 @@ span.fat{
         width: 80%;
         margin-left: -10%;
 }
+.list-bar.side-bar.hidden{
+    display: none;
+}
 .order-bar.hidden{
+    display: block;
     width: 100%;
 }
 .order-bar.visible{
