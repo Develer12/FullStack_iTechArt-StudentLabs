@@ -238,3 +238,8 @@ span.fat{
     width: 80%;
     -webkit-line-clamp: 1;
 }
+
+.mob-tab{
+    padding-top: 2%;
+    padding-bottom: 1%;
+}

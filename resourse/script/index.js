@@ -1,5 +1,8 @@
 let openInfo = 'delivery';
 let openOrder = '';
+let MobStatus = '';
+
+let ItemsList = {};
 
 let Stat = {
 delivery: 
@@ -35,6 +38,7 @@ function checkMobile(){
     let order_bar = document.getElementById('order_bar');
     let header = document.getElementById('header');
     if(window.innerWidth < window.innerHeight){
+        MobStatus = true;
         list_bar.classList = ' ';
         list_bar.classList.add('list-bar');
         list_bar.classList.add('hidden');
@@ -48,8 +52,11 @@ function checkMobile(){
             <button class="menu-ico min-but" onclick="SideBar(this)" id="OpenSideBar"></button> 
         </div>
         <hr>`;
+
+        DrowOrderItems();
     }
     else{
+        MobStatus = false;
         list_bar.classList = ' ';
         list_bar.classList.add('list-bar');
         list_bar.classList.add('visible');
@@ -60,6 +67,8 @@ function checkMobile(){
         header.innerHTML = 
         `<p class="blue-header text-header">Order</p>
         <hr>`;
+
+        DrowOrderItems();
     }
 }
 
@@ -147,12 +156,9 @@ async function OpenOrder(elem){
             SideBar(close);
         let LINK = `http://localhost:3000/api/orders/${id}`;
         fetch(LINK, {method: 'GET'}).then(res => res.json()).then(res =>{
-            let container = document.getElementById('table_items');
-            container.innerHTML = ' ';
             let priceF = 0;
-            res.products.forEach(row => {
-                priceF = DrowOrderItemsList(container, row, priceF);
-            });
+            ItemsList = res.products;
+            priceF = DrowOrderItems();
 
             document.getElementById('order_priceF').innerHTML = priceF;
             document.getElementById('order_currency').innerHTML = res.products[0].currency;
@@ -160,8 +166,7 @@ async function OpenOrder(elem){
             document.getElementById('order_ord').innerHTML = `Ordered: ${res.OrderInfo.createdAt}`;
             document.getElementById('order_customer').innerHTML = `Customer: ${res.CustomerInfo.firstName} ${res.CustomerInfo.lastName}`;
             document.getElementById('order_id').innerHTML = `Order ${res.id}`;
-
-
+            
         }).then(() => ItemCount());
     }
 }
@@ -195,12 +200,8 @@ async function SearchHandler(elem){
     if(id == 'order-items-search'){
         let LINK = `http://localhost:3000/api/orders/items/search?i=${input}&id=${openOrder}`;
         fetch(LINK, {method: 'GET'}).then(res => res.json()).then(res =>{
-                let container = document.getElementById('table_items');
-                container.innerHTML = ' ';
-    
-                res.forEach(row => {
-                    DrowOrderItemsList(container, row, null);
-                });
+            ItemsList = res;
+            priceF = DrowOrderItems();
         });
     }
     else if(id == 'order-search'){
@@ -230,6 +231,7 @@ async function GetOrders(){
     });
 }
 
+
 function DrowOrderList(row){
     let status = 
     row.status=='Accepted'?'class="Intime">In time'
@@ -253,11 +255,65 @@ function DrowOrderList(row){
     return div;
 }
 
+function DrowOrderItems(){
+    let container = document.getElementById('table_items');
+    container.innerHTML = ' ';
+    let thead = document.getElementById('table_head');
+    if(MobStatus){
+        thead.innerHTML = `
+            <tr>
+                <td class="left">Product</td>
+            </tr>`;
+    }
+    else{
+        thead.innerHTML = `
+            <tr class="right">
+                <td class="left">Product</td>
+                <td>Unit Price</td>
+                <td>Quantity</td>
+                <td>Total</td>
+            </tr>`;
+    }
+    let priceF = 0;
+    if(ItemsList[0])
+        ItemsList.forEach(row => {
+            priceF = DrowOrderItemsList(container, row, priceF);
+        });
+
+    return priceF;
+}
+
 function DrowOrderItemsList(container, row, priceF){
     priceF += Number(row.totalPrice);
     let tab = document.createElement('tr');
-    tab.setAttribute('class', 'right');
-    tab.innerHTML = `
+    if(MobStatus){
+        tab.innerHTML = `
+            <tr>
+            <td class="left mob-tab">
+                <span class="black" id="products_name">${row.name}</span>
+                <br>
+                <span id="product_id">${row.id}</span>
+                <br>
+                <br>
+                <span>Unit Price:</span>
+                <br>
+                <span class="black" id="product_price">${row.price}</span> 
+                <span class="money" id="product_currency">${row.currency}</span>
+                <br>
+                <br>
+                <span>Quantity:</span>
+                <br>
+                <span>${row.quantity}</span>
+                <br>
+                <br>
+                <span>Total:</span>
+                <br>
+                <span class="black" id="product_totalPrice">${row.totalPrice}</span> 
+                <span class="money" id="product_currency">${row.currency}</span>
+            </td>`;
+    }
+    else{
+        tab.innerHTML = `
         <td class="left">
             <span class="black" id="products_name">${row.name}</span>
             <br>
@@ -272,6 +328,7 @@ function DrowOrderItemsList(container, row, priceF){
             <span class="black" id="product_totalPrice">${row.totalPrice}</span> 
             <span class="money" id="product_currency">${row.currency}</span>
         </td>`;
+    }
     container.append(tab);
     return priceF;
 }

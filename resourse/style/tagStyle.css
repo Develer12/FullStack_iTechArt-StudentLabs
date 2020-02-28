@@ -39,8 +39,14 @@ table{
 tr{
     border-bottom: 2px solid #d9e2eb;
 }
+tr td{
+    padding: 0 5 0 5;
+}
 td span{
     margin: 0;
+}
+td br{
+    line-height: 0.4em;
 }
 table thead{
     background:#f7f7f7;
