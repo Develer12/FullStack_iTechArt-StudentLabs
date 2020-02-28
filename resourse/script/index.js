@@ -44,8 +44,8 @@ function checkMobile(){
         order_bar.classList.add('hidden');
         header.innerHTML = 
         `<div class="blue-header order-header">
-            <button class="menu-ico min-but" onclick="SideBar(this)" id="OpenSideBar"></button> 
             <p class="blue-header text-header">Order</p>
+            <button class="menu-ico min-but" onclick="SideBar(this)" id="OpenSideBar"></button> 
         </div>
         <hr>`;
     }
