@@ -43,7 +43,7 @@
     background-image: url(button/close.png);
     background-size: 20px 20px;
     background-repeat: no-repeat;
-    position: relative;
+    position: absolute;
     margin-top: 3;
     margin-left: 10;
     padding-right: 0;

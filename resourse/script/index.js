@@ -44,8 +44,8 @@ function checkMobile(){
         order_bar.classList.add('hidden');
         header.innerHTML = 
         `<div class="blue-header order-header">
-            <button class="menu-ico min-but example" onclick="SideBar(this)" id="OpenSideBar"></button> 
-            <p class="text-header">Order</p>
+            <button class="menu-ico min-but" onclick="SideBar(this)" id="OpenSideBar"></button> 
+            <p class="blue-header text-header">Order</p>
         </div>
         <hr>`;
     }
@@ -75,7 +75,9 @@ function SideBar(elem){
         sidebar.classList.add('side-bar');
     }
     else{
-        elem.classList.add('visible')
+        elem.classList.add('visible');
+        close.classList.add('hidden');
+        close.classList.remove('visible');
         sidebar.classList = ' ';
         sidebar.classList.add('list-bar');
         sidebar.classList.add('side-barC');
@@ -140,6 +142,9 @@ async function OpenOrder(elem){
         if(openOrder)
             OrderC(document.getElementById(openOrder));
         OrderO(elem, id);
+        let close = document.getElementById('CloseSideBar');
+        if(!(close.className.indexOf('hidden') + 1))
+            SideBar(close);
         let LINK = `http://localhost:3000/api/orders/${id}`;
         fetch(LINK, {method: 'GET'}).then(res => res.json()).then(res =>{
             let container = document.getElementById('table_items');
