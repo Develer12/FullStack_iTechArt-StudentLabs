@@ -66,17 +66,19 @@ function checkMobile(){
 function SideBar(elem){
     let id = elem.id;
     let sidebar = document.getElementById('list_bar');
+    let close = document.getElementById('CloseSideBar');
     if(id == 'OpenSideBar'){
-        elem.id = 'CloseSideBar';
+        close.classList.remove('hidden');
+        close.classList.add('visible');
         sidebar.classList = ' ';
         sidebar.classList.add('list-bar');
         sidebar.classList.add('side-bar');
     }
     else{
-        elem.id = 'OpenSideBar';
+        elem.classList.add('visible')
         sidebar.classList = ' ';
         sidebar.classList.add('list-bar');
-        sidebar.classList.add('hiden');
+        sidebar.classList.add('side-barC');
     }
 }
 

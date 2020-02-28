@@ -53,14 +53,19 @@ span.fat{
     flex-direction: column;
     min-width: 300;
 }
-
+.hidden{
+    display: none;
+}
+.visible{
+    display: block;
+}
 .list-bar.side-bar{
     position: absolute;
     width: 80%;
     margin-left: -10%;
     z-index: 1;
 }
-.list-bar.hidden{
+.list-bar.side-barC{
     margin-left: -100%;
     position: absolute;
     z-index: 0;

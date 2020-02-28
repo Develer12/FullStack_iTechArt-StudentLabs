@@ -15,6 +15,7 @@
                     <header id="list_control">
                         <button class="back-ico min-but" id="order_back"></button> 
                         <p class="text-header" id="order_count">Orders </p>
+                        <button class="close-ico min-but hidden" onclick="SideBar(this)" id="CloseSideBar"></button>
                     </header>
                     <div class="list-search">
                         <form id="order-search" onsubmit="SearchHandler(this); return false;">
@@ -57,6 +58,7 @@
                             <div class="order-bar-butt">
                                 <button class="din-buttC deliveryC" onclick="OpenStatus(this)" id="delivery"></button> 
                                 <button class="din-butt processor" onclick="OpenStatus(this)" id="processor"></button> 
+                                <button class="din-butt map" onclick="OpenStatus(this)" id="map"></button> 
                             </div>
                         </div>
                         <hr>
