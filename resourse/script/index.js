@@ -8,6 +8,35 @@ let Stat = {
 delivery: 
 `<div class="left">
     <span class="fat big">Shipping Address</span>
+    <table class="status-list">
+        <thead>
+            <tr id="status_item" class="status">
+                <td>Name:</td>
+                <td class="status black">ExellentCompany</td>
+            </tr>
+            <tr id="status_item" class="status">
+                <td>Street:</td>
+                <td class="status black">ExellentCompany</td>
+            </tr>
+            <tr id="status_item" class="status">
+                <td>Zip Code / City:</td>
+                <td class="status black">ExellentCompany</td>
+            </tr>
+            <tr id="status_item" class="status">
+                <td>Region:</td>
+                <td class="status black">ExellentCompany</td>
+            </tr>
+            <tr id="status_item" class="status">
+                <td>Country:</td>
+                <td class="status black">ExellentCompany</td>
+            </tr>
+        </thead>
+    </table>
+</div>
+`,
+deliverys: 
+`<div class="left">
+    <span class="fat big">Shipping Address</span>
     <hr>
     <div class="status-list">
         <div class="status right">
@@ -53,6 +82,7 @@ function checkMobile(){
         </div>
         <hr>`;
 
+        StatusO(document.getElementById(openInfo), openInfo);
         DrowOrderItems();
     }
     else{
@@ -68,6 +98,7 @@ function checkMobile(){
         `<p class="blue-header text-header">Order</p>
         <hr>`;
 
+        StatusO(document.getElementById(openInfo), openInfo);
         DrowOrderItems();
     }
 }
@@ -143,17 +174,27 @@ function StatusO(elem, id){
     elem.innerHTML=`<div class="hr"></div>`
     openInfo = id;
     document.getElementById('order_status').innerHTML=Stat[openInfo];
+
+    let items = document.getElementsByClassName('status');
+    Array.from(items).forEach(item => {
+        if(item.id == 'status_item'){
+            if(MobStatus)
+                item.classList.add('statusM');
+            else
+                item.classList.remove('statusM');
+        }
+    })
 }
 
 async function OpenOrder(elem){
     let id = elem.id;
+    let close = document.getElementById('CloseSideBar');
+    if(!(close.className.indexOf('hidden') + 1))
+        SideBar(close);
     if(id!=openOrder){
         if(openOrder)
             OrderC(document.getElementById(openOrder));
         OrderO(elem, id);
-        let close = document.getElementById('CloseSideBar');
-        if(!(close.className.indexOf('hidden') + 1))
-            SideBar(close);
         let LINK = `http://localhost:3000/api/orders/${id}`;
         fetch(LINK, {method: 'GET'}).then(res => res.json()).then(res =>{
             let priceF = 0;
