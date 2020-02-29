@@ -6,56 +6,20 @@ let ItemsList = {};
 
 let Stat = {
 delivery: 
-`<div class="left">
-    <span class="fat big">Shipping Address</span>
-    <table class="status-list">
-        <thead>
-            <tr id="status_item" class="status">
-                <td>Name:</td>
-                <td class="status black">ExellentCompany</td>
-            </tr>
-            <tr id="status_item" class="status">
-                <td>Street:</td>
-                <td class="status black">ExellentCompany</td>
-            </tr>
-            <tr id="status_item" class="status">
-                <td>Zip Code / City:</td>
-                <td class="status black">ExellentCompany</td>
-            </tr>
-            <tr id="status_item" class="status">
-                <td>Region:</td>
-                <td class="status black">ExellentCompany</td>
-            </tr>
-            <tr id="status_item" class="status">
-                <td>Country:</td>
-                <td class="status black">ExellentCompany</td>
-            </tr>
-        </thead>
-    </table>
-</div>
-`,
-deliverys: 
-`<div class="left">
-    <span class="fat big">Shipping Address</span>
-    <hr>
-    <div class="status-list">
-        <div class="status right">
-            <span>Name:</span>
-            <span>Street:</span>
-            <span>Zip Code / City:</span>
-            <span>Region:</span>
-            <span>Country:</span>
-        </div>
-        <div class="status black">
-            <span>ExellentCompany</span>
-            <span>Tottenham Court Road</span>
-            <span>N170AA London</span>
-            <span>Greater London</span>
-            <span>United Kingdom</span>
-        </div>
-    </div>
-</div>`,
-processor: ``
+    `<div class="left">
+        <span class="fat big">Shipping Address</span>
+        <hr>
+    </div>`,
+processor:
+    `<div class="left">
+        <span class="fat big">Processor Information</span>
+        <hr>
+    </div>`,
+map:
+    `<div class="left">
+        <span class="fat big">Address</span>
+        <hr>
+    </div>`,
 }
 
 window.addEventListener(`resize`, event => {
@@ -151,14 +115,6 @@ function OpenStatus(elem){
     }
 }
 
-function OrderClicked(elem){
-    let id = elem.id;
-    if(id!=openInfo){
-        StatusC(document.getElementById(openInfo));
-        StatusO(elem, id);
-    }
-}
-
 function StatusC(elem){
     elem.classList = ' ';
     elem.classList.add('din-butt');
@@ -201,12 +157,16 @@ async function OpenOrder(elem){
             ItemsList = res.products;
             priceF = DrowOrderItems();
 
+            DrowOrderStat(res.ShipTo, res.ProcessorInfo);
+            StatusO(document.getElementById(openInfo), openInfo);
+
             document.getElementById('order_priceF').innerHTML = priceF;
             document.getElementById('order_currency').innerHTML = res.products[0].currency;
             document.getElementById('order_ship').innerHTML = `Shipped: ${res.OrderInfo.shippedAt}`;
             document.getElementById('order_ord').innerHTML = `Ordered: ${res.OrderInfo.createdAt}`;
             document.getElementById('order_customer').innerHTML = `Customer: ${res.CustomerInfo.firstName} ${res.CustomerInfo.lastName}`;
             document.getElementById('order_id').innerHTML = `Order ${res.id}`;
+            document.getElementById('sendmail').formAction = `mailto:${res.CustomerInfo.email}`
             
         }).then(() => ItemCount());
     }
@@ -272,7 +232,65 @@ async function GetOrders(){
     });
 }
 
+function DrowOrderStat(ship, processor){
+    Stat.processor = `
+    <div class="left">
+        <span class="fat big">Processor Information</span>
+        <hr>
+        <table class="status-list">
+            <thead>
+                <tr id="status_item" class="status">
+                    <td>Name:</td>
+                    <td class="status black">${processor.name}</td>
+                </tr>
+                <tr id="status_item" class="status">
+                    <td>Employee ID:</td>
+                    <td class="status black">${processor.employeeId}</td>
+                </tr>
+                <tr id="status_item" class="status">
+                    <td>Job Title:</td>
+                    <td class="status black">${processor.jobTitle}</td>
+                </tr>
+                <tr id="status_item" class="status">
+                    <td>Phone:</td>
+                    <td class="status black">
+                        <a href="tel:${processor.phone}">${processor.phone}</a>
+                    </td>
+                </tr>
+            </thead>
+        </table>
+    </div>`;
 
+    Stat.delivery = `
+    <div class="left">
+        <span class="fat big">Shipping Address</span>
+        <hr>
+        <table class="status-list">
+            <thead>
+                <tr id="status_item" class="status">
+                    <td>Name:</td>
+                    <td class="status black">${ship.name}</td>
+                </tr>
+                <tr id="status_item" class="status">
+                    <td>Street:</td>
+                    <td class="status black">${ship.Address}</td>
+                </tr>
+                <tr id="status_item" class="status">
+                    <td>Zip Code / City:</td>
+                    <td class="status black">${ship.ZIP}</td>
+                </tr>
+                <tr id="status_item" class="status">
+                    <td>Region:</td>
+                    <td class="status black">${ship.Region}</td>
+                </tr>
+                <tr id="status_item" class="status">
+                    <td>Country:</td>
+                    <td class="status black">${ship.Country}</td>
+                </tr>
+            </thead>
+        </table>
+    </div>`;
+}
 function DrowOrderList(row){
     let status = 
     row.status=='Accepted'?'class="Intime">In time'

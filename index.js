@@ -85,6 +85,7 @@ app.get('/api/orders/:n', (req, res) =>{
                 id: id,
                 OrderInfo: element.OrderInfo, 
                 ShipTo: element.ShipTo,
+                ProcessorInfo: element.ProcessorInfo,
                 CustomerInfo: element.CustomerInfo,
                 products: element.products
             };

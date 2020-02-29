@@ -57,6 +57,10 @@ tbody{
 button{
     cursor: pointer;
 }
+a[href^="tel:"] {
+    color: #4378ae;
+    text-decoration: none;
+}
 
 
 /* Style for header tags */

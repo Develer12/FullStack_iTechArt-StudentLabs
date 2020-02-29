@@ -15,6 +15,12 @@ module.exports = {
 				Region: "Germany",
 				Country: "Germany"
 			},
+			ProcessorInfo: {
+				name: "Andrey Klino",
+				employeeId: "7424",
+				jobTitle: "Developer",
+				phone: "01781163487"
+			},
 			CustomerInfo: {
 				firstName: "Maria",
 				lastName: "Anders",
@@ -79,6 +85,12 @@ module.exports = {
 				ZIP: "13008",
 				Region: "France",
 				Country: "France"
+			},
+			ProcessorInfo: {
+				name: "Andrey Klino",
+				employeeId: "7424",
+				jobTitle: "Developer",
+				phone: "01781163487"
 			},
 			CustomerInfo: {
 				firstName: "Laurence",
