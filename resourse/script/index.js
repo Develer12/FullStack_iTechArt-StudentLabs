@@ -2,9 +2,14 @@ let openInfo = 'delivery';
 let openOrder = '';
 let MobStatus = '';
 
-let ItemsSort = 'quantity';
+let ItemsSort = '';
+let ButtSort = '';
 let ItemsListSorted = {};
 let ItemsList = {};
+let ItemsHeader = '';
+
+let innerWidth;
+let innerHeight;
 
 let Stat = {
 delivery: 
@@ -32,7 +37,7 @@ function checkMobile(){
     let list_bar = document.getElementById('list_bar');
     let order_bar = document.getElementById('order_bar');
     let header = document.getElementById('header');
-    if(window.innerWidth < window.innerHeight){
+    if((window.innerWidth < window.innerHeight) && !MobStatus){
         MobStatus = true;
         list_bar.classList = ' ';
         list_bar.classList.add('list-bar');
@@ -51,7 +56,7 @@ function checkMobile(){
         StatusO(document.getElementById(openInfo), openInfo);
         DrowOrderItems();
     }
-    else{
+    else if((window.innerWidth > window.innerHeight) && MobStatus){
         MobStatus = false;
         list_bar.classList = ' ';
         list_bar.classList.add('list-bar');
@@ -145,6 +150,7 @@ function StatusO(elem, id){
 }
 
 async function OpenOrder(elem){
+    ItemsSort = '';
     let id = elem.id;
     let close = document.getElementById('CloseSideBar');
     if(!(close.className.indexOf('hidden') + 1))
@@ -221,8 +227,6 @@ async function SearchHandler(elem){
 }
 
 async function GetOrders(){
-    console.log("Get OrderList")
-
     let LINK = 'http://localhost:3000/api/orders';
     fetch(LINK, {method: 'GET'}).then(res => res.json()).then(res =>{
         let container = document.getElementById('list_order');
@@ -317,27 +321,71 @@ function DrowOrderList(row){
 }
 
 function DrowOrderItems(){
-    let container = document.getElementById('table_items');
-    container.innerHTML = ' ';
     let thead = document.getElementById('table_head');
+
     if(MobStatus){
+        ItemsHeader = thead.innerHTML;
         thead.innerHTML = `
             <tr>
                 <td class="left">Product</td>
             </tr>`;
     }
     else{
-        thead.innerHTML = `
-            <tr class="right">
-                <td class="left">Product</td>
-                <td>Unit Price</td>
-                <td>Quantity</td>
-                <td>Total</td>
-            </tr>`;
+        if(ItemsSort == ''){
+            thead.innerHTML = `
+                <tr class="right">
+                    <td class="left">
+                        <div class="items-header">
+                            Product
+                            <div class="left">
+                                <button class="min-but arrowUD-ico" onclick="SortProducts(this)" id="OrderProd_name"></button>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="items-header">
+                            Unit Price
+                            <div class="left">
+                                <button class="min-but arrowUD-ico" onclick="SortProducts(this)" id="OrderProd_price"></button>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="items-header">
+                            Quantity
+                            <div class="left">
+                                <button class="min-but arrowUD-ico" onclick="SortProducts(this)" id="OrderProd_quantity"></button>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="items-header">
+                            Total
+                            <div class="left">
+                                <button class="min-but arrowUD-ico" onclick="SortProducts(this)" id="OrderProd_totalPrice"></button>
+                            </div>
+                        </div>
+                    </td>
+                </tr>`;
+        }
+        else{
+            if(ItemsHeader != '' && !(ItemsHeader.indexOf('<td class="left">Product</td>') + 1)){
+                thead.innerHTML = ' ';
+                thead.innerHTML = ItemsHeader;
+            }
+        }
     }
+    
     let priceF = 0;
+    priceF = forOrderItems(priceF)
+    return priceF;
+}
+
+function forOrderItems(priceF){
+    let container = document.getElementById('table_items');
+    container.innerHTML = ' ';
     if(ItemsList[0]){
-        if(ItemsSort){
+        if(ItemsSort != ''){
             ItemsListSorted = SortItemsBy();
             ItemsListSorted.forEach(row => {
                 priceF = DrowOrderItemsList(container, row, priceF);
@@ -352,15 +400,52 @@ function DrowOrderItems(){
 }
 
 function SortItemsBy(){
-    console.log('Sort')
-    let List = {};
-    List = ItemsList;
+    let List = [];
+    for(n in ItemsList)
+        List[n] = ItemsList[n];
     let asc = (ItemsSort.indexOf('Desc') + 1)?ItemsSort.slice(0, ItemsSort.length-4):ItemsSort;
-    List.sort((a, b) => a[asc] > b[asc] ? 1 : -1);
+    List.sort((a, b) => {
+        a = a[asc];
+        b = b[asc];
+        if(Number.isInteger(Number(a)) || Number.isInteger(Number(b))){
+            return a - b;
+        }
+        else{
+            a > b ? 1 : -1;
+        }
+    });
     if(ItemsSort.indexOf('Desc') + 1){
         List.reverse();
     }
     return List;
+}
+
+function SortProducts(elem){
+    if(ButtSort != '' && ButtSort != elem.id){        
+        let butt = document.getElementById(ButtSort);
+        butt.className = 'min-but arrowUD-ico';
+    }
+    if(ItemsList[0]){
+        let param = elem.id.slice(10, elem.id.length);
+        if(elem.className.indexOf('arrowUD-ico') + 1){
+            elem.classList.remove('arrowUD-ico');
+            elem.classList.add('arrowU-ico');
+            ItemsSort = param;
+        }
+        else if(elem.className.indexOf('arrowU-ico') + 1){
+            elem.classList.remove('arrowU-ico');
+            elem.classList.add('arrowD-ico');
+            ItemsSort = param + 'Desc';
+        }
+        else if(elem.className.indexOf('arrowD-ico') + 1){
+            elem.classList.remove('arrowD-ico');
+            elem.classList.add('arrowUD-ico');
+            ItemsSort = '';
+        }
+
+        forOrderItems(null);
+        ButtSort = elem.id;
+    }
 }
 
 function DrowOrderItemsList(container, row, priceF){

@@ -133,6 +133,7 @@ span.fat{
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    align-items: center;
 }
 .items-header .big{
     margin: 0;
@@ -151,6 +152,9 @@ span.fat{
 .order-info{
     height: auto;
     min-height: 236;
+}
+.order-table tr{
+    text-align: center;
 }
 .blue-header.order-header{
     display: flex;
@@ -194,6 +198,13 @@ span.fat{
 .left{
     flex-direction: column;
     text-align: left;
+}
+
+.visibility{
+    visibility: visible;
+}
+.visibilityN{
+    visibility: hidden;
 }
 
 .order-bar hr{
