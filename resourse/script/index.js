@@ -2,6 +2,8 @@ let openInfo = 'delivery';
 let openOrder = '';
 let MobStatus = '';
 
+let ItemsSort = 'quantity';
+let ItemsListSorted = {};
 let ItemsList = {};
 
 let Stat = {
@@ -334,12 +336,31 @@ function DrowOrderItems(){
             </tr>`;
     }
     let priceF = 0;
-    if(ItemsList[0])
-        ItemsList.forEach(row => {
-            priceF = DrowOrderItemsList(container, row, priceF);
-        });
-
+    if(ItemsList[0]){
+        if(ItemsSort){
+            ItemsListSorted = SortItemsBy();
+            ItemsListSorted.forEach(row => {
+                priceF = DrowOrderItemsList(container, row, priceF);
+            });
+        }
+        else
+            ItemsList.forEach(row => {
+                priceF = DrowOrderItemsList(container, row, priceF);
+            });
+    }
     return priceF;
+}
+
+function SortItemsBy(){
+    console.log('Sort')
+    let List = {};
+    List = ItemsList;
+    let asc = (ItemsSort.indexOf('Desc') + 1)?ItemsSort.slice(0, ItemsSort.length-4):ItemsSort;
+    List.sort((a, b) => a[asc] > b[asc] ? 1 : -1);
+    if(ItemsSort.indexOf('Desc') + 1){
+        List.reverse();
+    }
+    return List;
 }
 
 function DrowOrderItemsList(container, row, priceF){
