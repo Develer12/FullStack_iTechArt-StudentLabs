@@ -8,8 +8,6 @@ let ItemsListSorted = {};
 let ItemsList = {};
 let ItemsHeader = '';
 
-let innerWidth;
-let innerHeight;
 
 let Stat = {
 delivery: 
@@ -27,7 +25,7 @@ map:
         <span class="fat big">Address</span>
         <hr>
     </div>`,
-}
+};
 
 window.addEventListener(`resize`, event => {
     checkMobile();
@@ -39,13 +37,11 @@ function checkMobile(){
     let header = document.getElementById('header');
     if((window.innerWidth < window.innerHeight) && !MobStatus){
         MobStatus = true;
-        list_bar.classList = ' ';
-        list_bar.classList.add('list-bar');
         list_bar.classList.add('hidden');
+        list_bar.classList.remove('visible');
 
-        order_bar.classList = ' ';
-        order_bar.classList.add('order-bar');
         order_bar.classList.add('hidden');
+        order_bar.classList.remove('visible');
         header.innerHTML = 
         `<div class="blue-header order-header">
             <p class="blue-header text-header">Order</p>
@@ -62,8 +58,7 @@ function checkMobile(){
         list_bar.classList.add('list-bar');
         list_bar.classList.add('visible');
 
-        order_bar.classList = ' ';
-        order_bar.classList.add('order-bar');
+        order_bar.classList.remove('hidden');
         order_bar.classList.add('visible');
         header.innerHTML = 
         `<p class="blue-header text-header">Order</p>
@@ -126,15 +121,16 @@ function StatusC(elem){
     elem.classList = ' ';
     elem.classList.add('din-butt');
     elem.classList.add(openInfo);
-    elem.innerHTML =' '
+    elem.innerHTML = ' ';
     document.getElementById('order_status').innerHTML=' ';
 }
 
 function StatusO(elem, id){
     elem.classList = ' ';
     elem.classList.add('din-buttC');
-    elem.classList.add(id+'C');
-    elem.innerHTML=`<div class="hr"></div>`
+    elem.classList.add(id + 'C');
+    elem.innerHTML=`<div class="hr"></div>`;
+
     openInfo = id;
     document.getElementById('order_status').innerHTML=Stat[openInfo];
 
@@ -154,12 +150,13 @@ function StatusO(elem, id){
 async function OpenOrder(elem){
     ItemsSort = '';
     let id = elem.id;
+    console.log(id)
     let close = document.getElementById('CloseSideBar');
     if(!(close.className.indexOf('hidden') + 1)){
         SideBar(close);
     }
     if(id!=openOrder){
-        if(openOrder){
+        if(openOrder && document.getElementById(openOrder)){
             OrderC(document.getElementById(openOrder));
         }
         OrderO(elem, id);
@@ -178,9 +175,10 @@ async function OpenOrder(elem){
             document.getElementById('order_ord').innerHTML = `Ordered: ${res.OrderInfo.createdAt}`;
             document.getElementById('order_customer').innerHTML = `Customer: ${res.CustomerInfo.firstName} ${res.CustomerInfo.lastName}`;
             document.getElementById('order_id').innerHTML = `Order ${res.id}`;
-            document.getElementById('sendmail').formAction = `mailto:${res.CustomerInfo.email}`
-            
-        }).then(() => ItemCount());
+            document.getElementById('sendmail').formAction = `mailto:${res.CustomerInfo.email}`;
+        })
+        .then(() => ItemCount())
+        .catch((err) => console.log(`Fetch ERROR by ${LINK}: ${err}`));
     }
 }
 
@@ -218,34 +216,42 @@ async function SearchHandler(elem){
     let id = elem.id;
     if(id == 'order-items-search'){
         let LINK = `http://localhost:3000/api/orders/items/search?i=${input}&id=${openOrder}`;
-        fetch(LINK, {method: 'GET'}).then(res => res.json()).then(res =>{
+        fetch(LINK, {method: 'GET'})
+        .then(res => res.json())
+        .then(res =>{
             ItemsList = res;
             priceF = DrowOrderItems();
-        });
+        })
+        .catch((err) => console.log(`Fetch ERROR by ${LINK}: ${err}`));
     }
     else if(id == 'order-search'){
         let LINK = `http://localhost:3000/api/orders/search?i=${input}`;
-        fetch(LINK, {method: 'GET'}).then(res => res.json()).then(res =>{
-                let container = document.getElementById('list_order');
-                container.innerHTML = ' ';
-    
-                res.forEach(row => {
-                    container.append(DrowOrderList(row));
-                });
-        });
+        fetch(LINK, {method: 'GET'})
+        .then(res => res.json())
+        .then(res =>{
+            let container = document.getElementById('list_order');
+            container.innerHTML = ' ';
+            res.forEach(row => {
+                container.append(DrowOrderList(row));
+            });
+        })
+        .catch((err) => console.log(`Fetch ERROR by ${LINK}: ${err}`));
     }
 }
 
 async function GetOrders(){
     let LINK = 'http://localhost:3000/api/orders';
-    fetch(LINK, {method: 'GET'}).then(res => res.json()).then(res =>{
+    fetch(LINK, {method: 'GET'})
+    .then(res => res.json())
+    .then(res =>{
         let container = document.getElementById('list_order');
         container.innerHTML = ' ';
 
         res.forEach(row => {
             container.append(DrowOrderList(row));
         });
-    });
+    })
+    .catch((err) => console.log(`Fetch ERROR by ${LINK}: ${err}`));
 }
 
 function DrowOrderStat(ship, processor){
@@ -307,15 +313,22 @@ function DrowOrderStat(ship, processor){
         </table>
     </div>`;
 }
+
 function DrowOrderList(row){
     let status = 
-    row.status=='Accepted'?'class="Intime">In time'
-        : row.status=='Pending'?'class="Urgent">Urgent'
-        :'Unknown';
+        row.status=='Accepted'?'class="Intime">In time'
+            : row.status=='Pending'?'class="Urgent">Urgent'
+            :'Unknown';
     let div = document.createElement('div');
     div.setAttribute('class', 'list-order-c');
+
+    let flag = '';
+    if(openOrder == row.id){
+        flag = 'list-order-contentC';
+    }
+
     div.innerHTML = `
-        <div onclick="OpenOrder(this)" id="${row.id}" class="list-order-content">
+        <div onclick="OpenOrder(this)" id="${row.id}" class="list-order-content ${flag}">
             <div class="order-content-l">
                 <p class="fat big textCut">Order ${row.id}</p>
                 <p class="textCut">${row.customer}</p>
@@ -387,7 +400,7 @@ function DrowOrderItems(){
     }
     
     let priceF = 0;
-    priceF = forOrderItems(priceF)
+    priceF = forOrderItems(priceF);
     return priceF;
 }
 
@@ -397,6 +410,7 @@ function forOrderItems(priceF){
     if(ItemsList[0]){
         if(ItemsSort != ''){
             ItemsListSorted = SortItemsBy();
+
             ItemsListSorted.forEach(row => {
                 priceF = DrowOrderItemsList(container, row, priceF);
             });
@@ -422,7 +436,7 @@ function SortItemsBy(){
             return a - b;
         }
         else{
-            a > b ? 1 : -1;
+            return a > b ? 1 : -1;
         }
     });
     if(ItemsSort.indexOf('Desc') + 1){
@@ -490,20 +504,20 @@ function DrowOrderItemsList(container, row, priceF){
     }
     else{
         tab.innerHTML = `
-        <td class="left">
-            <span class="black" id="products_name">${row.name}</span>
-            <br>
-            <span id="product_id">${row.id}</span>
-        </td>
-        <td>
-            <span class="black" id="product_price">${row.price}</span> 
-            <span class="money" id="product_currency">${row.currency}</span>
-        </td>
-        <td>${row.quantity}</td>
-        <td>
-            <span class="black" id="product_totalPrice">${row.totalPrice}</span> 
-            <span class="money" id="product_currency">${row.currency}</span>
-        </td>`;
+            <td class="left">
+                <span class="black" id="products_name">${row.name}</span>
+                <br>
+                <span id="product_id">${row.id}</span>
+            </td>
+            <td>
+                <span class="black" id="product_price">${row.price}</span> 
+                <span class="money" id="product_currency">${row.currency}</span>
+            </td>
+            <td>${row.quantity}</td>
+            <td>
+                <span class="black" id="product_totalPrice">${row.totalPrice}</span> 
+                <span class="money" id="product_currency">${row.currency}</span>
+            </td>`;
     }
     container.append(tab);
     return priceF;
