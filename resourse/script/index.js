@@ -92,20 +92,9 @@ function SideBar(elem){
 
 function start(){
     StatusO(document.getElementById(openInfo), openInfo);
+    DrowLoading('list_order');
     GetOrders();
-    OrderCount();
     checkMobile();
-    let CountListener = new MutationObserver((mutations)=>{
-        mutations.forEach((mutation)=>{
-            OrderCount();
-        });    
-    });
-    CountListener.observe(document.getElementById('list_order'), {
-        childList: true,
-        attributes: true,
-        subtree: true,
-        characterData: true
-    });
 }
 
 
@@ -150,7 +139,6 @@ function StatusO(elem, id){
 async function OpenOrder(elem){
     ItemsSort = '';
     let id = elem.id;
-    console.log(id)
     let close = document.getElementById('CloseSideBar');
     if(!(close.className.indexOf('hidden') + 1)){
         SideBar(close);
@@ -160,6 +148,13 @@ async function OpenOrder(elem){
             OrderC(document.getElementById(openOrder));
         }
         OrderO(elem, id);
+
+        DrowLoading('order_items');
+        let tab = document.getElementById('table_items');
+        if(tab.childElementCount){
+            tab.innerHTML = '';
+        }
+
         let LINK = `http://localhost:3000/api/orders/${id}`;
         fetch(LINK, {method: 'GET'}).then(res => res.json()).then(res =>{
             let priceF = 0;
@@ -176,8 +171,9 @@ async function OpenOrder(elem){
             document.getElementById('order_customer').innerHTML = `Customer: ${res.CustomerInfo.firstName} ${res.CustomerInfo.lastName}`;
             document.getElementById('order_id').innerHTML = `Order ${res.id}`;
             document.getElementById('sendmail').formAction = `mailto:${res.CustomerInfo.email}`;
+
+            ItemCount(res.products.length);
         })
-        .then(() => ItemCount())
         .catch((err) => console.log(`Fetch ERROR by ${LINK}: ${err}`));
     }
 }
@@ -195,10 +191,10 @@ function OrderO(elem, id){
     openOrder = id;
 }
 
-function OrderCount(){
+function OrderCount(count){
     let Count  = document.getElementById('list_order').childElementCount;
-    document.getElementById('order_count').innerHTML = `Orders (${Count})`;
-    if(!Count){
+    document.getElementById('order_count').innerHTML = `Orders (${count})`;
+    if(!count){
         document.getElementById('list_order').innerHTML = `
             <img src="resourse/style/img/empty.png" class="emptyImg">
             <span class="big fat empty">Empty</span>`;
@@ -206,25 +202,34 @@ function OrderCount(){
 
 }
 
-function ItemCount(){
-    let Count  = document.getElementById('table_items').childElementCount;
-    document.getElementById('items_count').innerHTML = `Line Items (${Count})`;
+function ItemCount(count){
+    document.getElementById('items_count').innerHTML = `Line Items (${count})`;
 }
 
 async function SearchHandler(elem){
     let input = elem.querySelector('input').value;
     let id = elem.id;
     if(id == 'order-items-search'){
+        DrowLoading('order_items');
+        let tab = document.getElementById('table_items');
+        if(tab.childElementCount){
+            tab.innerHTML = '';
+        }
+
         let LINK = `http://localhost:3000/api/orders/items/search?i=${input}&id=${openOrder}`;
         fetch(LINK, {method: 'GET'})
         .then(res => res.json())
         .then(res =>{
             ItemsList = res;
             priceF = DrowOrderItems();
+            ItemCount(res.products.length);
         })
         .catch((err) => console.log(`Fetch ERROR by ${LINK}: ${err}`));
+
     }
     else if(id == 'order-search'){
+        DrowLoading('list_order');
+
         let LINK = `http://localhost:3000/api/orders/search?i=${input}`;
         fetch(LINK, {method: 'GET'})
         .then(res => res.json())
@@ -234,12 +239,15 @@ async function SearchHandler(elem){
             res.forEach(row => {
                 container.append(DrowOrderList(row));
             });
+            OrderCount(res.length);
         })
         .catch((err) => console.log(`Fetch ERROR by ${LINK}: ${err}`));
     }
 }
 
 async function GetOrders(){
+    DrowLoading('list_order');
+
     let LINK = 'http://localhost:3000/api/orders';
     fetch(LINK, {method: 'GET'})
     .then(res => res.json())
@@ -250,8 +258,10 @@ async function GetOrders(){
         res.forEach(row => {
             container.append(DrowOrderList(row));
         });
+        OrderCount(res.length);
     })
     .catch((err) => console.log(`Fetch ERROR by ${LINK}: ${err}`));
+    
 }
 
 function DrowOrderStat(ship, processor){
@@ -407,6 +417,7 @@ function DrowOrderItems(){
 function forOrderItems(priceF){
     let container = document.getElementById('table_items');
     container.innerHTML = ' ';
+    DrowLoading('order_items');
     if(ItemsList[0]){
         if(ItemsSort != ''){
             ItemsListSorted = SortItemsBy();
@@ -420,6 +431,10 @@ function forOrderItems(priceF){
                 priceF = DrowOrderItemsList(container, row, priceF);
             });   
         }
+    }
+    let div = document.getElementById('order_items').getElementsByClassName('loading')[0];
+    if(div){
+        div.parentNode.removeChild(div);
     }
     return priceF;
 }
@@ -521,4 +536,20 @@ function DrowOrderItemsList(container, row, priceF){
     }
     container.append(tab);
     return priceF;
+}
+
+function DrowLoading(block){
+    let container = document.getElementById(block);
+    let div = container.getElementsByClassName('loading')[0];
+    if(div){
+        div.parentNode.removeChild(div);
+    }
+    div = document.createElement('div');
+    div.className = 'loading';
+    div.innerHTML = `
+        <div class="circle"></div>
+        <div class="circle"></div>
+        <div class="circle"></div>
+        <div class="circle"></div>`;
+    container.append(div);
 }
