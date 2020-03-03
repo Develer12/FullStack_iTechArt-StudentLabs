@@ -1,0 +1,10 @@
+.emptyImg{
+    margin: 60% 24% 0% 24%;
+    height: 25%;
+    min-height: 100;
+}
+.empty{
+    margin-top: 0 !important;
+    margin-left: auto;
+    margin-right: auto;
+}

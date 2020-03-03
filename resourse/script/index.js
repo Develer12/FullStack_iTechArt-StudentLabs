@@ -141,10 +141,12 @@ function StatusO(elem, id){
     let items = document.getElementsByClassName('status');
     Array.from(items).forEach(item => {
         if(item.id == 'status_item'){
-            if(MobStatus)
+            if(MobStatus){
                 item.classList.add('statusM');
-            else
+            }            
+            else{
                 item.classList.remove('statusM');
+            }
         }
     })
 }
@@ -153,11 +155,13 @@ async function OpenOrder(elem){
     ItemsSort = '';
     let id = elem.id;
     let close = document.getElementById('CloseSideBar');
-    if(!(close.className.indexOf('hidden') + 1))
+    if(!(close.className.indexOf('hidden') + 1)){
         SideBar(close);
+    }
     if(id!=openOrder){
-        if(openOrder)
+        if(openOrder){
             OrderC(document.getElementById(openOrder));
+        }
         OrderO(elem, id);
         let LINK = `http://localhost:3000/api/orders/${id}`;
         fetch(LINK, {method: 'GET'}).then(res => res.json()).then(res =>{
@@ -196,6 +200,12 @@ function OrderO(elem, id){
 function OrderCount(){
     let Count  = document.getElementById('list_order').childElementCount;
     document.getElementById('order_count').innerHTML = `Orders (${Count})`;
+    if(!Count){
+        document.getElementById('list_order').innerHTML = `
+            <img src="resourse/style/img/empty.png" class="emptyImg">
+            <span class="big fat empty">Empty</span>`;
+    }
+
 }
 
 function ItemCount(){
@@ -391,10 +401,11 @@ function forOrderItems(priceF){
                 priceF = DrowOrderItemsList(container, row, priceF);
             });
         }
-        else
+        else{
             ItemsList.forEach(row => {
                 priceF = DrowOrderItemsList(container, row, priceF);
-            });
+            });   
+        }
     }
     return priceF;
 }
