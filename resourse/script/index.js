@@ -192,18 +192,28 @@ function OrderO(elem, id){
 }
 
 function OrderCount(count){
-    let Count  = document.getElementById('list_order').childElementCount;
     document.getElementById('order_count').innerHTML = `Orders (${count})`;
     if(!count){
         document.getElementById('list_order').innerHTML = `
             <img src="resourse/style/img/empty.png" class="emptyImg">
             <span class="big fat empty">Empty</span>`;
     }
-
 }
 
 function ItemCount(count){
+    let empty = document.getElementById('order_items').getElementsByClassName('empty')[0];
+    if(empty){
+        empty.parentNode.removeChild(empty);
+    }
     document.getElementById('items_count').innerHTML = `Line Items (${count})`;
+    if(!count){
+        let div = document.createElement('div');
+        div.setAttribute('class', 'empty');
+        div.innerHTML = `
+                <img src="resourse/style/img/empty.png" class="emptyImg">
+                <span class="big fat empty">Empty</span>`;
+        document.getElementById('order_items').append(div);
+    }
 }
 
 async function SearchHandler(elem){
@@ -222,7 +232,7 @@ async function SearchHandler(elem){
         .then(res =>{
             ItemsList = res;
             priceF = DrowOrderItems();
-            ItemCount(res.products.length);
+            ItemCount(res.length);
         })
         .catch((err) => console.log(`Fetch ERROR by ${LINK}: ${err}`));
 
