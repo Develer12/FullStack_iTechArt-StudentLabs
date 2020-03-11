@@ -35,8 +35,8 @@ app.get('/api/orders/search', (req, res) =>{
     data.forEach(element => {
         if((element.id.indexOf(input) + 1) || 
         (element.OrderInfo.createdAt.indexOf(input) + 1) ||
-        (element.OrderInfo.customer.indexOf(input) + 1) || 
-        (element.OrderInfo.status.indexOf(input) + 1) ||
+        (element.OrderInfo.customer.toLowerCase().indexOf(input.toLowerCase()) + 1) || 
+        (element.OrderInfo.status.toLowerCase().indexOf(input.toLowerCase()) + 1) ||
         (element.OrderInfo.shippedAt.indexOf(input) + 1))
             OrderList.push({
                 id: element.id, 
@@ -57,11 +57,11 @@ app.get('/api/orders/items/search', (req, res) =>{
         if(element.id == id)
             element.products.forEach(elem => {
                 if((elem.id.indexOf(input) + 1) || 
-                (elem.name.indexOf(input) + 1) || 
+                (elem.name.toLowerCase().indexOf(input.toLowerCase()) + 1) || 
                 (elem.price.indexOf(input) + 1) ||
                 (elem.totalPrice.indexOf(input) + 1) || 
                 (elem.currency.indexOf(input) + 1) ||
-                (elem.quantity.indexOf(input) + 1))
+                (elem.quantity.toLowerCase().indexOf(input.toLowerCase()) + 1))
                     ItemsList.push({
                         id: elem.id,
                         name: elem.name,
