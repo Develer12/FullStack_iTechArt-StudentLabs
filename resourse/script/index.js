@@ -92,7 +92,7 @@ function SideBar(elem){
 
 function start(){
     StatusO(document.getElementById(openInfo), openInfo);
-    DrowLoading('list_order');
+    Drowjsloading('list_order');
     GetOrders();
     checkMobile();
 }
@@ -123,7 +123,7 @@ function StatusO(elem, id){
     openInfo = id;
     document.getElementById('order_status').innerHTML=Stat[openInfo];
 
-    let items = document.getElementsByClassName('status');
+    let items = document.getElementsByClassName('js-status');
     Array.from(items).forEach(item => {
         if(item.id == 'status_item'){
             if(MobStatus){
@@ -150,7 +150,7 @@ async function OpenOrder(elem){
         OrderO(elem, id);
         document.getElementById('order-items-search').querySelector('input').value = '';
 
-        DrowLoading('order_items');
+        Drowjsloading('order_items');
         let tab = document.getElementById('table_items');
         if(tab.childElementCount){
             tab.innerHTML = '';
@@ -197,22 +197,22 @@ function OrderCount(count){
     if(!count){
         document.getElementById('list_order').innerHTML = `
             <img src="resourse/style/img/empty.png" class="emptyImg">
-            <span class="big fat empty">Empty</span>`;
+            <span class="big fat js-empty">Empty</span>`;
     }
 }
 
 function ItemCount(count){
-    let empty = document.getElementById('order_items').getElementsByClassName('empty')[0];
+    let empty = document.getElementById('order_items').getElementsByClassName('js-empty')[0];
     if(empty){
         empty.parentNode.removeChild(empty);
     }
     document.getElementById('items_count').innerHTML = `Line Items (${count})`;
     if(!count){
         let div = document.createElement('div');
-        div.setAttribute('class', 'empty');
+        div.setAttribute('class', 'js-empty');
         div.innerHTML = `
                 <img src="resourse/style/img/empty.png" class="emptyImg">
-                <span class="big fat empty">Empty</span>`;
+                <span class="big fat js-empty">Empty</span>`;
         document.getElementById('order_items').append(div);
     }
 }
@@ -221,7 +221,7 @@ async function SearchHandler(elem){
     let input = elem.querySelector('input').value;
     let id = elem.id;
     if(id == 'order-items-search'){
-        DrowLoading('order_items');
+        Drowjsloading('order_items');
         let tab = document.getElementById('table_items');
         if(tab.childElementCount){
             tab.innerHTML = '';
@@ -239,7 +239,7 @@ async function SearchHandler(elem){
 
     }
     else if(id == 'order-search'){
-        DrowLoading('list_order');
+        Drowjsloading('list_order');
 
         let LINK = `http://localhost:3000/api/orders/search?i=${input}`;
         fetch(LINK, {method: 'GET'})
@@ -257,7 +257,7 @@ async function SearchHandler(elem){
 }
 
 async function GetOrders(){
-    DrowLoading('list_order');
+    Drowjsloading('list_order');
 
     let LINK = 'http://localhost:3000/api/orders';
     fetch(LINK, {method: 'GET'})
@@ -282,19 +282,19 @@ function DrowOrderStat(ship, processor){
         <hr>
         <table class="status-list">
             <thead>
-                <tr id="status_item" class="status">
+                <tr id="status_item" class="js-status">
                     <td>Name:</td>
                     <td class="status black">${processor.name}</td>
                 </tr>
-                <tr id="status_item" class="status">
+                <tr id="status_item" class="js-status">
                     <td>Employee ID:</td>
                     <td class="status black">${processor.employeeId}</td>
                 </tr>
-                <tr id="status_item" class="status">
+                <tr id="status_item" class="js-status">
                     <td>Job Title:</td>
                     <td class="status black">${processor.jobTitle}</td>
                 </tr>
-                <tr id="status_item" class="status">
+                <tr id="status_item" class="js-status">
                     <td>Phone:</td>
                     <td class="status black">
                         <a href="tel:${processor.phone}">${processor.phone}</a>
@@ -310,23 +310,23 @@ function DrowOrderStat(ship, processor){
         <hr>
         <table class="status-list">
             <thead>
-                <tr id="status_item" class="status">
+                <tr id="status_item" class="js-status">
                     <td>Name:</td>
                     <td class="status black">${ship.name}</td>
                 </tr>
-                <tr id="status_item" class="status">
+                <tr id="status_item" class="js-status">
                     <td>Street:</td>
                     <td class="status black">${ship.Address}</td>
                 </tr>
-                <tr id="status_item" class="status">
+                <tr id="status_item" class="js-status">
                     <td>Zip Code / City:</td>
                     <td class="status black">${ship.ZIP}</td>
                 </tr>
-                <tr id="status_item" class="status">
+                <tr id="status_item" class="js-status">
                     <td>Region:</td>
                     <td class="status black">${ship.Region}</td>
                 </tr>
-                <tr id="status_item" class="status">
+                <tr id="status_item" class="js-status">
                     <td>Country:</td>
                     <td class="status black">${ship.Country}</td>
                 </tr>
@@ -428,7 +428,7 @@ function DrowOrderItems(){
 function forOrderItems(priceF){
     let container = document.getElementById('table_items');
     container.innerHTML = ' ';
-    DrowLoading('order_items');
+    Drowjsloading('order_items');
     if(ItemsList[0]){
         if(ItemsSort != ''){
             ItemsListSorted = SortItemsBy();
@@ -443,7 +443,7 @@ function forOrderItems(priceF){
             });   
         }
     }
-    let div = document.getElementById('order_items').getElementsByClassName('loading')[0];
+    let div = document.getElementById('order_items').getElementsByClassName('js-loading')[0];
     if(div){
         div.parentNode.removeChild(div);
     }
@@ -549,14 +549,14 @@ function DrowOrderItemsList(container, row, priceF){
     return priceF;
 }
 
-function DrowLoading(block){
+function Drowjsloading(block){
     let container = document.getElementById(block);
-    let div = container.getElementsByClassName('loading')[0];
+    let div = container.getElementsByClassName('js-loading')[0];
     if(div){
         div.parentNode.removeChild(div);
     }
     div = document.createElement('div');
-    div.className = 'loading';
+    div.className = 'js-loading';
     div.innerHTML = `
         <div class="circle"></div>
         <div class="circle"></div>

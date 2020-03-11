@@ -1,9 +1,9 @@
 /* Load animation */
-div.loading{
+div.js-loading{
     margin: auto auto auto auto;
     min-height: 100;
 }
-.order-scroll div.loading{
+.order-scroll div.js-loading{
     margin: 12% 40% auto 40%;
 }
   div.circle {
