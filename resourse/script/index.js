@@ -148,6 +148,7 @@ async function OpenOrder(elem){
             OrderC(document.getElementById(openOrder));
         }
         OrderO(elem, id);
+        document.getElementById('order-items-search').querySelector('input').value = '';
 
         DrowLoading('order_items');
         let tab = document.getElementById('table_items');
