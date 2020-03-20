@@ -1,0 +1,14 @@
+input[type="button"]{
+    margin: 1% 2% 1% 2%;
+    min-height: 20px;
+    height: 3%;
+    text-align:center;
+    font-size: 1.4em;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: 1px solid black;
+}
+input[type="button"]:hover{
+    background: #CFCFCF;
+}
