@@ -1,26 +1,26 @@
 const express = require('express');
 const Route = express.Router();
 const answer = require(__dirname + '/funcs');
+const fUpload = require('express-fileupload');
+const fs = require('fs');
+
+Route.use(fUpload({createParentPaths : true}));
 
 
 Route.get('/', (req, res)=>{
     res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
     res.end(`
-        <form id="form">
-            <input name="x" placeholder="x">
-            <input name="y" placeholder="y">
+        <form id="form" enctype="multipart/form-data">
+            <input type="file" name="file">
             <br>
-            <input type="button" onclick="sendForm(this)" value="SUM">
-            <input type="button" onclick="sendForm(this)" value="SUB">
-            <input type="button" onclick="sendForm(this)" value="CONC">
-            <br>
+            <input type="button" onclick="sendForm(this)" value="SEND">
             <input type="button" onclick="sendForm(this)" value="CANCEL">
         </form>
         <script>
             function sendForm(butt){
                 let form = document.getElementById('form');
                 form.method = 'post';
-                form.action = '/t3?butt=' + butt.value;
+                form.action = '/t7/upload?butt=' + butt.value;
 
                 form.submit();
             }
@@ -28,20 +28,21 @@ Route.get('/', (req, res)=>{
     `);
 });
 
-Route.post('/', (req, res)=>{
+Route.post('/upload', (req, res)=>{
     let butt = req.query.butt.toLowerCase();
     if(butt != 'cancel'){
-        let x = req.body.x;
-        let y = req.body.y;
+        if(req.files){
+            let File = req.files.file;
 
-        if(butt != 'conc'){
-            x = Number(x);
-            y = Number(y);
-            (butt == 'sum') ? answer.sum(res, x, y) : answer.sub(res, x, y);
-
-        }
-        else{
-            answer.conc(res, x, y);
+            File.mv(__dirname + '/files/' + File.name, (err) =>
+            {
+                if (err) {
+                    throw err;
+                }
+                else{
+                    answer.send(res);
+                }
+            });
         }
     }
     else{

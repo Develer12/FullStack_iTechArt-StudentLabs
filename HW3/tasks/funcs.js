@@ -21,5 +21,8 @@ module.exports = {
         res.writeHead(200, {'Content-Type': 'text/plain; charset=utf-8'});
         res.end(`CANCEL`);
     },
-
+    send: (res) => {
+        res.writeHead(200, {'Content-Type': 'text/plain; charset=utf-8'});
+        res.end(`Файл получен`);
+    },
 };
