@@ -21,19 +21,34 @@ function sendForm(butt){
 
 let answer = {
     sum: (x, y) => {
-        let z = x + y;
+        if(x && y){
+            let z = x + y;
     
-        alert(`${x} + ${y} = ${z}`);
+            alert(`${x} + ${y} = ${z}`);
+        }
+        else{
+            alert('Input valid values');
+        }
     },
     sub: (x, y) => {
-        let z = x - y;
+        if(x && y){
+            let z = x - y;
     
-        alert(`${x} - ${y} = ${z}`);
+            alert(`${x} - ${y} = ${z}`);
+        }
+        else{
+            alert('Input valid values');
+        }
     },
     conc: (x, y) => {
-        let z = x + y;
+        if(x && y){
+            let z = x + y;
     
-        alert(`${x} + ${y} = ${z}`);
+            alert(`${x} + ${y} = ${z}`);
+        }
+        else{
+            alert('Input valid values');
+        }
     },
     cancel: () => {
         alert(`CANCEL`);
