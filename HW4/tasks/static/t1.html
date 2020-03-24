@@ -1,0 +1,45 @@
+<html>
+    <head>
+
+    </head>
+    <body>
+        <button width="67px" onclick="WSStart()">WSStart</button>
+        <button width="67px" onclick="WSStop()">WSStop</button>
+        <div id="msg" style="display: flex; flex-direction: column;">
+
+        </div>
+
+        <script>
+            let socket;
+            let timer;
+
+            function WSStart(){
+                let k = 0;
+                socket = new WebSocket('ws:/localhost:4000/t1');
+
+                socket.onopen = () =>{
+                    console.log('Open socket');
+                    timer = setInterval(()=>{socket.send(++k)}, 2000);
+                };
+                socket.onclose = (e) => {
+                    console.log('Socket closed', e);
+                };
+                socket.onmessage = (e) => {
+                    let list = document.getElementById('msg');
+                    let sp = document.createElement('span');
+
+                    sp.innerHTML = `<span>${e.data}</span>`;
+                    list.append(sp);
+                };
+                socket.onerror = function(e) {
+                    alert("Error: " + error.message);
+                };
+            }
+
+            function WSStop(){
+                clearInterval(timer);
+                socket.close();
+            }
+        </script>
+    </body>
+</html>
