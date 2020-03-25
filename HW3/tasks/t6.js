@@ -1,24 +1,40 @@
-const express = require('express');
-const Route = express.Router();
-const xmlBodyParser = require('express-xml-bodyparser');
 var xml2json = require('xml-js');
+const rt = require('../routing');
+let url = require('url');
+let qs = require('querystring');
 
-Route.use(xmlBodyParser());
+module.exports = {
+    post: (req, res)=>{
+        let params = url.parse(req.url, true).query;
+        let getUrl = url.parse(req.url, true).pathname;
 
-Route.post('/', (req, res)=>{
-    res.writeHead(200, {'Content-Type': 'application/xml; charset=utf-8'});
-    let answer;
-
-    if(req.headers['content-type'] == 'application/xml'){
-        let options = {compact: true};
-        answer = xml2json.json2xml(req.body, options);
+        if(!rt.GetUrlPart(getUrl, 3)){
+            switch ('/'+rt.GetUrlPart(getUrl, 2)){
+                case '/':{
+                    body = '';
+                    req.on('data', chunk => {
+                        body += chunk;
+                    });
+                    req.on('end', async () => {
+                        res.writeHead(200, {'Content-Type': 'application/xml; charset=utf-8'});
+                        let answer;
+                    
+                        if(req.headers['content-type'] == 'application/xml'){
+                            answer = body;
+                        }
+                        else{
+                            answer = `Wrong content-type`;
+                        }
+                    
+                        res.end(`<SERVER>${answer}</SERVER>`);
+                    });
+                    break;
+                }
+                default: rt.HTTP404(req, res);  break;
+            }
+        }
+        else{
+            rt.HTTP404(req, res);
+        }
     }
-    else{
-        answer = `Wrong content-type`;
-    }
-
-    res.end(`<SERVER>${answer}</SERVER>`);
-});
-  
-
-module.exports = Route;
+};
