@@ -12,44 +12,62 @@ clientsList = [];
 wsserv.on('connection', (ws) =>{
     let ip = ws._socket.remoteAddress;
 
-    log.write(`WS connection for: ${ip}\n`);
-    clientsList.push(ws);
+    let clientId = ws._socket[Object.getOwnPropertySymbols(ws._socket)[2]];
+    clientId = clientId[Object.getOwnPropertySymbols(clientId)[2]];
+    clientsList.push({id: clientId});
+
+
+    log.write(`WS connection\n`);
+    ws.send(`Id${clientId} ws`);
+    
+    sendBroad();
 
     ws.on('pong', (data)=>{
-        if(data == 'alive?'){
-            let isActive = clientsList.find(client => ws == client);
-            if(isActive){
-                console.log('act')
-            }
-            else{
-                console.log('dead')
-
-                clientsList.filter(client => ws != client);
-            }
-            console.log(clientsList.length);
+        if(data){
+            log.write(`Active ping/pong by ${clientId}\n`);
         }
     });
 
     ws.on('message', message =>{
-        log.write(`${ip}: ${message}\n`);
-        ws.send(message);
+        let clid;
+        let rex = new RegExp('Id(.*?) ws', "gmi");
+        while(re = rex.exec(message)){ clid=re[1];}
+        if(clid){
+            let isActive = clientsList.find(client => clid == client.id);
+            if(!isActive){
+                clientsList.push({id: clid});
+            }
+        }
+        else{
+            ws.send(message);
+        }
     });
 })
 .on('error', (e)=> {log.write('WS server error\n', e);});
-let timer = setInterval(()=> sendBroad(), 5000);
+let timerBroad = setInterval(()=> sendBroad(), 5000);
+let timerAlive = setInterval(()=> checkAlive(), 5000);
 
 function sendBroad(){
     wsserv.clients.forEach((client)=>{
-        client.ping('alive?');
         if(client.readyState === WebSocket.OPEN){
-            let isActive = clientsList.find(ws => ws == client);
-            if(isActive){
-
-            }
-            else{
-                clientsList.filter(ws => ws != client);
-            }
+            client.send('new list');
+            clientsList.forEach(cl =>{  
+                client.send(`Id${cl.id} cl`);
+            });
         }
+    });  
+}
+
+function checkAlive(){
+    clientsList.length = 0;
+
+    wsserv.clients.forEach((client)=>{
+        let clientId = client._socket[Object.getOwnPropertySymbols(client._socket)[2]];
+        clientId = clientId[Object.getOwnPropertySymbols(clientId)[2]];
+
+        client.send(`Id${clientId} ws`);
+
+        client.ping('alive?');
     });  
 }
 

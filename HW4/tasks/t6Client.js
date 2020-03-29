@@ -18,7 +18,7 @@ socket.on('open', () =>{
             if(Number.isInteger(Number(fname))){
                 files[i++] = fname;
             }
-        })
+        });
 
         files.sort((a, b) => {
             if(Number.isInteger(Number(a)) || Number.isInteger(Number(b))){

@@ -13,9 +13,9 @@ let RPC = ()=>{
     input.setEncoding('utf-8');
     log.write('t8> ');
     input.on('data', data => {
+        data = data.slice(0, 3);
+        log.write(`|${data}|\n`);
         if(data.length == 3){
-            data = data.slice(0, 3);
-            log.write(`|${data}|\n`);
             eventSocket.emit(data);
             log.write('t8> ');
         }

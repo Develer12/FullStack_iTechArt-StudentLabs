@@ -1,16 +1,19 @@
-const WebSocket = require('ws');
+const WebSocket = require('ws'); //подключение модуля вебсокета
 
-const ws = new WebSocket('ws://localhost:4001/t2');
+const ws = new WebSocket('ws://localhost:4001/t2'); //подключение сокета по заданному адресу
+let log = process.stdout;
 
-ws.on('connection', (ws) =>
-{
-    console.log('Download started');
-    const duplex = WebSocket.createWebSocketStream(ws, {encoding: 'utf8'});
+ws.on('open', () =>{ //событие вызываемое при успешном открытии сокета
+    log.write(`Socket connected\n`);
 
-    duplex.pipe(process.stdout);
-    process.stdin.pipe(duplex);
+    const duplex = WebSocket.createWebSocketStream(ws, {encoding: 'utf8'}); //создание потока ("трубы") сокета для передачи данных
 
-    let uf = fs.createReadStream(__dirname +`/files/file.txt`);
-    uf.pipe(duplex);
+    duplex.pipe(process.stdout); //вывод данных в консоль, оправляемых сервером
+    process.stdin.pipe(duplex); //ввод данных из консоль и отправка их по "трубе" на сервер
 })
-.on('error', (e)=> {console.log('WS server error ', e);});
+.on('close', () => { //событие вызываемое при закрытии сокета
+    log.write(`Socket closed\n`);
+})
+.on('error', (e)=> { //событие вызываемое при ошибке сокета
+    log.write(`WS server error:\n ${e} \n`);
+});

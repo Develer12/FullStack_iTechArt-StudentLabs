@@ -12,6 +12,7 @@
         <script>
             let socket;
             let timer;
+            let clientId;
 
             function WSStart(){
                 let k = 0;
@@ -19,7 +20,11 @@
 
                 socket.onopen = () =>{
                     console.log('Open socket');
-                    timer = setInterval(()=>{socket.send(++k)}, 2000);
+                    timer = setInterval(()=>{
+                        if(clientId){
+                            socket.send(`Id${clientId}: ${++k} msg`);
+                        }
+                    }, 3000);
                 };
                 socket.onclose = (e) => {
                     clearInterval(timer);
@@ -27,17 +32,32 @@
                     console.log('Socket closed', e);
                 };
                 socket.onmessage = (e) => {
-                    let list = document.getElementById('msg');
-                    let sp = document.createElement('span');
+                    console.log('|||:'+e.data)
 
-                    sp.innerHTML = `<span>${e.data}</span>`;
-                    list.append(sp);
-                };
-                socket.onpong = (data)=>{
-                    socket.ping(data);
+                    let clid;
+                    let rex = new RegExp('Id(.*?) ws', "gmi");
+                    while(re = rex.exec(e.data)){ clid=re[1];}
+
+                    let id;
+                    rex = new RegExp('(.*?) cl', "gmi");
+                    while(re = rex.exec(e.data)){ id=re[1];}
+                    if(e.data == 'new list'){
+                        let list = document.getElementById('msg');
+                        list.innerHTML = '';
+                    }
+                    if(id){
+                        let list = document.getElementById('msg');
+                        let sp = document.createElement('span');
+                        sp.innerHTML = `<span>Active client: ${id}</span>`;
+                        list.append(sp);
+                    }
+                    else if(clid){
+                        clientId = clid;
+                        socket.send(`Id${clientId} ws`);
+                    }
                 };
                 socket.onerror = function(e) {
-                    alert("Error: " + error.message);
+                    alert("Error: " + e.message);
                 };
             }
 
