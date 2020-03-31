@@ -1,0 +1,36 @@
+<html>
+    <head>
+
+    </head>
+    <body onload="WSStart()">
+        <div id="msg" style="display: flex; flex-direction: column;">
+
+        </div>
+
+        <script>
+            let socket;
+
+            function WSStart(){
+                socket = new WebSocket('ws:/localhost:4000/notif');
+
+                socket.onopen = () =>{
+                    console.log('Open socket');
+                };
+                socket.onclose = (e) => {
+                    socket.close();
+                    console.log('Socket closed', e);
+                };
+                socket.onmessage = (e) => {
+                    console.log('|||:'+e.data)
+                    let list = document.getElementById('msg');
+                    let sp = document.createElement('span');
+                    sp.innerHTML = `<span>File ${e.data}</span>`;
+                    list.append(sp);
+                };
+                socket.onerror = function(e) {
+                    alert("Error: " + e.message);
+                };
+            }
+        </script>
+    </body>
+</html>

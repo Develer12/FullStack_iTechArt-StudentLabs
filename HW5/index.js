@@ -234,6 +234,7 @@ let HTTP404 = (res)=>{
 
 const server = http.createServer().listen(PORT, HOST, (v) =>{
     console.log(`Listening on http://localhost:${PORT}`);
+    let notif = require(__dirname + '/notifications');
 })
 .on('error', (e) => {console.log(`${URL} | error: ${e.code}`)})
 .on('request', http_handler);
