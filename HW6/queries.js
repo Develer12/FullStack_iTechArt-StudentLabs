@@ -6,7 +6,7 @@ const config ={
   password: 'admin',
   server:'DESKTOP-U4BLHC6', Database:'Nodejs'
 };
-let dbname = 'use Nodejs;';
+let dbname = `use ${config.Database};`;
 
 class DB {
     constructor(){
@@ -24,13 +24,19 @@ class DB {
         });
     }
 
+    GetOne(tab, id){
+        return connectionPool.then(pool => {
+            return pool.query(`${dbname} SELECT * FROM ${tab} WHERE ${tab} = '${id}'`);
+        });
+    }
+
     Update(tab, fields){
         return connectionPool.then(pool =>{
             let req = pool.request();
             let command = `${dbname} UPDATE ${tab} SET `;
             let tabid = '';
             Object.keys(fields).forEach(field =>{
-                if (field != tab)
+                if (field.toUpperCase() != tab.toUpperCase())
                     command += `${field} = '${fields[field]}',`;
                 else tabid = fields[field];
             });
