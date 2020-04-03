@@ -22,6 +22,7 @@ let GET_handler = (req, res)=>{
         case '/api':
             if(!rt.GetUrlPart(Path_forGet, 3)){
                 let tab = rt.GetUrlPart(Path_forGet, 2);
+                tab = rt.parseTab(tab);
                 API.get(tab, res);
             }
             else{
@@ -46,6 +47,7 @@ let POST_handler = (req, res)=>{
                 });
                 req.on('end', async () => {
                     let tab = rt.GetUrlPart(Path_forGet, 2);
+                    tab = rt.parseTab(tab);
                     API.post(tab, body, res);
                 });
             }
@@ -71,6 +73,7 @@ let PUT_handler = (req, res)=>{
                 });
                 req.on('end', async () => {
                     let tab = rt.GetUrlPart(Path_forGet, 2);
+                    tab = rt.parseTab(tab);
                     API.put(tab, body, res);
                 });
             }
@@ -90,6 +93,7 @@ let DELETE_handler = (req, res)=>{
         case '/api':
             if(!rt.GetUrlPart(Path_forGet, 4)){
                 let tab = rt.GetUrlPart(Path_forGet, 2);
+                tab = rt.parseTab(tab);
                 let id = rt.GetUrlPart(Path_forGet, 3);
                 API.delete(tab, id, res);
             }

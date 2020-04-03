@@ -1,16 +1,7 @@
 const Sequelize = require('sequelize');
 let model = require('./Model/DB_Model');
 
-const config =  {
-    username: 'Develer12',
-    password: 'admin',
-    database: 'NodeTran',
-    host: 'localhost',
-    dialect: 'mssql',
-    dialectOptions: {
-        multipleStatements: true
-    }
-}
+const config =  require('./config');
 let sequelize;
 
 class DB {
@@ -36,6 +27,10 @@ class DB {
 
     Get(tab){
         return model[tab](Sequelize, sequelize).findAll();
+    }
+
+    GetOne(tab, id){
+        return model[tab](Sequelize, sequelize).findOne({'where': {[tab]: id}});
     }
 
     Update(tab, body){

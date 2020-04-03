@@ -1,0 +1,10 @@
+{
+    "username": "Develer12",
+    "password": "admin",
+    "database": "NodeTran",
+    "host": "localhost",
+    "dialect": "mssql",
+    "dialectOptions": {
+        "multipleStatements": true
+    }
+}
