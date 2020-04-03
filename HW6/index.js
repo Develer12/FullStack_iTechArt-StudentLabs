@@ -10,7 +10,7 @@ let tabList = ['teacher', 'subject', 'pulpit', 'faculty', 'auditorium', 'auditor
 let checkTab = (tab) =>{
     let flag;
     tabList.forEach(t => {
-        if(t == tab){
+        if(t.toLowerCase() == tab.toLowerCase()){
             flag = true;
         }
     });
