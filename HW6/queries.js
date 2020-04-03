@@ -1,7 +1,7 @@
 const sql = require('mssql');
 
 let connectionPool;
-const config = require('./config')
+const config = require('./config');
 let dbname = `use ${config.database};`;
 
 class DB {

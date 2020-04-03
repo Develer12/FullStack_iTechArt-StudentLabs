@@ -6,6 +6,18 @@ const DB = new Db();
 
 const PORT = 3000;
 
+let tabList = ['teacher', 'subject', 'pulpit', 'faculty', 'auditorium', 'auditorium_type'];
+let checkTab = (tab) =>{
+    let flag;
+    tabList.forEach(t => {
+        if(t == tab){
+            flag = true;
+        }
+    });
+    return flag
+};
+
+
 let HTTP404 = (req, res) =>{
     console.log(`${req.method}: ${req.url}, HTTP status 404`);
     res.writeHead(404, {'Content-Type' : 'application/json; charset=utf-8'});
@@ -42,14 +54,19 @@ let GET_handler = (req, res)=>{
                 tab = parseTab(tab);
                 console.log(`Get ${tab}`);
                 res.writeHead(200, {'Content-Type': 'application/json; charset=utf-8'});
-                DB.Get(tab)
-                .then(records =>{
-                    res.end(JSON.stringify(records.recordset));
-                })
-                .catch(error =>{
-                    res.statusCode = 400;
-                    res.end(JSON.stringify({error: String(error)}));
-                });
+                if(checkTab(tab)){
+                    DB.Get(tab)
+                    .then(records =>{
+                        res.end(JSON.stringify(records.recordset));
+                    })
+                    .catch(error =>{
+                        res.statusCode = 400;
+                        res.end(JSON.stringify({error: String(error)}));
+                    });
+                }
+                else{
+                    HTTP404(req, res);
+                }
             }
             else{
                 HTTP404(req, res);
