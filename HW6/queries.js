@@ -1,12 +1,8 @@
 const sql = require('mssql');
 
 let connectionPool;
-const config ={
-  user:'Develer12',
-  password: 'admin',
-  server:'DESKTOP-U4BLHC6', Database:'Nodejs'
-};
-let dbname = `use ${config.Database};`;
+const config = require('./config')
+let dbname = `use ${config.database};`;
 
 class DB {
     constructor(){
