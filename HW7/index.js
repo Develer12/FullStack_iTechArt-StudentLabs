@@ -23,7 +23,12 @@ let GET_handler = (req, res)=>{
             if(!rt.GetUrlPart(Path_forGet, 3)){
                 let tab = rt.GetUrlPart(Path_forGet, 2);
                 tab = rt.parseTab(tab);
-                API.get(tab, res);
+                if(rt.checkTab(tab)){
+                    API.get(tab, res);
+                }
+                else{
+                    rt.HTTP404(req, res); 
+                }
             }
             else{
                 rt.HTTP404(req, res);
@@ -48,7 +53,12 @@ let POST_handler = (req, res)=>{
                 req.on('end', async () => {
                     let tab = rt.GetUrlPart(Path_forGet, 2);
                     tab = rt.parseTab(tab);
-                    API.post(tab, body, res);
+                    if(rt.checkTab(tab)){
+                        API.post(tab, body, res);
+                    }
+                    else{
+                        rt.HTTP404(req, res);
+                    }
                 });
             }
             else{
@@ -74,7 +84,12 @@ let PUT_handler = (req, res)=>{
                 req.on('end', async () => {
                     let tab = rt.GetUrlPart(Path_forGet, 2);
                     tab = rt.parseTab(tab);
-                    API.put(tab, body, res);
+                    if(rt.checkTab(tab)){
+                        API.put(tab, body, res);
+                    }
+                    else{
+                        rt.HTTP404(req, res); 
+                    }
                 });
             }
             else{
@@ -95,7 +110,12 @@ let DELETE_handler = (req, res)=>{
                 let tab = rt.GetUrlPart(Path_forGet, 2);
                 tab = rt.parseTab(tab);
                 let id = rt.GetUrlPart(Path_forGet, 3);
-                API.delete(tab, id, res);
+                if(rt.checkTab(tab)){
+                    API.delete(tab, id, res);
+                }
+                else{
+                    rt.HTTP404(req, res); 
+                }
             }
             else{
                 rt.HTTP404(req, res);

@@ -35,7 +35,7 @@ module.exports = {
     checkTab: (tab) =>{
         let flag;
         tabList.forEach(t => {
-            if(t == tab){
+            if(t.toUpperCase() == tab.toUpperCase()){
                 flag = true;
             }
         });
@@ -52,3 +52,5 @@ module.exports = {
         res.end('Resourse not found');
     }
 };
+
+let tabList = ['teacher', 'subject', 'pulpit', 'faculty', 'auditorium', 'auditorium_type'];

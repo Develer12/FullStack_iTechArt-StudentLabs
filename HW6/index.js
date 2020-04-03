@@ -53,8 +53,9 @@ let GET_handler = (req, res)=>{
                 let tab = GetUrlPart(Path_forGet, 2);
                 tab = parseTab(tab);
                 console.log(`Get ${tab}`);
-                res.writeHead(200, {'Content-Type': 'application/json; charset=utf-8'});
                 if(checkTab(tab)){
+                    res.writeHead(200, {'Content-Type': 'application/json; charset=utf-8'});
+
                     DB.Get(tab)
                     .then(records =>{
                         res.end(JSON.stringify(records.recordset));
@@ -91,15 +92,21 @@ let POST_handler = (req, res)=>{
                     let tab = GetUrlPart(Path_forGet, 2);
                     tab = parseTab(tab);
                     console.log(`Post ${tab}`);
-                    res.writeHead(200, {'Content-Type': 'application/json; charset=utf-8'});
-                    DB.Insert(tab, body)
-                    .then(() =>{
-                        res.end(JSON.stringify(body));
-                    })
-                    .catch(error =>{
-                        res.statusCode = 400;
-                        res.end(JSON.stringify({error: String(error)}));
-                    });
+                    if(checkTab(tab)){
+                        res.writeHead(200, {'Content-Type': 'application/json; charset=utf-8'});
+    
+                        DB.Insert(tab, body)
+                        .then(() =>{
+                            res.end(JSON.stringify(body));
+                        })
+                        .catch(error =>{
+                            res.statusCode = 400;
+                            res.end(JSON.stringify({error: String(error)}));
+                        });    
+                    }
+                    else{
+                        HTTP404(req, res);
+                    }                    
                 });
             }
             else{
@@ -126,15 +133,27 @@ let PUT_handler = (req, res)=>{
                     tab = parseTab(tab);
                     console.log(`Put ${tab}`);
                     console.log(JSON.stringify(body));
-                    res.writeHead(200, {'Content-Type': 'application/json; charset=utf-8'});
-                    DB.Update(tab, body)
-                    .then(() =>{
-                        res.end(JSON.stringify(body));
-                    })
-                    .catch(error =>{
-                        res.statusCode = 400;
-                        res.end(JSON.stringify({error: String(error)}));
-                    });
+                    if(checkTab(tab)){
+                        res.writeHead(200, {'Content-Type': 'application/json; charset=utf-8'});
+    
+                        DB.Update(tab, body)
+                        .then((records) =>{
+                            if (records.rowsAffected == 1){
+                                res.end(JSON.stringify(body));
+                            }
+                            else {
+                                res.statusCode = 400;
+                                res.end(JSON.stringify({error: 'This records not founded'}));
+                            }
+                        })
+                        .catch(error =>{
+                            res.statusCode = 400;
+                            res.end(JSON.stringify({error: String(error)}));
+                        });
+                    }
+                    else{
+                        HTTP404(req, res);
+                    }
                 });
             }
             else{
@@ -155,23 +174,36 @@ let DELETE_handler = (req, res)=>{
                 let id = GetUrlPart(Path_forGet, 3);
                 tab = parseTab(tab);
                 console.log(`Delete ${tab}`);
-                res.writeHead(200, {'Content-Type': 'application/json; charset=utf-8'});
-    
-                let deleted;
-                DB.GetOne(tab, id)
-                .then((record) => {
-                    deleted = record.recordset;
-                    DB.Delete(tab, id)
-                    .then(() => res.end(JSON.stringify(deleted)))
+                if(checkTab(tab)){
+                    res.writeHead(200, {'Content-Type': 'application/json; charset=utf-8'});
+
+                    let deleted;
+                    DB.GetOne(tab, id)
+                    .then((record) => {
+                        deleted = record.recordset;
+                        DB.Delete(tab, id)
+                        .then((records) => {
+                            if (records.rowsAffected == 1){
+                                res.end(JSON.stringify(deleted));
+                            }
+                            else {
+                                res.statusCode = 400;
+                                res.end(JSON.stringify({error: 'This records not founded'}));
+                            }
+                        })
+                        .catch(error =>{
+                            res.statusCode = 400;
+                            res.end(JSON.stringify({error: String(error)}));
+                        });
+                    })
                     .catch(error =>{
                         res.statusCode = 400;
                         res.end(JSON.stringify({error: String(error)}));
                     });
-                })
-                .catch(error =>{
-                    res.statusCode = 400;
-                    res.end(JSON.stringify({error: String(error)}));
-                });
+                }
+                else{
+                    HTTP404(req, res);
+                }    
             }
             else{
                 HTTP404(req, res);
