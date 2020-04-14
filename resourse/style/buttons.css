@@ -96,6 +96,33 @@
     padding-right: 0;
     padding-bottom: 40%;
 }
+.delOrder-ico{
+    background-image: url(button/delete.png);
+    background-size: 25px 25px;
+    background-repeat: no-repeat;
+    position: relative;
+    margin: 30% -15 10% 15;
+    padding-right: 0;
+    padding-bottom: 40%;
+}
+.editItem-ico{
+    background-image: url(button/edit.png);
+    background-size: 25px 23px;
+    background-repeat: no-repeat;
+    position: relative;
+    margin: 30% -15 10% 15;
+    padding-right: 0;
+    padding-bottom: 40%;
+}
+.editOrder-ico{
+    background-image: url(button/edit.png);
+    background-size: 22px 22px;
+    background-repeat: no-repeat;
+    position: relative;
+    margin: 0;
+    padding-right: 0;
+    padding-bottom: 2%;
+}
 .arrowD-ico{
     background-image: url(button/arrowD.png);
     background-size: 14px 20px;    

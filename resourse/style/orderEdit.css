@@ -4,6 +4,9 @@
     border: solid 1.5px #d9e2eb;
     box-shadow: 10px -5px 20px rgba(65, 64, 64, 0.3);
     height: auto;
+    max-height: 90%;
+    overflow-y: auto;
+    overflow-x: hidden;
     width: 80%;
     max-width: 600;
     background-color: white;
