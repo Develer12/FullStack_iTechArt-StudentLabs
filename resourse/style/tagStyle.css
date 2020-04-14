@@ -79,7 +79,7 @@ header{
 /* Style for footer tags */
 footer{
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
     min-height: 40;
     background-color: #2f3b47;
 }

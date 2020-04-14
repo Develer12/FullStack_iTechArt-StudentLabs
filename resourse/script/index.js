@@ -31,6 +31,10 @@ window.addEventListener(`resize`, event => {
     checkMobile();
 }, false);
 
+let isMobile = () =>{
+  return (/Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Opera Mini/i).test(navigator.userAgent); 
+};
+
 function checkMobile(){
     let list_bar = document.getElementById('list_bar');
     let order_bar = document.getElementById('order_bar');
@@ -52,7 +56,7 @@ function checkMobile(){
         StatusO(document.getElementById(openInfo), openInfo);
         DrowOrderItems();
     }
-    else if((window.innerWidth > window.innerHeight) && MobStatus){
+    else if(((window.innerWidth > window.innerHeight) && MobStatus) || isMobile()){
         MobStatus = false;
         list_bar.classList = ' ';
         list_bar.classList.add('list-bar');
@@ -74,6 +78,19 @@ function SideBar(elem){
     let sidebar = document.getElementById('list_bar');
     let close = document.getElementById('CloseSideBar');
     if(id == 'OpenSideBar'){
+        let bar = document.getElementById('order_bar');
+
+        document.addEventListener('click', e => {
+            let target = e.target;  
+            let isbar = target == bar || bar.contains(target);
+            let isopen = elem.contains(target);
+            let SideBarActive = close.classList.contains('visible');     
+            if (isbar && SideBarActive && !isopen) {
+                SideBar(close);
+            }
+        });
+
+
         close.classList.remove('hidden');
         close.classList.add('visible');
         sidebar.classList = ' ';
@@ -126,7 +143,7 @@ function StatusO(elem, id){
     let items = document.getElementsByClassName('js-status');
     Array.from(items).forEach(item => {
         if(item.id == 'status_item'){
-            if(MobStatus){
+            if(MobStatus || isMobile()){
                 item.classList.add('statusM');
             }            
             else{
@@ -367,7 +384,7 @@ function DrowOrderList(row){
 function DrowOrderItems(){
     let thead = document.getElementById('table_head');
 
-    if(MobStatus){
+    if(MobStatus || isMobile()){
         ItemsHeader = thead.innerHTML;
         thead.innerHTML = `
             <tr>
@@ -502,7 +519,7 @@ function SortProducts(elem){
 function DrowOrderItemsList(container, row, priceF){
     priceF += Number(row.totalPrice);
     let tab = document.createElement('tr');
-    if(MobStatus){
+    if(MobStatus || isMobile()){
         tab.innerHTML = `
             <tr>
             <td class="left mob-tab">

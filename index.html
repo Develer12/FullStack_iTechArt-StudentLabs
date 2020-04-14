@@ -7,8 +7,10 @@
         <link rel="stylesheet" href="resourse/style/img.css">
         <link rel="stylesheet" href="resourse/style/animation.css">
         <link rel="stylesheet" href="resourse/style/index.css">
+        <link rel="stylesheet" href="resourse/style/orderEdit.css">
         <link href='http://fonts.googleapis.com/css?family=Open+Sans&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
         <script src="resourse/script/index.js"></script>
+        <script src="resourse/script/orderEdit.js"></script>
     </head>
     <body onload="start()">
         <div class="main">
@@ -30,6 +32,9 @@
 
                     </div>
                     <footer>
+                        <div>
+                            <button class="addOrder-ico min-but" onclick="changeOrder()"></button> 
+                        </div>
                         <div>
                             <button class="filter-ico min-but" id=""></button> 
                             <button class="order-ico min-but" id=""></button> 
@@ -100,6 +105,7 @@
                         </div>
                     </div>
                     <footer>
+                        <div></div>
                         <div>
                             <form onsubmit="return true;">
                                 <button class="mail-ico min-but" id="sendmail"></button> 
@@ -108,5 +114,7 @@
                     </footer>
                 </div>
             </div>
+
+        </div>
     </body>
 </html>

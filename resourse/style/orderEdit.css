@@ -1,0 +1,50 @@
+.change-window{
+    position: absolute;
+    margin: auto;
+    border: solid 1.5px #d9e2eb;
+    box-shadow: 10px -5px 20px rgba(65, 64, 64, 0.3);
+    height: auto;
+    width: 80%;
+    max-width: 600;
+    background-color: white;
+}
+
+.change-window form{
+    margin: 8% 3% 8% 3%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.change-window input[type="submit"] {
+    position: relative;
+    display: block;
+    height: auto;
+    color: #FFF;
+    margin: 0 auto;
+    background: #9dccf3;
+    font-size: 1.6em;
+    text-align: center;
+}
+.change-window input[type="submit"]:hover{
+	background: #568cca;
+}
+
+.change-window input::-webkit-inner-spin-button { display: none; }
+.change-window input, select{
+    height: 4%;
+	background: rgba(117, 142, 252, 0.1);
+	border: none;
+	border-radius: 1px;
+    font-size: 1.2em;
+	outline: 0;
+	padding: 10px;
+	width: 90%;
+	box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	color:#8a97a0;
+	-webkit-box-shadow: 0 1px 0 rgba(0,0,0,0.03) inset;
+	box-shadow: 0 1px 0 rgba(0,0,0,0.03) inset;
+	margin-bottom: 30px;
+}
