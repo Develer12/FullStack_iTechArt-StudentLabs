@@ -1,7 +1,7 @@
 const fs = require('fs');
 const express = require('express');
 let data = require('./resourse/data/data').Orders;
-const bodyParser = require('body-parser')
+const bodyParser = require('body-parser');
 
 const app = express();
 app.use('/',express.static(__dirname ));
@@ -92,6 +92,9 @@ app.get('/api/orders/:n', (req, res) =>{
     });
     res.json(OrderList);
 });
+
+
+app.use('/ap', require(`${__dirname}/controllers/api`));
 
 
 app.listen(PORT, () =>{
