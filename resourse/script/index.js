@@ -14,7 +14,7 @@ delivery:
     `<div class="left">
         <div class="items-header">
             <span class="fat big">Shipping Address</span>
-            <button class="editOrder-ico min-but" onclick="changeOrder('item', 'change')"></button> 
+            <button class="editOrder-ico min-but visibilityN" onclick="changeOrder('ship', 'change')"></button> 
         </div>
         <hr>
     </div>`,
@@ -22,7 +22,7 @@ processor:
     `<div class="left">
         <div class="items-header">
             <span class="fat big">Processor Information</span>
-            <button class="editOrder-ico min-but" onclick="changeOrder('item', 'change')"></button> 
+            <button class="editOrder-ico min-but visibilityN" onclick="changeOrder('process', 'change')"></button> 
         </div>
         <hr>
     </div>`,
@@ -201,6 +201,13 @@ async function OpenOrder(elem){
             ItemCount(res.products.length);
         })
         .catch((err) => console.log(`Fetch ERROR by ${LINK}: ${err}`));
+
+        let orderButtons = document.querySelectorAll('button.visibilityN');
+        if(orderButtons){
+            orderButtons.forEach(button => {
+                button.classList.remove('visibilityN');
+            });
+        }
     }
 }
 
@@ -306,27 +313,27 @@ function DrowOrderStat(ship, processor){
         <div class="items-header">
 
             <span class="fat big">Processor Information</span>
-            <button class="editOrder-ico min-but" onclick="changeOrder('item', 'change')"></button> 
+            <button class="editOrder-ico min-but" onclick="changeOrder('process', 'change')"></button> 
         </div>
         <hr>
         <table class="status-list">
             <thead>
                 <tr id="status_item" class="js-status">
                     <td>Name:</td>
-                    <td class="status black">${processor.name}</td>
+                    <td class="status black" id="name">${processor.name}</td>
                 </tr>
                 <tr id="status_item" class="js-status">
                     <td>Employee ID:</td>
-                    <td class="status black">${processor.employeeId}</td>
+                    <td class="status black" id="id">${processor.employeeId}</td>
                 </tr>
                 <tr id="status_item" class="js-status">
                     <td>Job Title:</td>
-                    <td class="status black">${processor.jobTitle}</td>
+                    <td class="status black" id="job">${processor.jobTitle}</td>
                 </tr>
                 <tr id="status_item" class="js-status">
                     <td>Phone:</td>
                     <td class="status black">
-                        <a href="tel:${processor.phone}">${processor.phone}</a>
+                        <a href="tel:${processor.phone}" id="phone">${processor.phone}</a>
                     </td>
                 </tr>
             </thead>
@@ -337,30 +344,30 @@ function DrowOrderStat(ship, processor){
     <div class="left">
         <div class="items-header">
             <span class="fat big">Shipping Address</span>
-            <button class="editOrder-ico min-but" onclick="changeOrder('item', 'change')"></button> 
+            <button class="editOrder-ico min-but" onclick="changeOrder('ship', 'change')"></button> 
         </div>
         <hr>
         <table class="status-list">
             <thead>
                 <tr id="status_item" class="js-status">
                     <td>Name:</td>
-                    <td class="status black">${ship.name}</td>
+                    <td class="status black" id="name">${ship.name}</td>
                 </tr>
                 <tr id="status_item" class="js-status">
                     <td>Street:</td>
-                    <td class="status black">${ship.Address}</td>
+                    <td class="status black" id="street">${ship.Address}</td>
                 </tr>
                 <tr id="status_item" class="js-status">
                     <td>Zip Code / City:</td>
-                    <td class="status black">${ship.ZIP}</td>
+                    <td class="status black" id="zip">${ship.ZIP}</td>
                 </tr>
                 <tr id="status_item" class="js-status">
                     <td>Region:</td>
-                    <td class="status black">${ship.Region}</td>
+                    <td class="status black" id="region">${ship.Region}</td>
                 </tr>
                 <tr id="status_item" class="js-status">
                     <td>Country:</td>
-                    <td class="status black">${ship.Country}</td>
+                    <td class="status black" id="country">${ship.Country}</td>
                 </tr>
             </thead>
         </table>
@@ -552,7 +559,7 @@ function DrowOrderItemsList(container, row, priceF){
                 <br>
                 <span>Quantity:</span>
                 <br>
-                <span>${row.quantity}</span>
+                <span id="product_quantity">${row.quantity}</span>
                 <br>
                 <br>
                 <span>Total:</span>
@@ -561,7 +568,7 @@ function DrowOrderItemsList(container, row, priceF){
                 <span class="money" id="product_currency">${row.currency}</span>
             </td>
             <td>                
-                <button class="editItem-ico min-but" onclick="changeOrder('item', 'change')"></button> 
+                <button class="editItem-ico min-but" onclick="changeOrder('item', 'change', this)"></button> 
                 <button class="delOrder-ico min-but" onclick="delOrder(this)"></button>
             </td>    
             `;
@@ -577,13 +584,13 @@ function DrowOrderItemsList(container, row, priceF){
                 <span class="black" id="product_price">${row.price}</span> 
                 <span class="money" id="product_currency">${row.currency}</span>
             </td>
-            <td>${row.quantity}</td>
+            <td id="product_quantity">${row.quantity}</td>
             <td>
                 <span class="black" id="product_totalPrice">${row.totalPrice}</span> 
                 <span class="money" id="product_currency">${row.currency}</span>
             </td>
             <td>
-                <button class="editItem-ico min-but" onclick="changeOrder('item', 'change')"></button> 
+                <button class="editItem-ico min-but" onclick="changeOrder('item', 'change', this)"></button> 
                 <button class="delOrder-ico min-but" onclick="delOrder(this)"></button>
             </td>
             `;

@@ -6,7 +6,7 @@ module.exports = {
 				createdAt	: "10.08.1991",
 				customer	: "Alfreds Futterkiste",
 				status		: "Accepted",
-				shippedAt	: "8.09.1991"
+				shippedAt	: "08.09.1991"
 			},
 			ShipTo: {
 				name: "Maria Anders",

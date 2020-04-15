@@ -2,6 +2,7 @@
     <head>
         <title>Order</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="shortcut icon" href="/resourse/style/favicon.png" type="image/png">
         <link rel="stylesheet" href="resourse/style/tagStyle.css">
         <link rel="stylesheet" href="resourse/style/buttons.css">
         <link rel="stylesheet" href="resourse/style/img.css">
@@ -33,7 +34,7 @@
                     </div>
                     <footer>
                         <div>
-                            <button class="addOrder-ico min-but" onclick="changeOrder()"></button> 
+                            <button class="addOrder-ico min-but" onclick="changeOrder('order', 'add')"></button> 
                         </div>
                         <div>
                             <button class="filter-ico min-but" id=""></button> 
@@ -81,11 +82,14 @@
                         <div class="order-items" id="order_items">
                             <div class="items-header">
                                 <span id="items_count" class="fat big">Line Items (0)</span>
-                                <div>
+                                <div class="items-header">
                                     <form id="order-items-search" onsubmit="SearchHandler(this); return false;">
                                         <input type="text" placeholder="Search">
                                         <button class="search-ico min-but" id="search" type="submit"></button>
                                     </form>
+                                    <div>
+                                        <button class="addOrder-ico min-but" onclick="changeOrder('item', 'add')"></button> 
+                                    </div>
                                 </div>
                             </div>
                             <div class="js-loading">
@@ -105,7 +109,14 @@
                         </div>
                     </div>
                     <footer>
-                        <div></div>
+                        <div class="items-header">
+                            <div>
+                                <button class="editItem-ico min-but visibilityN" onclick="changeOrder('order', 'change')"></button>
+                            </div>
+                            <div>
+                                <button class="delOrder-ico min-but visibilityN" onclick="delOrder(this)"></button>
+                            </div>
+                        </div>
                         <div>
                             <form onsubmit="return true;">
                                 <button class="mail-ico min-but" id="sendmail"></button> 
