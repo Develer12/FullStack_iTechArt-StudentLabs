@@ -10,6 +10,14 @@ class DB {
         sequelize.authenticate().then(()=>{
             console.log("DB Connected");
 
+            let order = model['order'](Sequelize, sequelize);
+
+            order.hasOne(model['ship'](Sequelize, sequelize));
+            order.hasOne(model['processor'](Sequelize, sequelize));
+            order.hasOne(model['customer'](Sequelize, sequelize));
+            order.hasMany(model['product'](Sequelize, sequelize));
+
+
             sequelize.sync().then(result=>{console.log(result);})
             .catch(err=> console.log("SYNC ERROR: "+err));
         })
@@ -20,12 +28,16 @@ class DB {
         return model[tab](Sequelize, sequelize).findAll();
     }
 
+    Search(tab, option){
+        return model[tab](Sequelize, sequelize).findAll(option);
+    }
+
     GetOne(tab, id){
-        return model[tab](Sequelize, sequelize).findOne({'where': {[tab]: id}});
+        return model[tab](Sequelize, sequelize).findOne({ where: {[tab]: id}});
     }
 
     Update(tab, body){
-        return model[tab](Sequelize, sequelize).update(body.update, body.where);
+        return model[tab](Sequelize, sequelize).update(body, { where: { id: body.id}});
     }
 
     Insert(tab, body){
@@ -33,7 +45,7 @@ class DB {
     }
 
     Delete(tab, id){
-        return model[tab](Sequelize, sequelize).destroy({'where': {[tab]: id}});
+        return model[tab](Sequelize, sequelize).destroy({ where: id});
     }
 }
 

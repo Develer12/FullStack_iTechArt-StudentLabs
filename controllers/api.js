@@ -3,7 +3,7 @@ const Route = express.Router();
 const order = require(__dirname + '/api/order');
 
 
-Route.use('/order', order);
+Route.use('/orders', order);
 
 
 module.exports = Route;

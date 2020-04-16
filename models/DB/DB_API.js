@@ -5,7 +5,19 @@ const DB = new db();
 module.exports = {
     get: (tab, res) => {
         DB.Get(tab)
-        .then(results => res.json(results))
+        .then(results => {
+            return results;
+        })
+        .catch(err => {
+            res.statusCode = 400;
+            res.json({error: err.toString()});
+        });
+    },
+    search: (tab, option, res) => {
+        DB.Search(tab, option)
+        .then(results => {
+            return results;
+        })
         .catch(err => {
             res.statusCode = 400;
             res.json({error: err.toString()});
@@ -23,7 +35,7 @@ module.exports = {
         DB.Update(tab, body)
         .then(results => {
             if (results[0]){
-                res.json(body);
+                return results;
             }
             else {
                 res.statusCode = 400;
@@ -36,23 +48,14 @@ module.exports = {
         });
     },
     delete: (tab, id, res) => {
-        let deleted;
-        DB.GetOne(tab, id)
-        .then((result) => {
-            deleted = result;
-            DB.Delete(tab, id)
-            .then(results => {
-                if (results)
-                    res.json(deleted);
-                else {
-                    res.statusCode = 400;
-                    res.json({error: 'This records not founded'});
-                }
-            })
-            .catch(err => {
+        DB.Delete(tab, id)
+        .then(results => {
+            if (results)
+                return results;
+            else {
                 res.statusCode = 400;
-                res.json({error: err.toString()});
-            });
+                res.json({error: 'This records not founded'});
+            }
         })
         .catch(err => {
             res.statusCode = 400;

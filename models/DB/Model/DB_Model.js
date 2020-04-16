@@ -36,6 +36,13 @@ const Ship = (Sequelize, sequelize) =>{
         country: {
             type: Sequelize.STRING
         },
+        order_id: {
+            type: Sequelize.INTEGER,
+            references: {
+                model: order,
+                key: 'id'
+            }
+        }
     });
 };
 
@@ -58,6 +65,13 @@ const Processor = (Sequelize, sequelize) =>{
         phone: {
             type: Sequelize.STRING
         },
+        order_id: {
+            type: Sequelize.INTEGER,
+            references: {
+                model: order,
+                key: 'id'
+            }
+        }
     });
 };
 
@@ -82,6 +96,13 @@ const Customer = (Sequelize, sequelize) =>{
         },
         email: {
             type: Sequelize.STRING
+        },
+        order_id: {
+            type: Sequelize.INTEGER,
+            references: {
+                model: order,
+                key: 'id'
+            }
         }
     });
 };
@@ -104,6 +125,13 @@ const Product = (Sequelize, sequelize) =>{
         },
         currency: {
             type: Sequelize.STRING
+        },
+        order_id: {
+            type: Sequelize.INTEGER,
+            references: {
+                model: order,
+                key: 'id'
+            }
         }
     });
 };
