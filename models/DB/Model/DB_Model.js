@@ -1,4 +1,4 @@
-const Order = (Sequelize, sequelize) =>{
+const order = (Sequelize, sequelize) =>{
     return sequelize.define('order', {
         id: {
             type: Sequelize.INTEGER,
@@ -17,7 +17,7 @@ const Order = (Sequelize, sequelize) =>{
     });
 };
 
-const Ship = (Sequelize, sequelize) =>{
+const ship = (Sequelize, sequelize) =>{
     return sequelize.define('ship', {
         id: {
             type: Sequelize.INTEGER,
@@ -39,14 +39,14 @@ const Ship = (Sequelize, sequelize) =>{
         order_id: {
             type: Sequelize.INTEGER,
             references: {
-                model: order,
+                model: 'orders',
                 key: 'id'
             }
         }
     });
 };
 
-const Processor = (Sequelize, sequelize) =>{
+const processor = (Sequelize, sequelize) =>{
     return sequelize.define('processor', {
         id: {
             type: Sequelize.INTEGER,
@@ -68,15 +68,15 @@ const Processor = (Sequelize, sequelize) =>{
         order_id: {
             type: Sequelize.INTEGER,
             references: {
-                model: order,
+                model: 'orders',
                 key: 'id'
             }
         }
     });
 };
 
-const Customer = (Sequelize, sequelize) =>{
-    return sequelize.define('customer', {
+const customer = (Sequelize, sequelize) =>{
+    return sequelize.define('customerInfo', {
         id: {
             type: Sequelize.INTEGER,
             autoIncrement: true,
@@ -100,19 +100,19 @@ const Customer = (Sequelize, sequelize) =>{
         order_id: {
             type: Sequelize.INTEGER,
             references: {
-                model: order,
+                model: 'orders',
                 key: 'id'
             }
         }
     });
 };
 
-const Product = (Sequelize, sequelize) =>{
+const product = (Sequelize, sequelize) =>{
     return sequelize.define('product', {
-        id: {
+        prod_id: {
             type: Sequelize.INTEGER,
-            autoIncrement: true,
-            primaryKey: true
+            allowNull: false,
+            primaryKey: false
         },
         name: {
             type: Sequelize.STRING
@@ -129,7 +129,7 @@ const Product = (Sequelize, sequelize) =>{
         order_id: {
             type: Sequelize.INTEGER,
             references: {
-                model: order,
+                model: 'orders',
                 key: 'id'
             }
         }
@@ -137,9 +137,9 @@ const Product = (Sequelize, sequelize) =>{
 };
 
 module.exports = {
-    order: (Sequelize, sequelize) => {Order(Sequelize, sequelize)},
-    ship: (Sequelize, sequelize) => {Ship(Sequelize, sequelize)},
-    processor: (Sequelize, sequelize) => {Processor(Sequelize, sequelize)},
-    customer: (Sequelize, sequelize) => {Customer(Sequelize, sequelize)},
-    product: (Sequelize, sequelize) => {Product(Sequelize, sequelize)}
+    order: (Sequelize, sequelize) => {return order(Sequelize, sequelize)},
+    ship: (Sequelize, sequelize) => {return ship(Sequelize, sequelize)},
+    processor: (Sequelize, sequelize) => {return processor(Sequelize, sequelize)},
+    customer: (Sequelize, sequelize) => {return customer(Sequelize, sequelize)},
+    product: (Sequelize, sequelize) => {return product(Sequelize, sequelize)}
 };

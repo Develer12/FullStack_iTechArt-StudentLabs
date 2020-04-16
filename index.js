@@ -14,6 +14,7 @@ app.get('/orders', (req, res) =>{
     res.sendFile(__dirname + '/index.html');
 });
 
+/*
 app.get('/api/orders', (req, res) =>{  
     console.log("Get OrderList");
     let OrderList= [];
@@ -49,7 +50,7 @@ app.get('/api/orders/search', (req, res) =>{
     res.json(OrderList);
 });
 
-app.get('/api/orders/items/search', (req, res) =>{   
+app.get('/api/orders/item/search', (req, res) =>{   
     let input = req.query.i;
     let id = req.query.id;  
     let ItemsList= [];
@@ -92,9 +93,9 @@ app.get('/api/orders/:n', (req, res) =>{
     });
     res.json(OrderList);
 });
+*/
 
-
-app.use('/ap', require(`${__dirname}/controllers/api`));
+app.use('/api', require(`${__dirname}/controllers/api`));
 
 
 app.listen(PORT, () =>{

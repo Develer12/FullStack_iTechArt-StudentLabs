@@ -8,8 +8,6 @@ class DB {
     constructor(){
         sequelize = new Sequelize(config);
         sequelize.authenticate().then(()=>{
-            console.log("DB Connected");
-
             let order = model['order'](Sequelize, sequelize);
 
             order.hasOne(model['ship'](Sequelize, sequelize));
@@ -18,7 +16,10 @@ class DB {
             order.hasMany(model['product'](Sequelize, sequelize));
 
 
-            sequelize.sync().then(result=>{console.log(result);})
+            sequelize.sync().then(result=>{
+                console.log("DB Connected");
+                console.log(result);
+            })
             .catch(err=> console.log("SYNC ERROR: "+err));
         })
         .catch(err=>{console.log("Connection ERROR: "+err);});
@@ -37,7 +38,9 @@ class DB {
     }
 
     Update(tab, body){
-        return model[tab](Sequelize, sequelize).update(body, { where: { id: body.id}});
+        let update = body.update_id;
+        delete body.update_id;
+        return model[tab](Sequelize, sequelize).update(body, { where: update});
     }
 
     Insert(tab, body){

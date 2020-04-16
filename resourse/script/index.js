@@ -259,7 +259,7 @@ async function SearchHandler(elem){
             tab.innerHTML = '';
         }
 
-        let LINK = `/api/orders/items/search?i=${input}&id=${openOrder}`;
+        let LINK = `/api/orders/item/search?i=${input}&id=${openOrder}`;
         fetch(LINK, {method: 'GET'})
         .then(res => res.json())
         .then(res =>{

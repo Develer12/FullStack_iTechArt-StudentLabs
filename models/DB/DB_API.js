@@ -4,7 +4,7 @@ const DB = new db();
 
 module.exports = {
     get: (tab, res) => {
-        DB.Get(tab)
+        return DB.Get(tab)
         .then(results => {
             return results;
         })
@@ -14,7 +14,7 @@ module.exports = {
         });
     },
     search: (tab, option, res) => {
-        DB.Search(tab, option)
+        return DB.Search(tab, option)
         .then(results => {
             return results;
         })
@@ -24,7 +24,7 @@ module.exports = {
         });
     },
     post: (tab, body, res) => {
-        DB.Insert(tab, body)
+        return DB.Insert(tab, body)
         .then(results => res.json(results))
         .catch(err => {
             res.statusCode = 400;
@@ -32,7 +32,7 @@ module.exports = {
         });
     },
     put: (tab, body, res) => {
-        DB.Update(tab, body)
+        return DB.Update(tab, body)
         .then(results => {
             if (results[0]){
                 return results;
@@ -48,7 +48,7 @@ module.exports = {
         });
     },
     delete: (tab, id, res) => {
-        DB.Delete(tab, id)
+        return DB.Delete(tab, id)
         .then(results => {
             if (results)
                 return results;

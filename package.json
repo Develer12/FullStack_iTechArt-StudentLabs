@@ -9,6 +9,7 @@
     "rpc-websockets": "^5.0.14",
     "mssql": "^6.0.0",
     "sequelize": "^5.21.3",
-    "tedious": "^8.0.1"
+    "tedious": "^8.0.1",
+    "moment": "^2.24.0"
   }
 }
