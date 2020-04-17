@@ -172,6 +172,7 @@ async function OpenOrder(elem){
         if(openOrder && document.getElementById(openOrder)){
             OrderC(document.getElementById(openOrder));
         }
+
         OrderO(elem, id);
         document.getElementById('order-items-search').querySelector('input').value = '';
 
@@ -191,7 +192,8 @@ async function OpenOrder(elem){
             StatusO(document.getElementById(openInfo), openInfo);
 
             document.getElementById('order_priceF').innerHTML = priceF;
-            document.getElementById('order_currency').innerHTML = res.products[0].currency;
+            if(res.products[0])
+                document.getElementById('order_currency').innerHTML = res.products[0].currency;
             document.getElementById('order_ship').innerHTML = `Shipped: ${res.OrderInfo.shippedAt}`;
             document.getElementById('order_ord').innerHTML = `Ordered: ${res.OrderInfo.createdAt}`;
             document.getElementById('order_customer').innerHTML = `Customer: ${res.CustomerInfo.firstName} ${res.CustomerInfo.lastName}`;

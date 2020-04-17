@@ -154,8 +154,13 @@ let submitOrder = (action, elem) => {
     })
     .then(res => res.json()).then(res =>{
         closeWindow();
-        elem=='order'? GetOrders() 
-            : OpenOrder(document.getElementsByClassName('list-order-contentC')[0]);
+        if(elem=='order'){ 
+            GetOrders();
+        } 
+        else{
+            openOrder = 0;
+            OpenOrder(document.getElementsByClassName('list-order-contentC')[0]);
+        }
         if (res.error){
             errorWindow(res.error);
         }
@@ -172,7 +177,7 @@ let delOrder = (sender) => {
     let id = sender.parentNode.parentNode.querySelector('#product_id');
     if(id){
         id = id.innerHTML;
-        LINK = `${LINK}/item/${id}`
+        LINK = `${LINK}/item/${id}/${openOrder}`
     }
     else{
         id = openOrder;
@@ -183,6 +188,16 @@ let delOrder = (sender) => {
     .then(res => res.json()).then(res => {
         if (res.error){
             errorWindow(res.error);
+        }
+        else{
+            id = sender.parentNode.parentNode.querySelector('#product_id')
+            if(!id){ 
+                GetOrders();
+            } 
+            else{
+                openOrder = 0;
+                OpenOrder(document.getElementsByClassName('list-order-contentC')[0]);
+            }
         }
     })
     .catch((err) => {

@@ -8,6 +8,8 @@ class DB {
     constructor(){
         sequelize = new Sequelize(config);
         sequelize.authenticate().then(()=>{
+            let childOption = { onDelete: 'CASCADE', hooks: true };
+
             let order = model['order'](Sequelize, sequelize);
 
             order.hasOne(model['ship'](Sequelize, sequelize));
@@ -18,7 +20,6 @@ class DB {
 
             sequelize.sync().then(result=>{
                 console.log("DB Connected");
-                console.log(result);
             })
             .catch(err=> console.log("SYNC ERROR: "+err));
         })

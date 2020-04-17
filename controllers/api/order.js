@@ -67,8 +67,12 @@ Route.get('/:n', (req, res) =>{
     let OrderList;
     let option = { where: { order_id: id}};
 
-    API.get('order', res)
+    API.search('order', { where: { id: id}}, res)
     .then(results => {
+        results = results[0];
+        if(results){
+            results = results.dataValues;  
+        }
         OrderList = {
             id: id,
             OrderInfo: {
@@ -86,42 +90,55 @@ Route.get('/:n', (req, res) =>{
     .then(() => {
         API.search('ship', option, res)
         .then(results => {
-            OrderList.ShipTo = {
-                name: results.name,
-                Address: results.address,
-                ZIP: results.zip,
-                Region: results.region,
-                Country: results.country
-            };
+            results = results[0];
+            if(results){
+                results = results.dataValues;
+                OrderList.ShipTo = {
+                    name: results.name,
+                    Address: results.address,
+                    ZIP: results.zip,
+                    Region: results.region,
+                    Country: results.country
+                };  
+            }
         });
     })
     .then(() => {
         API.search('processor', option, res)
         .then(results => {
-            OrderList.ProcessorInfo = {
-                name: results.name,
-                employeeId: results.employeeId,
-                jobTitle: results.jobTitle,
-                phone: results.phone
-            };
+            results = results[0];
+            if(results){
+                results = results.dataValues;  
+                OrderList.ProcessorInfo = {
+                    name: results.name,
+                    employeeId: results.employeeId,
+                    jobTitle: results.jobTitle,
+                    phone: results.phone
+                };
+            }
         });
     })
     .then(() => {
         API.search('customer', option, res)
         .then(results => {
-            OrderList.CustomerInfo = {
-                firstName: results.firstName,
-                lastName: results.lastName,
-                address: results.address,
-                phone: results.phone,
-                email: results.email
-            };
+            results = results[0];
+            if(results){
+                results = results.dataValues;  
+                OrderList.CustomerInfo = {
+                    firstName: results.firstName,
+                    lastName: results.lastName,
+                    address: results.address,
+                    phone: results.phone,
+                    email: results.email
+                };
+            }
         });
     })
     .then(() => {
         API.search('product', option, res)
         .then(results => {
             results.forEach(element => {
+                element = element.dataValues;
                 OrderList.products.push({
                     id: element.prod_id,
                     name: element.name,
@@ -131,18 +148,37 @@ Route.get('/:n', (req, res) =>{
                     totalPrice: (Number(element.quantity) * Number(element.price))
                 });
             });
+        })
+        .then(() => {
+            res.json(OrderList);
         });
-    })
-    .then(() => {
-        res.json(OrderList);
     });
 });
 
 //Edit order
 Route.post('/', (req, res)=>{
-    console.log('EDIT ORDER ', req.body)
+    let id = req.body.id;
+
     API.post('order', req.body, res)
-    .then(results => res.json(results));
+    .then(() => {
+        API.post('ship', {
+            order_id: req.body.id,
+            name: ' ',
+            address: ' ',
+            zip: ' ',
+            region: ' ',
+            country: ' '
+        }, res);
+    })
+    .then(() => {
+        API.post('processor', {
+            order_id: req.body.id,
+            name: ' ',
+            employeeId: ' ',
+            jobTitle: ' ',
+            phone: ' '
+        }, res);
+    });
 });
 
 Route.put('/', (req, res)=>{
@@ -153,6 +189,7 @@ Route.put('/', (req, res)=>{
 
 Route.delete('/:order_id', (req, res)=>{
     let id = req.params.order_id;
+    let option = {order_id: id};
     API.delete('order', {id: id}, res)
     .then(results => res.json(results));
 });
@@ -167,17 +204,23 @@ Route.get('/item/search', (req, res) =>{
     let input = req.query.i;
     let id = req.query.id;
     let ItemsList= [];
-    let option = { where: { id: id}};
+    let option = { where: { order_id: id}};
     
     API.search('product', option, res)
     .then(results => {
         results.forEach(element => {
-            if((element.prod_id.indexOf(input) + 1) 
+            element = element.dataValues;
+
+            for(e in element){
+                element[e] = element[e] == null? '' : element[e];
+            };
+            
+            if((element.prod_id.toString().indexOf(input) + 1) 
             || (element.name.toLowerCase().indexOf(input.toLowerCase()) + 1) 
-            || (element.price.indexOf(input) + 1) 
-            || (((Number(element.quantity) * Number(element.price))).indexOf(input) + 1) 
+            || (element.price.toString().indexOf(input) + 1) 
+            || (((Number(element.quantity) * Number(element.price))).toString().indexOf(input) + 1) 
             || (element.currency.indexOf(input) + 1) 
-            || (element.quantity.toLowerCase().indexOf(input.toLowerCase()) + 1)){
+            || (element.quantity.toString().toLowerCase().indexOf(input.toLowerCase()) + 1)){
                 ItemsList.push({
                     id: element.id,
                     name: element.name,
@@ -196,17 +239,18 @@ Route.get('/item/search', (req, res) =>{
 //edit order products
 Route.post('/item/:order_id', (req, res)=>{
     req.body.order_id = req.params.order_id;
-    API.post('product', req.body, res)
-    .then(results => res.json(results));
+    API.post('product', req.body, res);
 });
 
 Route.put('/item/:order_id', (req, res)=>{
-    req.body.update_id = { order_id: req.params.order_id};
+    let item = req.body.prod_id;
+    let order = req.params.order_id;
+    req.body.update_id = {prod_id: item, order_id: order};
     API.put('product', req.body, res)
     .then(results => res.json(results));
 });
 
-Route.delete('/:item_id/:order_id', (req, res)=>{
+Route.delete('/item/:item_id/:order_id', (req, res)=>{
     let item = req.params.item_id;
     let order = req.params.order_id;
     API.delete('product', {prod_id: item, order_id: order}, res)
@@ -216,7 +260,7 @@ Route.delete('/:item_id/:order_id', (req, res)=>{
 //edit order elements
 Route.put('/process/:order_id', (req, res)=>{
     req.body.update_id = { order_id: req.params.order_id};
-    API.put('process', req.body, res)
+    API.put('processor', req.body, res)
     .then(results => res.json(results));
 });
 
