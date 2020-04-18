@@ -178,6 +178,14 @@ Route.post('/', (req, res)=>{
             jobTitle: ' ',
             phone: ' '
         }, res);
+    })
+    .then(() => {
+        API.post('customer', {
+            firstName:' ',
+            lastName: ' ',
+            email: ' ',
+            order_id: req.body.id,
+        }, res);
     });
 });
 
@@ -265,9 +273,22 @@ Route.put('/process/:order_id', (req, res)=>{
 });
 
 Route.put('/ship/:order_id', (req, res)=>{
-    req.body.update_id = { order_id: req.params.order_id};
-    API.put('ship', req.body, res)
-    .then(results => res.json(results));
+    let update_id = { order_id: req.params.order_id};
+    API.put('ship', {
+        address: req.body.address,
+        zip: req.body.zip,
+        region: req.body.region,
+        country: req.body.country,
+        update_id: update_id
+    }, res)
+    .then(() => {
+        API.put('customer', {
+            firstName: req.body.firstName,
+            lastName: req.body.lastName,
+            email: req.body.email,
+            update_id: update_id
+        }, res);
+    });
 });
 
 

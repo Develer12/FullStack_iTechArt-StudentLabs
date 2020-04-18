@@ -9,11 +9,6 @@ app.use(bodyParser.json());
 
 const PORT = 3000;
 
-
-app.get('/orders', (req, res) =>{
-    res.sendFile(__dirname + '/index.html');
-});
-
 /*
 app.get('/api/orders', (req, res) =>{  
     console.log("Get OrderList");
@@ -96,6 +91,8 @@ app.get('/api/orders/:n', (req, res) =>{
 */
 
 app.use('/api', require(`${__dirname}/controllers/api`));
+
+app.use('/', require(`${__dirname}/controllers/routing`));
 
 
 app.listen(PORT, () =>{

@@ -26,7 +26,9 @@ let view ={
     `,
     ship: 
     `
-        <input type="text" name="name" placeholder="Name">
+        <input type="text" name="firstName" placeholder="First Name">
+        <input type="text" name="lastName" placeholder="Last Name">
+        <input type="text" name="email" placeholder="E-mail">
         <input type="text" name="address" placeholder="Street">
         <input type="number" name="zip" min="1" placeholder="Zip Code / City">
         <input type="text" name="region" placeholder="Region">
@@ -43,7 +45,25 @@ let view ={
     `
 };
 
-
+let openOrderUrl = () => {
+    let url = window.location.pathname;
+    let i = 0;
+    let curr_url = '';
+    i--;
+    decodeURI(url).split('/').forEach(e =>{
+        i++;
+        if(i == 2){
+            curr_url = e;
+            return;
+        }
+    });
+    
+    if(curr_url?curr_url:''){
+        let list = document.getElementById('list_order');
+        list = list.querySelector(`[id='${curr_url}']`);
+        list?list.click():null;
+    }
+};
 
 let changeOrder = (elem, action, sender) => {
     let close = document.getElementById('CloseSideBar');
@@ -112,7 +132,10 @@ let editOrder = (elem, sender) => {
     else if(elem == 'ship'){
         sender = document.getElementsByClassName('status-list')[0];
         if(sender){
-            form.querySelector('[name=name]').value = sender.querySelector('#name').innerHTML;
+            let customerName = document.getElementById('order_customer').innerHTML.split(/\s*:\s*/);
+            form.querySelector('[name=firstName]').value = customerName[1].split(' ')[0];
+            form.querySelector('[name=lastName]').value = customerName[1].split(' ')[1];
+            form.querySelector('[name=email]').value = document.getElementById('sendmail').getAttribute('formaction').split(/mailto:\s*/)[1];
             form.querySelector('[name=address]').value = sender.querySelector('#street').innerHTML;
             form.querySelector('[name=zip]').value = sender.querySelector('#zip').innerHTML;
             form.querySelector('[name=region]').value = sender.querySelector('#region').innerHTML;

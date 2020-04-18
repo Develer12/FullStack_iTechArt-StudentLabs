@@ -188,7 +188,8 @@ async function OpenOrder(elem){
             ItemsList = res.products;
             priceF = DrowOrderItems();
 
-            DrowOrderStat(res.ShipTo, res.ProcessorInfo);
+            let customerName = res.CustomerInfo.firstName +' '+ res.CustomerInfo.lastName;
+            DrowOrderStat(res.ShipTo, res.ProcessorInfo, customerName);
             StatusO(document.getElementById(openInfo), openInfo);
 
             document.getElementById('order_priceF').innerHTML = priceF;
@@ -201,6 +202,11 @@ async function OpenOrder(elem){
             document.getElementById('sendmail').formAction = `mailto:${res.CustomerInfo.email}`;
 
             ItemCount(res.products.length);
+
+            let url = window.location.pathname;
+            if(url != '/orders')
+            url = url.substring(0, url.lastIndexOf("/"));
+            history.pushState(null, null, `${url}/${id}`);
         })
         .catch((err) => console.log(`Fetch ERROR by ${LINK}: ${err}`));
 
@@ -230,7 +236,7 @@ function OrderCount(count){
     document.getElementById('order_count').innerHTML = `Orders (${count})`;
     if(!count){
         document.getElementById('list_order').innerHTML = `
-            <img src="resourse/style/img/empty.png" class="emptyImg">
+            <img src="/resourse/style/img/empty.png" class="emptyImg">
             <span class="big fat js-empty">Empty</span>`;
     }
 }
@@ -245,7 +251,7 @@ function ItemCount(count){
         let div = document.createElement('div');
         div.setAttribute('class', 'js-empty');
         div.innerHTML = `
-                <img src="resourse/style/img/empty.png" class="emptyImg">
+                <img src="/resourse/style/img/empty.png" class="emptyImg">
                 <span class="big fat js-empty">Empty</span>`;
         document.getElementById('order_items').append(div);
     }
@@ -305,11 +311,11 @@ async function GetOrders(){
         });
         OrderCount(res.length);
     })
-    .catch((err) => console.log(`Fetch ERROR by ${LINK}: ${err}`));
+    .then(() => openOrderUrl())
     
 }
 
-function DrowOrderStat(ship, processor){
+function DrowOrderStat(ship, processor, customerName){
     Stat.processor = `
     <div class="left">
         <div class="items-header">
@@ -353,7 +359,7 @@ function DrowOrderStat(ship, processor){
             <thead>
                 <tr id="status_item" class="js-status">
                     <td>Name:</td>
-                    <td class="status black" id="name">${ship.name}</td>
+                    <td class="status black" id="name">${customerName}</td>
                 </tr>
                 <tr id="status_item" class="js-status">
                     <td>Street:</td>
