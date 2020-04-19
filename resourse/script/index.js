@@ -45,7 +45,7 @@ function checkMobile(){
     let list_bar = document.getElementById('list_bar');
     let order_bar = document.getElementById('order_bar');
     let header = document.getElementById('header');
-    if((window.innerWidth < window.innerHeight) && !MobStatus){
+    if(((window.innerWidth < window.innerHeight + 50) && !MobStatus) || isMobile()){
         MobStatus = true;
         list_bar.classList.add('hidden');
         list_bar.classList.remove('visible');

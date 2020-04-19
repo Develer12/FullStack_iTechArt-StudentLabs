@@ -56,7 +56,6 @@ Route.get('/search', (req, res) =>{
         });
     })
     .then(() => {
-        console.log(OrderList)
         res.json(OrderList);
     });
 });
@@ -71,7 +70,7 @@ Route.get('/:n', (req, res) =>{
     .then(results => {
         results = results[0];
         if(results){
-            results = results.dataValues;  
+            results = results.dataValues; 
         }
         OrderList = {
             id: id,
@@ -163,43 +162,44 @@ Route.post('/', (req, res)=>{
     .then(() => {
         API.post('ship', {
             order_id: req.body.id,
-            name: ' ',
-            address: ' ',
-            zip: ' ',
-            region: ' ',
-            country: ' '
+            name: null,
+            address: null,
+            zip: null,
+            region: null,
+            country: null
         }, res);
     })
     .then(() => {
         API.post('processor', {
             order_id: req.body.id,
-            name: ' ',
-            employeeId: ' ',
-            jobTitle: ' ',
-            phone: ' '
+            name: null,
+            employeeId: null,
+            jobTitle: null,
+            phone: null
         }, res);
     })
     .then(() => {
         API.post('customer', {
-            firstName:' ',
-            lastName: ' ',
-            email: ' ',
+            firstName:null,
+            lastName: null,
+            email: null,
             order_id: req.body.id,
         }, res);
-    });
+    })
+    .then(() => res.json({}));
 });
 
 Route.put('/', (req, res)=>{
     req.body.update_id = { id: req.body.id};
     API.put('order', req.body, res)
-    .then(results => res.json(results));
+    .then(() => res.json({}));
 });
 
 Route.delete('/:order_id', (req, res)=>{
     let id = req.params.order_id;
     let option = {order_id: id};
     API.delete('order', {id: id}, res)
-    .then(results => res.json(results));
+    .then(() => res.json({}));
 });
 
 
@@ -222,7 +222,7 @@ Route.get('/item/search', (req, res) =>{
             for(e in element){
                 element[e] = element[e] == null? '' : element[e];
             };
-            
+
             if((element.prod_id.toString().indexOf(input) + 1) 
             || (element.name.toLowerCase().indexOf(input.toLowerCase()) + 1) 
             || (element.price.toString().indexOf(input) + 1) 
@@ -230,7 +230,7 @@ Route.get('/item/search', (req, res) =>{
             || (element.currency.indexOf(input) + 1) 
             || (element.quantity.toString().toLowerCase().indexOf(input.toLowerCase()) + 1)){
                 ItemsList.push({
-                    id: element.id,
+                    id: element.prod_id,
                     name: element.name,
                     price: element.price,
                     currency: element.currency,
@@ -247,7 +247,8 @@ Route.get('/item/search', (req, res) =>{
 //edit order products
 Route.post('/item/:order_id', (req, res)=>{
     req.body.order_id = req.params.order_id;
-    API.post('product', req.body, res);
+    API.post('product', req.body, res)
+    .then(() => res.json({}));
 });
 
 Route.put('/item/:order_id', (req, res)=>{
@@ -255,21 +256,21 @@ Route.put('/item/:order_id', (req, res)=>{
     let order = req.params.order_id;
     req.body.update_id = {prod_id: item, order_id: order};
     API.put('product', req.body, res)
-    .then(results => res.json(results));
+    .then(() => res.json({}));
 });
 
 Route.delete('/item/:item_id/:order_id', (req, res)=>{
     let item = req.params.item_id;
     let order = req.params.order_id;
     API.delete('product', {prod_id: item, order_id: order}, res)
-    .then(results => res.json(results));
+    .then(() => res.json({}));
 });
 
 //edit order elements
 Route.put('/process/:order_id', (req, res)=>{
     req.body.update_id = { order_id: req.params.order_id};
     API.put('processor', req.body, res)
-    .then(results => res.json(results));
+    .then(() => res.json({}));
 });
 
 Route.put('/ship/:order_id', (req, res)=>{
@@ -288,7 +289,8 @@ Route.put('/ship/:order_id', (req, res)=>{
             email: req.body.email,
             update_id: update_id
         }, res);
-    });
+    })
+    .then(() => res.json({}));
 });
 
 

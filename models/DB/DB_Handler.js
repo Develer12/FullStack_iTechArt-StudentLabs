@@ -8,20 +8,24 @@ class DB {
     constructor(){
         sequelize = new Sequelize(config);
         sequelize.authenticate().then(()=>{
-            let childOption = { onDelete: 'CASCADE', hooks: true };
-
+            let childOption = {
+                onDelete: 'CASCADE',
+                hooks: true,
+                foreignKey: 'order_id'
+            };
+  
             let order = model['order'](Sequelize, sequelize);
+            let ship = model['ship'](Sequelize, sequelize);
+            let processor = model['processor'](Sequelize, sequelize);
+            let customer = model['customer'](Sequelize, sequelize);
+            let product = model['product'](Sequelize, sequelize);
+  
+            ship.belongsTo(order, childOption);
+            processor.belongsTo(order, childOption);
+            customer.belongsTo(order, childOption);
+            order.hasMany(product, childOption);
 
-            order.hasOne(model['ship'](Sequelize, sequelize));
-            order.hasOne(model['processor'](Sequelize, sequelize));
-            order.hasOne(model['customer'](Sequelize, sequelize));
-            order.hasMany(model['product'](Sequelize, sequelize));
-
-
-            sequelize.sync().then(result=>{
-                console.log("DB Connected");
-            })
-            .catch(err=> console.log("SYNC ERROR: "+err));
+            sequelize.sync().catch(err=> console.log("SYNC ERROR: "+err));
         })
         .catch(err=>{console.log("Connection ERROR: "+err);});
     }

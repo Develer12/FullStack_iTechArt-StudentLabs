@@ -25,7 +25,9 @@ module.exports = {
     },
     post: (tab, body, res) => {
         return DB.Insert(tab, body)
-        .then(results => res.json(results))
+        .then(results => {
+            return results;
+        })
         .catch(err => {
             res.statusCode = 400;
             res.json({error: err.toString()});

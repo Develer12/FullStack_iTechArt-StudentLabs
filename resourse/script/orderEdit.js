@@ -35,12 +35,12 @@ let view ={
         <input type="text" name="country" placeholder="Country">
         <input type="submit" id="search" value="Send"></button>
     `,
-    process: 
+    process: //phone pattern="\d{3}[\(]\d{2}[\)]\d{3}[\-]\d{4}"  ???
     `
         <input type="text" name="name" placeholder="Name">
         <input type="number" name="employeeId" min="1" placeholder="Employee ID">
         <input type="text" name="jobTitle" placeholder="Job Title">
-        <input type="tel" name="phone" placeholder="Phone" pattern="\d{3}[\(]\d{2}[\)]\d{3}[\-]\d{4}">
+        <input type="tel" name="phone" placeholder="Phone">
         <input type="submit" id="search" value="Send"></button>
     `
 };
@@ -133,22 +133,22 @@ let editOrder = (elem, sender) => {
         sender = document.getElementsByClassName('status-list')[0];
         if(sender){
             let customerName = document.getElementById('order_customer').innerHTML.split(/\s*:\s*/);
-            form.querySelector('[name=firstName]').value = customerName[1].split(' ')[0];
-            form.querySelector('[name=lastName]').value = customerName[1].split(' ')[1];
-            form.querySelector('[name=email]').value = document.getElementById('sendmail').getAttribute('formaction').split(/mailto:\s*/)[1];
-            form.querySelector('[name=address]').value = sender.querySelector('#street').innerHTML;
-            form.querySelector('[name=zip]').value = sender.querySelector('#zip').innerHTML;
-            form.querySelector('[name=region]').value = sender.querySelector('#region').innerHTML;
-            form.querySelector('[name=country]').value = sender.querySelector('#country').innerHTML;
+            form.querySelector('[name=firstName]').value = checkNull(customerName[1].split(' ')[0]);
+            form.querySelector('[name=lastName]').value = checkNull(customerName[1].split(' ')[1]);
+            form.querySelector('[name=email]').value = checkNull(document.getElementById('sendmail').getAttribute('formaction').split(/mailto:\s*/)[1]);
+            form.querySelector('[name=address]').value = checkNull(sender.querySelector('#street').innerHTML);
+            form.querySelector('[name=zip]').value = checkNull(sender.querySelector('#zip').innerHTML);
+            form.querySelector('[name=region]').value = checkNull(sender.querySelector('#region').innerHTML);
+            form.querySelector('[name=country]').value = checkNull(sender.querySelector('#country').innerHTML);
         }
     }
     else if(elem == 'process'){
         sender = document.getElementsByClassName('status-list')[0];
         if(sender){
-            form.querySelector('[name=employeeId]').value = sender.querySelector('#id').innerHTML;
-            form.querySelector('[name=name]').value = sender.querySelector('#name').innerHTML;
-            form.querySelector('[name=jobTitle]').value = sender.querySelector('#job').innerHTML;
-            form.querySelector('[name=phone]').value = sender.querySelector('#phone').innerHTML;
+            form.querySelector('[name=employeeId]').value = checkNull(sender.querySelector('#id').innerHTML);
+            form.querySelector('[name=name]').value = checkNull(sender.querySelector('#name').innerHTML);
+            form.querySelector('[name=jobTitle]').value = checkNull(sender.querySelector('#job').innerHTML);
+            form.querySelector('[name=phone]').value = checkNull(sender.querySelector('#phone').innerHTML);
         }
     }
 };
@@ -194,6 +194,11 @@ let submitOrder = (action, elem) => {
     });
 };
 
+let checkNull = (text)=> {
+    text = text == 'null'? '':text;
+    return text;
+};
+
 let delOrder = (sender) => {
     let LINK = `/api/orders`;
 
@@ -237,6 +242,7 @@ let closeWindow = () => {
 };
 
 let errorWindow = (err) => {
+    closeWindow();
     let main = document.getElementsByClassName('main')[0];
     let win = document.createElement('div');
     win.className = 'change-window';
