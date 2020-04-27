@@ -113,7 +113,7 @@ const product = (Sequelize, sequelize) =>{
             type: Sequelize.STRING
         },
         price: {
-            type: Sequelize.INTEGER
+            type: Sequelize.DECIMAL(12,2)
         },
         quantity: {
             type: Sequelize.INTEGER
