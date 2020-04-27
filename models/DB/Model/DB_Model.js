@@ -102,7 +102,8 @@ const customer = (Sequelize, sequelize) =>{
 };
 
 const product = (Sequelize, sequelize) =>{
-    return sequelize.define('product', {
+    return sequelize.define('product', 
+    {
         prod_id: {
             type: Sequelize.INTEGER,
             allowNull: false,
@@ -127,6 +128,15 @@ const product = (Sequelize, sequelize) =>{
                 key: 'id'
             }
         }
+    },
+    {
+        indexes: 
+        [
+            {
+              unique: true,
+              fields: ['prod_id', 'order_id']
+            }
+        ]
     });
 };
 

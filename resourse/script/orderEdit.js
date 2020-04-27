@@ -96,6 +96,7 @@ let editOrder = (elem, sender) => {
         sender = sender.parentNode.parentNode;
         form.querySelector('[name=quantity]').value = sender.querySelector('#product_quantity').innerHTML;
         form.querySelector('[name=prod_id]').value = sender.querySelector('#product_id').innerHTML;
+        form.querySelector('[name=prod_id]').readOnly = true;
         form.querySelector('[name=name]').value = sender.querySelector('#products_name').innerHTML;
         form.querySelector('[name=price]').value = sender.querySelector('#product_price').innerHTML;
 

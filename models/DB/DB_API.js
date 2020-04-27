@@ -10,6 +10,9 @@ module.exports = {
         })
         .catch(err => {
             res.statusCode = 400;
+                            
+            console.log(err);
+
             res.json({error: err.toString()});
         });
     },
@@ -20,6 +23,9 @@ module.exports = {
         })
         .catch(err => {
             res.statusCode = 400;
+                            
+            console.log(err);
+
             res.json({error: err.toString()});
         });
     },
@@ -30,6 +36,9 @@ module.exports = {
         })
         .catch(err => {
             res.statusCode = 400;
+                
+            console.log(err);
+
             res.json({error: err.toString()});
         });
     },
@@ -41,6 +50,9 @@ module.exports = {
             }
             else {
                 res.statusCode = 400;
+                
+                console.log(err);
+
                 res.json({error: 'This records not founded'});
             }
         })
@@ -56,6 +68,9 @@ module.exports = {
                 return results;
             else {
                 res.statusCode = 400;
+                                
+                console.log(err);
+
                 res.json({error: 'This records not founded'});
             }
         })
