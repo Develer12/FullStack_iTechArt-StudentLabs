@@ -11,6 +11,9 @@ const order = (Sequelize, sequelize) =>{
         status: {
             type: Sequelize.STRING
         },
+        acceptedAt: {
+            type: Sequelize.DATEONLY
+        },
         shippedAt: {
             type: Sequelize.DATEONLY
         }

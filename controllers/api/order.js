@@ -15,10 +15,10 @@ Route.get('/', (req, res) =>{
         results.forEach(element => {
             OrderList.push( {
                 id: element.id, 
-                createdAt: moment(element.createdAt).format('DD.MM.YYYY'),
                 customer: element.customer,
                 status: element.status,
-                shippedAt: moment(element.shippedAt).format('DD.MM.YYYY')
+                shippedAt: moment(element.shippedAt).format('DD.MM.YYYY'),
+                acceptedAt: moment(element.acceptedAt).format('DD.MM.YYYY')
             });
         });
 
@@ -50,8 +50,8 @@ Route.get('/search', (req, res) =>{
             else if(filter == 'shipped'){
                 filterBool = (element.shippedAt.toString().indexOf(input) + 1);
             }
-            else if(filter == 'completed'){
-                filterBool = (element.createdAt.toString().indexOf(input) + 1);
+            else if(filter == 'accepted'){
+                filterBool = (element.acceptedAt.toString().indexOf(input) + 1);
             }
             else if(filter == 'customer'){
                 filterBool = (element.customer.toLowerCase().indexOf(input.toLowerCase()) + 1);
@@ -59,7 +59,7 @@ Route.get('/search', (req, res) =>{
             else{
                 filterBool = (element.id.toString().indexOf(input) + 1) 
                 || (('order '+element.id.toString()).indexOf(input.toLowerCase()) + 1)
-                || (element.createdAt.toString().indexOf(input) + 1) 
+                || (element.acceptedAt.toString().indexOf(input) + 1) 
                 || (element.customer.toLowerCase().indexOf(input.toLowerCase()) + 1) 
                 || (element.shippedAt.toString().indexOf(input) + 1);
             }
@@ -68,7 +68,7 @@ Route.get('/search', (req, res) =>{
             if(filterBool){
                 OrderList.push( {
                     id: element.id, 
-                    createdAt: moment(element.createdAt).format('DD.MM.YYYY'),
+                    acceptedAt: moment(element.acceptedAt).format('DD.MM.YYYY'),
                     customer: element.customer,
                     status: element.status,
                     shippedAt: moment(element.shippedAt).format('DD.MM.YYYY')
@@ -96,7 +96,7 @@ Route.get('/:n', (req, res) =>{
         OrderList = {
             id: id,
             OrderInfo: {
-				createdAt: moment(results.createdAt).format('DD.MM.YYYY'),
+				acceptedAt: moment(results.acceptedAt).format('DD.MM.YYYY'),
 				customer: results.customer,
 				status: results.status,
 				shippedAt: moment(results.shippedAt).format('DD.MM.YYYY')
@@ -114,7 +114,6 @@ Route.get('/:n', (req, res) =>{
             if(results){
                 results = results.dataValues;
                 OrderList.ShipTo = {
-                    name: results.name,
                     Address: results.address,
                     ZIP: results.zip,
                     Region: results.region,
@@ -143,7 +142,7 @@ Route.get('/:n', (req, res) =>{
         .then(results => {
             results = results[0];
             if(results){
-                results = results.dataValues;  
+                results = results.dataValues; 
                 OrderList.CustomerInfo = {
                     firstName: results.firstName,
                     lastName: results.lastName,
@@ -170,6 +169,10 @@ Route.get('/:n', (req, res) =>{
             });
         })
         .then(() => {
+            console.log(OrderList.ShipTo)
+            console.log(OrderList.ProcessorInfo)
+            console.log(OrderList.CustomerInfo)
+
             res.json(OrderList);
         });
     });

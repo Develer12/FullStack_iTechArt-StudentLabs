@@ -162,7 +162,6 @@ function StatusO(elem, id){
 }
 
 async function OpenOrder(elem){
-    console.log(SearchFilter)
     ItemsSort = '';
     let id = elem.id;
     let close = document.getElementById('CloseSideBar');
@@ -188,7 +187,7 @@ async function OpenOrder(elem){
             let priceF = 0;
             ItemsList = res.products;
             priceF = DrowOrderItems();
-
+            console.log(res)
             let customerName = res.CustomerInfo.firstName +' '+ res.CustomerInfo.lastName;
             DrowOrderStat(res.ShipTo, res.ProcessorInfo, customerName);
             StatusO(document.getElementById(openInfo), openInfo);
@@ -197,7 +196,7 @@ async function OpenOrder(elem){
             if(res.products[0])
                 document.getElementById('order_currency').innerHTML = res.products[0].currency;
             document.getElementById('order_ship').innerHTML = `Shipped: ${res.OrderInfo.shippedAt}`;
-            document.getElementById('order_ord').innerHTML = `Ordered: ${res.OrderInfo.createdAt}`;
+            document.getElementById('order_ord').innerHTML = `Ordered: ${res.OrderInfo.acceptedAt}`;
             document.getElementById('order_customer').innerHTML = `Customer: ${res.CustomerInfo.firstName} ${res.CustomerInfo.lastName}`;
             document.getElementById('order_id').innerHTML = `Order ${res.id}`;
             document.getElementById('sendmail').formAction = `mailto:${res.CustomerInfo.email}`;
@@ -404,7 +403,7 @@ function DrowOrderList(row){
                 <p class="textCut">Shipped: ${row.shippedAt}</p>
             </div>
             <div class="order-content-r right">
-                <p class="fat big">${row.createdAt}</p>
+                <p class="fat big">${row.acceptedAt}</p>
                 <p ${status}</p>
             </div>
         </div>

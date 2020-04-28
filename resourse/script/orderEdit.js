@@ -1,9 +1,15 @@
 let view ={
     order: 
     `
+        <span class="big">Order №:</span>
         <input type="number" name="id" min="1" placeholder="Order №">
+        <span class="big">Customer name:</span>
         <input type="text" name="customer" placeholder="Customer">
+        <span class="big">Ship Date:</span>
         <input type="date" name="shippedAt" placeholder="Date of shiping">
+        <span class="big">Accept Date:</span>
+        <input type="date" name="acceptedAt" placeholder="Date of shiping">
+        <span class="big">Order status:</span>
         <select name="status">
             <option disabled>Order status</option>
             <option selected value="Accepted">In time</option>
@@ -13,33 +19,48 @@ let view ={
     `,
     item: 
     `
+        <span class="big">Product id:</span>
         <input type="number" name="prod_id" min="1" placeholder="Product ID">
+        <span class="big">Product name:</span>
         <input type="text" name="name" placeholder="Product name">
+        <span class="big">Quantity:</span>
         <input type="number" name="quantity" min="1" placeholder="Quantity">
+        <span class="big">Price of unit:</span>
         <input type="number" name="price" step="0.01" min="0" placeholder="Unit Price">
+        <span class="big">Price currency:</span>
         <select name="currency">
             <option disabled>Currency</option>
             <option selected value="EUR">EUR</option>
-            <option value="USD">USD</option>
         </select>
         <input type="submit" id="search" value="Send"></button>
     `,
     ship: 
     `
+        <span class="big">First name:</span>
         <input type="text" name="firstName" placeholder="First Name">
+        <span class="big">Last name:</span>
         <input type="text" name="lastName" placeholder="Last Name">
+        <span class="big">E-mail:</span>
         <input type="text" name="email" placeholder="E-mail">
+        <span class="big">Street:</span>
         <input type="text" name="address" placeholder="Street">
+        <span class="big">Zip Code / City:</span>
         <input type="number" name="zip" min="1" placeholder="Zip Code / City">
+        <span class="big">Region:</span>
         <input type="text" name="region" placeholder="Region">
+        <span class="big">Country:</span>
         <input type="text" name="country" placeholder="Country">
         <input type="submit" id="search" value="Send"></button>
     `,
     process: //phone pattern="\d{3}[\(]\d{2}[\)]\d{3}[\-]\d{4}"  ???
     `
+        <span class="big">Processor name:</span>
         <input type="text" name="name" placeholder="Name">
+        <span class="big">Employee ID:</span>
         <input type="number" name="employeeId" min="1" placeholder="Employee ID">
+        <span class="big">Job title:</span>
         <input type="text" name="jobTitle" placeholder="Job Title">
+        <span class="big">Phone number:</span>
         <input type="tel" name="phone" placeholder="Phone">
         <input type="submit" id="search" value="Send"></button>
     `
@@ -73,6 +94,7 @@ let changeOrder = (elem, action, sender) => {
 
     let form = view[elem];
     if(form){
+        closeWindow();
         let main = document.getElementsByClassName('main')[0];
         let win = document.createElement('div');
         win.className = 'change-window';
@@ -130,6 +152,12 @@ let editOrder = (elem, sender) => {
         else if(ordStatus == 'Urgent'){
             form.querySelector('[name=status]').selectedIndex = 2;
         }
+
+        date = senderPart.childNodes[1].innerHTML;
+        date = date.slice(date.length - 10, date.length + 10);
+        date = date.slice(6, 10) + '-' + date.slice(3, 5) + '-' + date.slice(0, 2);
+
+        form.querySelector('[name=acceptedAt]').value = date;
     }
     else if(elem == 'ship'){
         sender = document.getElementsByClassName('status-list')[0];
@@ -202,6 +230,7 @@ let checkNull = (text)=> {
 };
 
 let searchFilter = () => {
+    closeWindow();
     let main = document.getElementsByClassName('main')[0];
     let win = document.createElement('div');
     win.className = 'change-window';
@@ -222,11 +251,11 @@ let searchFilter = () => {
         </div>
         <div class="search-filter">
             <input type="radio" name="searchfilter" onchange="SearchFilter='shipped';"/>
-            <span class="big">Shiping Data</span>
+            <span class="big">Ship Date</span>
         </div>
         <div class="search-filter">
-            <input type="radio" name="searchfilter" onchange="SearchFilter='completed';"/>
-            <span class="big">Complete Data</span>
+            <input type="radio" name="searchfilter" onchange="SearchFilter='accepted';"/>
+            <span class="big">Accepte Date</span>
         </div>
     `;
     main.append(win);
