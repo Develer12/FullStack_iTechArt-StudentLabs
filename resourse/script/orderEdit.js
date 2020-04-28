@@ -16,7 +16,7 @@ let view ={
         <input type="number" name="prod_id" min="1" placeholder="Product ID">
         <input type="text" name="name" placeholder="Product name">
         <input type="number" name="quantity" min="1" placeholder="Quantity">
-        <input type="number" name="price" min="0" placeholder="Unit Price">
+        <input type="number" name="price" step="0.01" min="0" placeholder="Unit Price">
         <select name="currency">
             <option disabled>Currency</option>
             <option selected value="EUR">EUR</option>
@@ -113,6 +113,7 @@ let editOrder = (elem, sender) => {
         let senderPart = sender.getElementsByClassName('order-content-l')[0];
 
         form.querySelector('[name=id]').value = Number(senderPart.childNodes[1].innerHTML.replace(/\D+/g,""));
+        form.querySelector('[name=id]').readOnly = true;
         form.querySelector('[name=customer]').value = senderPart.childNodes[3].innerHTML;
         let date = senderPart.childNodes[5].innerHTML;
         date = date.slice(date.length - 10, date.length + 10);
@@ -198,6 +199,37 @@ let submitOrder = (action, elem) => {
 let checkNull = (text)=> {
     text = text == 'null'? '':text;
     return text;
+};
+
+let searchFilter = () => {
+    let main = document.getElementsByClassName('main')[0];
+    let win = document.createElement('div');
+    win.className = 'change-window';
+    win.innerHTML =
+    `
+        <button class="close-ico min-but visible" onclick="closeWindow()"></button>
+        <div class="search-filter">
+            <input type="radio" name="searchfilter" onchange="SearchFilter='all';" checked/>
+            <span class="big">All</span>
+        </div>
+        <div class="search-filter">
+            <input type="radio" name="searchfilter" onchange="SearchFilter='number';"/>
+            <span class="big">Order №</span>
+        </div>
+        <div class="search-filter">
+            <input type="radio" name="searchfilter" onchange="SearchFilter='customer';"/>
+            <span class="big">Customer Name</span>
+        </div>
+        <div class="search-filter">
+            <input type="radio" name="searchfilter" onchange="SearchFilter='shipped';"/>
+            <span class="big">Shiping Data</span>
+        </div>
+        <div class="search-filter">
+            <input type="radio" name="searchfilter" onchange="SearchFilter='completed';"/>
+            <span class="big">Complete Data</span>
+        </div>
+    `;
+    main.append(win);
 };
 
 let delOrder = (sender) => {

@@ -7,7 +7,7 @@ let ButtSort = '';
 let ItemsListSorted = {};
 let ItemsList = {};
 let ItemsHeader = '';
-
+let SearchFilter = 'all';
 
 let Stat = {
 delivery: 
@@ -162,6 +162,7 @@ function StatusO(elem, id){
 }
 
 async function OpenOrder(elem){
+    console.log(SearchFilter)
     ItemsSort = '';
     let id = elem.id;
     let close = document.getElementById('CloseSideBar');
@@ -281,7 +282,7 @@ async function SearchHandler(elem){
     else if(id == 'order-search'){
         Drowjsloading('list_order');
 
-        let LINK = `/api/orders/search?i=${input}`;
+        let LINK = `/api/orders/search?i=${input}&filter=${SearchFilter}`;
         fetch(LINK, {method: 'GET'})
         .then(res => res.json())
         .then(res =>{

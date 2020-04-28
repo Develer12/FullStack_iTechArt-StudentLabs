@@ -28,7 +28,9 @@ Route.get('/', (req, res) =>{
 
 Route.get('/search', (req, res) =>{
     console.log("Search OrderList");
-    let input = req.query.i; 
+    let input = req.query.i;
+    let filter = req.query.filter; 
+
     let OrderList= [];
     
     API.get('order', res)
@@ -40,11 +42,30 @@ Route.get('/search', (req, res) =>{
                 element[e] = element[e] == null? '' : element[e];
             };
 
-            if((element.id.toString().indexOf(input) + 1) 
-            || (element.createdAt.toString().indexOf(input) + 1) 
-            || (element.customer.toLowerCase().indexOf(input.toLowerCase()) + 1) 
-            || (element.status.toLowerCase().indexOf(input.toLowerCase()) + 1) 
-            || (element.shippedAt.toString().indexOf(input) + 1)){
+            let filterBool;
+            if(filter == 'number'){
+                filterBool = (element.id.toString().indexOf(input) + 1) 
+                || (('order '+element.id.toString()).indexOf(input.toLowerCase()) + 1);
+            }
+            else if(filter == 'shipped'){
+                filterBool = (element.shippedAt.toString().indexOf(input) + 1);
+            }
+            else if(filter == 'completed'){
+                filterBool = (element.createdAt.toString().indexOf(input) + 1);
+            }
+            else if(filter == 'customer'){
+                filterBool = (element.customer.toLowerCase().indexOf(input.toLowerCase()) + 1);
+            }
+            else{
+                filterBool = (element.id.toString().indexOf(input) + 1) 
+                || (('order '+element.id.toString()).indexOf(input.toLowerCase()) + 1)
+                || (element.createdAt.toString().indexOf(input) + 1) 
+                || (element.customer.toLowerCase().indexOf(input.toLowerCase()) + 1) 
+                || (element.shippedAt.toString().indexOf(input) + 1);
+            }
+
+
+            if(filterBool){
                 OrderList.push( {
                     id: element.id, 
                     createdAt: moment(element.createdAt).format('DD.MM.YYYY'),
