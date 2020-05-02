@@ -10,8 +10,7 @@ class DB {
         sequelize.authenticate().then(()=>{
             let childOption = {
                 onDelete: 'CASCADE',
-                hooks: true,
-                foreignKey: 'order_id'
+                hooks: true
             };
   
             let order = model['order'](Sequelize, sequelize);
@@ -19,10 +18,14 @@ class DB {
             let processor = model['processor'](Sequelize, sequelize);
             let customer = model['customer'](Sequelize, sequelize);
             let product = model['product'](Sequelize, sequelize);
-  
-            ship.belongsTo(order, childOption);
-            processor.belongsTo(order, childOption);
-            customer.belongsTo(order, childOption);
+            let listproduct = model['listproduct'](Sequelize, sequelize);
+
+            customer.belongsTo(ship);
+            order.belongsTo(processor);
+            order.belongsTo(customer);
+            childOption.foreignKey = 'prod_id';
+            product.belongsTo(listproduct, childOption);
+            childOption.foreignKey = 'order_id';
             order.hasMany(product, childOption);
 
             sequelize.sync().catch(err=> console.log("SYNC ERROR: "+err));
@@ -35,6 +38,19 @@ class DB {
     }
 
     Search(tab, option){
+        /*
+        if(option.join){
+            option.include = [];
+            option.join.forEach(el => {
+                option.include.push({
+                    model: model[el](Sequelize, sequelize),
+                    as: el
+                });
+            });
+            delete option.join;
+        }
+        console.log(option)
+        */
         return model[tab](Sequelize, sequelize).findAll(option);
     }
 

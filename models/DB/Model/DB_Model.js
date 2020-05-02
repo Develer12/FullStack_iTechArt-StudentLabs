@@ -8,6 +8,20 @@ const order = (Sequelize, sequelize) =>{
         customer: {
             type: Sequelize.STRING
         },
+        employeeId: {
+            type: Sequelize.INTEGER,
+            references: {
+                model: 'processors',
+                key: 'id'
+            }
+        },
+        addresseeId: {
+            type: Sequelize.INTEGER,
+            references: {
+                model: 'addresseeInfos',
+                key: 'id'
+            }
+        },
         status: {
             type: Sequelize.STRING
         },
@@ -38,13 +52,6 @@ const ship = (Sequelize, sequelize) =>{
         },
         country: {
             type: Sequelize.STRING
-        },
-        order_id: {
-            type: Sequelize.INTEGER,
-            references: {
-                model: 'orders',
-                key: 'id'
-            }
         }
     });
 };
@@ -59,27 +66,17 @@ const processor = (Sequelize, sequelize) =>{
         name: {
             type: Sequelize.STRING
         },
-        employeeId: {
-            type: Sequelize.STRING
-        },
         jobTitle: {
             type: Sequelize.STRING
         },
         phone: {
             type: Sequelize.STRING
-        },
-        order_id: {
-            type: Sequelize.INTEGER,
-            references: {
-                model: 'orders',
-                key: 'id'
-            }
         }
     });
 };
 
 const customer = (Sequelize, sequelize) =>{
-    return sequelize.define('customerInfo', {
+    return sequelize.define('addresseeInfo', {
         id: {
             type: Sequelize.INTEGER,
             autoIncrement: true,
@@ -94,23 +91,23 @@ const customer = (Sequelize, sequelize) =>{
         email: {
             type: Sequelize.STRING
         },
-        order_id: {
+        shipId: {
             type: Sequelize.INTEGER,
             references: {
-                model: 'orders',
+                model: 'ships',
                 key: 'id'
             }
         }
     });
 };
 
-const product = (Sequelize, sequelize) =>{
-    return sequelize.define('product', 
+const listproduct = (Sequelize, sequelize) =>{
+    return sequelize.define('listproduct', 
     {
-        prod_id: {
+        id: {
             type: Sequelize.INTEGER,
             allowNull: false,
-            primaryKey: false
+            primaryKey: true
         },
         name: {
             type: Sequelize.STRING
@@ -118,11 +115,29 @@ const product = (Sequelize, sequelize) =>{
         price: {
             type: Sequelize.DECIMAL(12,2)
         },
-        quantity: {
-            type: Sequelize.INTEGER
-        },
         currency: {
             type: Sequelize.STRING
+        }
+    });
+};
+
+const product = (Sequelize, sequelize) =>{
+    return sequelize.define('product', 
+    {
+        id: {
+            type: Sequelize.INTEGER,
+            allowNull: false,
+            primaryKey: true
+        },
+        prod_id: {
+            type: Sequelize.INTEGER,
+            references: {
+                model: 'listproducts',
+                key: 'id'
+            }
+        },
+        quantity: {
+            type: Sequelize.INTEGER
         },
         order_id: {
             type: Sequelize.INTEGER,
@@ -131,15 +146,6 @@ const product = (Sequelize, sequelize) =>{
                 key: 'id'
             }
         }
-    },
-    {
-        indexes: 
-        [
-            {
-              unique: true,
-              fields: ['prod_id', 'order_id']
-            }
-        ]
     });
 };
 
@@ -148,5 +154,6 @@ module.exports = {
     ship: (Sequelize, sequelize) => {return ship(Sequelize, sequelize)},
     processor: (Sequelize, sequelize) => {return processor(Sequelize, sequelize)},
     customer: (Sequelize, sequelize) => {return customer(Sequelize, sequelize)},
-    product: (Sequelize, sequelize) => {return product(Sequelize, sequelize)}
+    product: (Sequelize, sequelize) => {return product(Sequelize, sequelize)},
+    listproduct: (Sequelize, sequelize) => {return listproduct(Sequelize, sequelize)}
 };

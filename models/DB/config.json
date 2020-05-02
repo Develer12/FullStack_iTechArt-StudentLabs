@@ -1,7 +1,7 @@
 {
     "username": "Develer12",
     "password": "admin",
-    "database": "TehOrder",
+    "database": "TehOrder3",
     "host": "localhost",
     "dialect": "mssql",
     "dialectOptions": {
