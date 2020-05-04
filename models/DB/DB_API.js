@@ -29,6 +29,19 @@ module.exports = {
             res.json({error: err.toString()});
         });
     },
+    raw: (raw, res) => {
+        return DB.RawQuery(raw)
+        .then(results => {
+            return results;
+        })
+        .catch(err => {
+            res.statusCode = 400;
+                            
+            console.log(err);
+
+            res.json({error: err.toString()});
+        });
+    },
     post: (tab, body, res) => {
         return DB.Insert(tab, body)
         .then(results => {

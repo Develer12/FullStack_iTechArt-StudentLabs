@@ -1,39 +1,3 @@
-const order = (Sequelize, sequelize) =>{
-    return sequelize.define('order', {
-        id: {
-            type: Sequelize.INTEGER,
-            autoIncrement: true,
-            primaryKey: true
-        },
-        customer: {
-            type: Sequelize.STRING
-        },
-        employeeId: {
-            type: Sequelize.INTEGER,
-            references: {
-                model: 'processors',
-                key: 'id'
-            }
-        },
-        addresseeId: {
-            type: Sequelize.INTEGER,
-            references: {
-                model: 'addresseeInfos',
-                key: 'id'
-            }
-        },
-        status: {
-            type: Sequelize.STRING
-        },
-        acceptedAt: {
-            type: Sequelize.DATEONLY
-        },
-        shippedAt: {
-            type: Sequelize.DATEONLY
-        }
-    });
-};
-
 const ship = (Sequelize, sequelize) =>{
     return sequelize.define('ship', {
         id: {
@@ -101,6 +65,42 @@ const customer = (Sequelize, sequelize) =>{
     });
 };
 
+const order = (Sequelize, sequelize) =>{
+    return sequelize.define('order', {
+        id: {
+            type: Sequelize.INTEGER,
+            autoIncrement: true,
+            primaryKey: true
+        },
+        customer: {
+            type: Sequelize.STRING
+        },
+        employeeId: {
+            type: Sequelize.INTEGER,
+            references: {
+                model: 'processors',
+                key: 'id'
+            }
+        },
+        addresseeId: {
+            type: Sequelize.INTEGER,
+            references: {
+                model: 'addresseeInfos',
+                key: 'id'
+            }
+        },
+        status: {
+            type: Sequelize.STRING
+        },
+        acceptedAt: {
+            type: Sequelize.DATEONLY
+        },
+        shippedAt: {
+            type: Sequelize.DATEONLY
+        }
+    });
+};
+
 const listproduct = (Sequelize, sequelize) =>{
     return sequelize.define('listproduct', 
     {
@@ -150,10 +150,10 @@ const product = (Sequelize, sequelize) =>{
 };
 
 module.exports = {
-    order: (Sequelize, sequelize) => {return order(Sequelize, sequelize)},
     ship: (Sequelize, sequelize) => {return ship(Sequelize, sequelize)},
     processor: (Sequelize, sequelize) => {return processor(Sequelize, sequelize)},
     customer: (Sequelize, sequelize) => {return customer(Sequelize, sequelize)},
+    order: (Sequelize, sequelize) => {return order(Sequelize, sequelize)},
     product: (Sequelize, sequelize) => {return product(Sequelize, sequelize)},
     listproduct: (Sequelize, sequelize) => {return listproduct(Sequelize, sequelize)}
 };

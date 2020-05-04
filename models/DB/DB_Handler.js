@@ -8,23 +8,30 @@ class DB {
     constructor(){
         sequelize = new Sequelize(config);
         sequelize.authenticate().then(()=>{
-            let childOption = {
-                onDelete: 'CASCADE',
-                hooks: true
-            };
+            let childOption = {};
   
-            let order = model['order'](Sequelize, sequelize);
             let ship = model['ship'](Sequelize, sequelize);
-            let processor = model['processor'](Sequelize, sequelize);
             let customer = model['customer'](Sequelize, sequelize);
+            let processor = model['processor'](Sequelize, sequelize);
+            let order = model['order'](Sequelize, sequelize);
             let product = model['product'](Sequelize, sequelize);
             let listproduct = model['listproduct'](Sequelize, sequelize);
 
             customer.belongsTo(ship);
-            order.belongsTo(processor);
-            order.belongsTo(customer);
-            childOption.foreignKey = 'prod_id';
+            childOption.foreignKey = 'addresseeId';
+            order.belongsTo(customer, childOption);
+            childOption.foreignKey = 'employeeId';
+            order.belongsTo(processor, childOption);
+
+            childOption = {
+                onDelete: 'CASCADE',
+                hooks: true,
+                foreignKey: 'prod_id',
+            };
+            listproduct.hasMany(product, childOption);
             product.belongsTo(listproduct, childOption);
+
+            
             childOption.foreignKey = 'order_id';
             order.hasMany(product, childOption);
 
@@ -44,14 +51,19 @@ class DB {
             option.join.forEach(el => {
                 option.include.push({
                     model: model[el](Sequelize, sequelize),
+                    required: true,
                     as: el
                 });
             });
             delete option.join;
+            //option.include = [{all: true}]
         }
-        console.log(option)
         */
         return model[tab](Sequelize, sequelize).findAll(option);
+    }
+
+    RawQuery(raw){
+        return sequelize.query(raw);
     }
 
     GetOne(tab, id){

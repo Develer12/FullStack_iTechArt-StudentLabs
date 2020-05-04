@@ -85,34 +85,82 @@ Route.get('/:n', (req, res) =>{
     let id = req.params.n;  
     console.log("Get OrderList " + id);
     let OrderList;
-    let option = { where: { order_id: id}};
+    let option = { where: {id: id}};
 
-    API.search('order', { where: { id: id}}, res)
+    let employeeId;
+    let addresseeId;
+
+    API.search('order', option, res)
     .then(results => {
         results = results[0];
         if(results){
             results = results.dataValues; 
+
+            employeeId = results.employeeId;
+            addresseeId  = results.addresseeId;
+
+            OrderList = {
+                id: id,
+                OrderInfo: {
+                    acceptedAt: moment(results.acceptedAt).format('DD.MM.YYYY'),
+                    customer: results.customer,
+                    status: results.status,
+                    shippedAt: moment(results.shippedAt).format('DD.MM.YYYY')
+                }, 
+                ShipTo: {},
+                ProcessorInfo: {},
+                CustomerInfo: {},
+                products: []
+            };
         }
-        OrderList = {
-            id: id,
-            OrderInfo: {
-				acceptedAt: moment(results.acceptedAt).format('DD.MM.YYYY'),
-				customer: results.customer,
-				status: results.status,
-				shippedAt: moment(results.shippedAt).format('DD.MM.YYYY')
-			}, 
-            ShipTo: {},
-            ProcessorInfo: {},
-            CustomerInfo: {},
-            products: []
-        };
     })
-    .then(() => {
-        API.search('ship', option, res)
+    .then(async () => {
+        //processor
+        option.where.id = employeeId;
+
+        await API.search('processor', option, res)
+        .then(results => {
+            results = results[0];
+            if(results){
+                results = results.dataValues;  
+                console.log('processor', 0)
+
+                OrderList.ProcessorInfo = {
+                    name: results.name,
+                    employeeId: employeeId,
+                    jobTitle: results.jobTitle,
+                    phone: results.phone
+                };
+            }
+        });
+
+        //addressee/customer
+        option.where.id = addresseeId;
+
+        await API.search('customer', option, res)
+        .then(results => {
+            results = results[0];
+            if(results){
+                results = results.dataValues; 
+                console.log('cust', 0)
+
+                OrderList.CustomerInfo = {
+                    firstName: results.firstName,
+                    lastName: results.lastName,
+                    email: results.email
+                };
+
+                option.where.id = results.shipId;
+            }
+        });
+
+        //ship
+        await API.search('ship', option, res)
         .then(results => {
             results = results[0];
             if(results){
                 results = results.dataValues;
+                console.log('ship', 0)
                 OrderList.ShipTo = {
                     Address: results.address,
                     ZIP: results.zip,
@@ -121,61 +169,28 @@ Route.get('/:n', (req, res) =>{
                 };  
             }
         });
-    })
-    .then(() => {
-        API.search('processor', option, res)
+        
+        //products
+        let query = `select products.id, name, price, quantity, currency from products, listproducts 
+        where prod_id = listproducts.id and order_id = ${id};`
+        await API.raw(query, res)
         .then(results => {
-            results = results[0];
-            if(results){
-                results = results.dataValues;  
-                OrderList.ProcessorInfo = {
-                    name: results.name,
-                    employeeId: results.employeeId,
-                    jobTitle: results.jobTitle,
-                    phone: results.phone
-                };
-            }
-        });
-    })
-    .then(() => {
-        API.search('customer', option, res)
-        .then(results => {
-            results = results[0];
-            if(results){
-                results = results.dataValues; 
-                OrderList.CustomerInfo = {
-                    firstName: results.firstName,
-                    lastName: results.lastName,
-                    address: results.address,
-                    phone: results.phone,
-                    email: results.email
-                };
-            }
-        });
-    })
-    .then(() => {
-        API.search('product', option, res)
-        .then(results => {
-            results.forEach(element => {
-                element = element.dataValues;
+            results[0].forEach(el => {
                 OrderList.products.push({
-                    id: element.prod_id,
-                    name: element.name,
-                    price: element.price,
-                    currency: element.currency,
-                    quantity: element.quantity,
-                    totalPrice: (Number(element.quantity) * Number(element.price))
+                    id: el.id,
+                    quantity: el.quantity,
+                    name: el.name,
+                    price: el.price,
+                    currency: el.currency,
+                    totalPrice: (Number(el.quantity) * Number(el.price))
                 });
             });
-        })
-        .then(() => {
-            console.log(OrderList.ShipTo)
-            console.log(OrderList.ProcessorInfo)
-            console.log(OrderList.CustomerInfo)
-
-            res.json(OrderList);
         });
-    });
+
+        console.log(OrderList)
+        await res.json(OrderList);
+    })
+    
 });
 
 //Edit order
@@ -232,37 +247,37 @@ Route.delete('/:order_id', (req, res)=>{
 
 //Search order products
 Route.get('/item/search', (req, res) =>{
-    console.log("Get OrderList");
     let input = req.query.i;
     let id = req.query.id;
     let ItemsList= [];
-    let option = { where: { order_id: id}};
     
-    API.search('product', option, res)
+    let query = `select products.id, name, price, quantity, currency from products, listproducts 
+    where prod_id = listproducts.id and order_id = ${id};`
+    API.raw(query, res)
     .then(results => {
-        results.forEach(element => {
-            element = element.dataValues;
+        if(results[0]){
+            results[0].forEach(element => {
+                for(e in element){
+                    element[e] = element[e] == null? '' : element[e];
+                };
 
-            for(e in element){
-                element[e] = element[e] == null? '' : element[e];
-            };
-
-            if((element.prod_id.toString().indexOf(input) + 1) 
-            || (element.name.toLowerCase().indexOf(input.toLowerCase()) + 1) 
-            || (element.price.toString().indexOf(input) + 1) 
-            || (((Number(element.quantity) * Number(element.price))).toString().indexOf(input) + 1) 
-            || (element.currency.indexOf(input) + 1) 
-            || (element.quantity.toString().toLowerCase().indexOf(input.toLowerCase()) + 1)){
-                ItemsList.push({
-                    id: element.prod_id,
-                    name: element.name,
-                    price: element.price,
-                    currency: element.currency,
-                    quantity: element.quantity,
-                    totalPrice: (Number(element.quantity) * Number(element.price))
-                });
-            }
-        });
+                if((element.id.toString().indexOf(input) + 1) 
+                || (element.name.toLowerCase().indexOf(input.toLowerCase()) + 1) 
+                || (element.price.toString().indexOf(input) + 1) 
+                || (((Number(element.quantity) * Number(element.price))).toString().indexOf(input) + 1) 
+                || (element.currency.indexOf(input) + 1) 
+                || (element.quantity.toString().toLowerCase().indexOf(input.toLowerCase()) + 1)){
+                    ItemsList.push({
+                        id: element.id,
+                        name: element.name,
+                        price: element.price,
+                        currency: element.currency,
+                        quantity: element.quantity,
+                        totalPrice: (Number(element.quantity) * Number(element.price))
+                    });
+                }
+            });
+        }
 
         res.json(ItemsList);
     });
