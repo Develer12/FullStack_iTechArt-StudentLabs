@@ -81,7 +81,7 @@ Route.get('/search', (req, res) =>{
     });
 });
 
-Route.get('/:n', (req, res) =>{ 
+Route.get('/:n(\\d+)/', (req, res) =>{ 
     let id = req.params.n;  
     console.log("Get OrderList " + id);
     let OrderList;
@@ -123,8 +123,6 @@ Route.get('/:n', (req, res) =>{
             results = results[0];
             if(results){
                 results = results.dataValues;  
-                console.log('processor', 0)
-
                 OrderList.ProcessorInfo = {
                     name: results.name,
                     employeeId: employeeId,
@@ -142,8 +140,6 @@ Route.get('/:n', (req, res) =>{
             results = results[0];
             if(results){
                 results = results.dataValues; 
-                console.log('cust', 0)
-
                 OrderList.CustomerInfo = {
                     firstName: results.firstName,
                     lastName: results.lastName,
@@ -160,7 +156,6 @@ Route.get('/:n', (req, res) =>{
             results = results[0];
             if(results){
                 results = results.dataValues;
-                console.log('ship', 0)
                 OrderList.ShipTo = {
                     Address: results.address,
                     ZIP: results.zip,
@@ -172,7 +167,7 @@ Route.get('/:n', (req, res) =>{
         
         //products
         let query = `select products.id, name, price, quantity, currency from products, listproducts 
-        where prod_id = listproducts.id and order_id = ${id};`
+            where prod_id = listproducts.id and order_id = ${id};`
         await API.raw(query, res)
         .then(results => {
             results[0].forEach(el => {
@@ -187,7 +182,6 @@ Route.get('/:n', (req, res) =>{
             });
         });
 
-        console.log(OrderList)
         await res.json(OrderList);
     })
     
@@ -198,33 +192,6 @@ Route.post('/', (req, res)=>{
     let id = req.body.id;
 
     API.post('order', req.body, res)
-    .then(() => {
-        API.post('ship', {
-            order_id: req.body.id,
-            name: null,
-            address: null,
-            zip: null,
-            region: null,
-            country: null
-        }, res);
-    })
-    .then(() => {
-        API.post('processor', {
-            order_id: req.body.id,
-            name: null,
-            employeeId: null,
-            jobTitle: null,
-            phone: null
-        }, res);
-    })
-    .then(() => {
-        API.post('customer', {
-            firstName:null,
-            lastName: null,
-            email: null,
-            order_id: req.body.id,
-        }, res);
-    })
     .then(() => res.json({}));
 });
 
@@ -234,7 +201,7 @@ Route.put('/', (req, res)=>{
     .then(() => res.json({}));
 });
 
-Route.delete('/:order_id', (req, res)=>{
+Route.delete('/:order_id(\\d+)/', (req, res)=>{
     let id = req.params.order_id;
     let option = {order_id: id};
     API.delete('order', {id: id}, res)
@@ -244,6 +211,48 @@ Route.delete('/:order_id', (req, res)=>{
 
 ////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////              ORDER ELEMENTS             ////////////////
+
+//Get order processor
+Route.get('/process', (req, res)=>{
+    let List= [];
+    API.get('processor', res)
+    .then(results => {
+        results.forEach(element => {
+            List.push( {
+                id: element.id,
+                name: element.name,
+                jobTitle: element.jobTitle,
+                phone: element.phone
+            });
+        });
+
+        res.json(List);
+    });
+});
+
+//Get order ship
+Route.get('/ship', (req, res)=>{
+    let List= [];
+    let query = `select addresseeInfos.id, address, zip, region, country, firstName, lastName, email
+        from ships, addresseeInfos where shipId = ships.id;`
+    API.raw(query, res)
+    .then(results => {
+        results[0].forEach(el => {
+            List.push({
+                id: el.id,
+                firstName: el.firstName,
+                lastName: el.lastName,
+                email: el.email,
+                address: el.address,
+                zip: el.zip,
+                region: el.region,
+                country: el.country
+            });
+        });
+
+        res.json(List);
+    });
+});
 
 //Search order products
 Route.get('/item/search', (req, res) =>{
@@ -283,14 +292,15 @@ Route.get('/item/search', (req, res) =>{
     });
 });
 
+
 //edit order products
-Route.post('/item/:order_id', (req, res)=>{
+Route.post('/item/:order_id(\\d+)/', (req, res)=>{
     req.body.order_id = req.params.order_id;
     API.post('product', req.body, res)
     .then(() => res.json({}));
 });
 
-Route.put('/item/:order_id', (req, res)=>{
+Route.put('/item/:order_id(\\d+)/', (req, res)=>{
     let item = req.body.prod_id;
     let order = req.params.order_id;
     req.body.update_id = {prod_id: item, order_id: order};
@@ -298,7 +308,7 @@ Route.put('/item/:order_id', (req, res)=>{
     .then(() => res.json({}));
 });
 
-Route.delete('/item/:item_id/:order_id', (req, res)=>{
+Route.delete('/item/:item_id(\\d+)/:order_id(\\d+)/', (req, res)=>{
     let item = req.params.item_id;
     let order = req.params.order_id;
     API.delete('product', {prod_id: item, order_id: order}, res)
@@ -306,13 +316,13 @@ Route.delete('/item/:item_id/:order_id', (req, res)=>{
 });
 
 //edit order elements
-Route.put('/process/:order_id', (req, res)=>{
+Route.put('/process/:order_id(\\d+)/', (req, res)=>{
     req.body.update_id = { order_id: req.params.order_id};
     API.put('processor', req.body, res)
     .then(() => res.json({}));
 });
 
-Route.put('/ship/:order_id', (req, res)=>{
+Route.put('/ship/:order_id(\\d+)/', (req, res)=>{
     let update_id = { order_id: req.params.order_id};
     API.put('ship', {
         address: req.body.address,

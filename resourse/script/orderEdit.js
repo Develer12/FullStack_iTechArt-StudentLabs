@@ -19,14 +19,18 @@ let view ={
     `,
     item: 
     `
-        <span class="big">Product id:</span>
-        <input type="number" name="prod_id" min="1" placeholder="Product ID">
+        <span class="big">Product ID:</span>
+        <select name="id" onchange="chooseSelect(this, 'item')">
+            <option disabled selected>Product ID</option>
+        </select>
+        <span class="big">Quantity:</span>
+        <input type="number" name="quantity" min="1" placeholder="Quantity">
         <span class="big">Product name:</span>
-        <input type="text" name="name" placeholder="Product name">
+        <input type="text" name="name" placeholder="Product name" readonly>
         <span class="big">Quantity:</span>
         <input type="number" name="quantity" min="1" placeholder="Quantity">
         <span class="big">Price of unit:</span>
-        <input type="number" name="price" step="0.01" min="0" placeholder="Unit Price">
+        <input type="number" name="price" step="0.01" min="0" placeholder="Unit Price" readonly>
         <span class="big">Price currency:</span>
         <select name="currency">
             <option disabled>Currency</option>
@@ -36,35 +40,43 @@ let view ={
     `,
     ship: 
     `
+        <span class="big">Addressee ID:</span>
+        <select name="id" onchange="chooseSelect(this, 'ship')">
+            <option disabled selected>Addressee ID</option>
+        </select>
         <span class="big">First name:</span>
-        <input type="text" name="firstName" placeholder="First Name">
+        <input type="text" name="firstName" placeholder="First Name" readonly>
         <span class="big">Last name:</span>
-        <input type="text" name="lastName" placeholder="Last Name">
+        <input type="text" name="lastName" placeholder="Last Name" readonly>
         <span class="big">E-mail:</span>
-        <input type="text" name="email" placeholder="E-mail">
+        <input type="text" name="email" placeholder="E-mail" readonly>
         <span class="big">Street:</span>
-        <input type="text" name="address" placeholder="Street">
+        <input type="text" name="address" placeholder="Street" readonly>
         <span class="big">Zip Code / City:</span>
-        <input type="number" name="zip" min="1" placeholder="Zip Code / City">
+        <input type="number" name="zip" min="1" placeholder="Zip Code / City" readonly>
         <span class="big">Region:</span>
-        <input type="text" name="region" placeholder="Region">
+        <input type="text" name="region" placeholder="Region" readonly>
         <span class="big">Country:</span>
-        <input type="text" name="country" placeholder="Country">
+        <input type="text" name="country" placeholder="Country" readonly>
         <input type="submit" id="search" value="Send"></button>
     `,
-    process: //phone pattern="\d{3}[\(]\d{2}[\)]\d{3}[\-]\d{4}"  ???
+    process:
     `
+        <span class="big">Processor ID:</span>
+        <select name="id" onchange="chooseSelect(this, 'process')">
+            <option disabled selected>Processor Id</option>
+        </select>
         <span class="big">Processor name:</span>
-        <input type="text" name="name" placeholder="Name">
-        <span class="big">Employee ID:</span>
-        <input type="number" name="employeeId" min="1" placeholder="Employee ID">
+        <input type="text" name="name" placeholder="Name" readonly>
         <span class="big">Job title:</span>
-        <input type="text" name="jobTitle" placeholder="Job Title">
+        <input type="text" name="jobTitle" placeholder="Job Title" readonly>
         <span class="big">Phone number:</span>
-        <input type="tel" name="phone" placeholder="Phone">
+        <input type="tel" name="phone" placeholder="Phone" readonly>
         <input type="submit" id="search" value="Send"></button>
     `
 };
+
+let tempArray = [];
 
 let openOrderUrl = () => {
     let url = window.location.pathname;
@@ -160,25 +172,92 @@ let editOrder = (elem, sender) => {
         form.querySelector('[name=acceptedAt]').value = date;
     }
     else if(elem == 'ship'){
-        sender = document.getElementsByClassName('status-list')[0];
-        if(sender){
-            let customerName = document.getElementById('order_customer').innerHTML.split(/\s*:\s*/);
-            form.querySelector('[name=firstName]').value = checkNull(customerName[1].split(' ')[0]);
-            form.querySelector('[name=lastName]').value = checkNull(customerName[1].split(' ')[1]);
-            form.querySelector('[name=email]').value = checkNull(document.getElementById('sendmail').getAttribute('formaction').split(/mailto:\s*/)[1]);
-            form.querySelector('[name=address]').value = checkNull(sender.querySelector('#street').innerHTML);
-            form.querySelector('[name=zip]').value = checkNull(sender.querySelector('#zip').innerHTML);
-            form.querySelector('[name=region]').value = checkNull(sender.querySelector('#region').innerHTML);
-            form.querySelector('[name=country]').value = checkNull(sender.querySelector('#country').innerHTML);
-        }
+
+        let LINK = `/api/orders/ship`;
+        fetch(LINK, {method: 'GET'}).then(res => res.json()).then(res =>{
+            sender = document.getElementsByClassName('status-list')[0];
+            form = form.querySelector('[name=id]')
+            if(sender){
+                tempArray = [];
+                res.forEach(el => {
+                    tempArray.push(el);
+                    let option = document.createElement('option');
+                    option.value = el.id;
+                    option.innerHTML = el.id;
+                    form.append(option);
+                });
+            }
+        })
+        .then(() => {
+            sender = document.getElementsByClassName('status-list')[0];
+            sender = sender.querySelector('#id').innerHTML;
+            if(sender){
+                let i = 0;
+                tempArray.forEach(el => {
+                    ++i;
+                    if(el.id == sender){
+                        form.selectedIndex = i;
+                        form.onchange();
+                    }
+                });
+            }
+        })
+        .catch((err) => console.log(`Fetch ERROR by ${LINK}: ${err}`));
     }
     else if(elem == 'process'){
-        sender = document.getElementsByClassName('status-list')[0];
-        if(sender){
-            form.querySelector('[name=employeeId]').value = checkNull(sender.querySelector('#id').innerHTML);
-            form.querySelector('[name=name]').value = checkNull(sender.querySelector('#name').innerHTML);
-            form.querySelector('[name=jobTitle]').value = checkNull(sender.querySelector('#job').innerHTML);
-            form.querySelector('[name=phone]').value = checkNull(sender.querySelector('#phone').innerHTML);
+        let LINK = `/api/orders/process`;
+        fetch(LINK, {method: 'GET'}).then(res => res.json()).then(res =>{
+            sender = document.getElementsByClassName('status-list')[0];
+            form = form.querySelector('[name=id]')
+            if(sender){
+                tempArray = [];
+                res.forEach(el => {
+                    tempArray.push(el);
+                    let option = document.createElement('option');
+                    option.value = el.id;
+                    option.innerHTML = el.id;
+                    form.append(option);
+                });
+            }
+        })
+        .then(() => {
+            sender = document.getElementsByClassName('status-list')[0];
+            sender = sender.querySelector('#id').innerHTML;
+            if(sender){
+                let i = 0;
+                tempArray.forEach(el => {
+                    ++i;
+                    if(el.id == sender){
+                        form.selectedIndex = i;
+                        form.onchange();
+                    }
+                });
+            }
+        })
+        .catch((err) => console.log(`Fetch ERROR by ${LINK}: ${err}`));
+    }
+};
+
+let chooseSelect = (sender, elem) => {
+    let form = document.getElementById('order-change');
+    let id = sender.value;
+
+    if(id){
+        let arr = tempArray.find(el => el.id == id);
+
+        if(elem == 'process'){
+            form.querySelector('[name=name]').value = arr.name;
+            form.querySelector('[name=jobTitle]').value = arr.jobTitle;
+            form.querySelector('[name=phone]').value = arr.phone;
+        }
+        else if(elem == 'ship'){
+            form.querySelector('[name=firstName]').value = arr.firstName;
+            form.querySelector('[name=lastName]').value = arr.lastName;
+            form.querySelector('[name=email]').value = arr.email;
+            form.querySelector('[name=address]').value = arr.address;
+            form.querySelector('[name=zip]').value = arr.zip;
+            form.querySelector('[name=region]').value = arr.region;
+            form.querySelector('[name=country]').value = arr.country;
         }
     }
 };
@@ -225,7 +304,7 @@ let submitOrder = (action, elem) => {
 };
 
 let checkNull = (text)=> {
-    text = text == 'null'? '':text;
+    text = (text == 'null' || text == 'undefined')? '':text;
     return text;
 };
 
