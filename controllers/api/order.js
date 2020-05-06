@@ -157,6 +157,7 @@ Route.get('/:n(\\d+)/', (req, res) =>{
             if(results){
                 results = results.dataValues;
                 OrderList.ShipTo = {
+                    id: results.id,
                     Address: results.address,
                     ZIP: results.zip,
                     Region: results.region,
@@ -254,6 +255,27 @@ Route.get('/ship', (req, res)=>{
     });
 });
 
+//Get order products
+Route.get('/item', (req, res)=>{
+    let List= [];
+    let query = `select products.id, name, price, quantity, currency from products, listproducts
+        where prod_id = listproducts.id`;
+    API.raw(query, res)
+    .then(results => {
+        results[0].forEach(el => {
+            List.push({
+                id: el.id,
+                name: el.name,
+                price: el.price,
+                currency: el.currency,
+                quantity: el.quantity
+            });
+        });
+
+        res.json(List);
+    });
+});
+
 //Search order products
 Route.get('/item/search', (req, res) =>{
     let input = req.query.i;
@@ -261,7 +283,7 @@ Route.get('/item/search', (req, res) =>{
     let ItemsList= [];
     
     let query = `select products.id, name, price, quantity, currency from products, listproducts 
-    where prod_id = listproducts.id and order_id = ${id};`
+        where prod_id = listproducts.id and order_id = ${id};`
     API.raw(query, res)
     .then(results => {
         if(results[0]){
@@ -317,28 +339,20 @@ Route.delete('/item/:item_id(\\d+)/:order_id(\\d+)/', (req, res)=>{
 
 //edit order elements
 Route.put('/process/:order_id(\\d+)/', (req, res)=>{
-    req.body.update_id = { order_id: req.params.order_id};
-    API.put('processor', req.body, res)
+    let body = {};
+    body.update_id = { id: req.params.order_id};
+    body.employeeId = req.body.id;
+    
+    API.put('order', body, res)
     .then(() => res.json({}));
 });
 
 Route.put('/ship/:order_id(\\d+)/', (req, res)=>{
-    let update_id = { order_id: req.params.order_id};
-    API.put('ship', {
-        address: req.body.address,
-        zip: req.body.zip,
-        region: req.body.region,
-        country: req.body.country,
-        update_id: update_id
-    }, res)
-    .then(() => {
-        API.put('customer', {
-            firstName: req.body.firstName,
-            lastName: req.body.lastName,
-            email: req.body.email,
-            update_id: update_id
-        }, res);
-    })
+    let body = {};
+    body.update_id = { id: req.params.order_id};
+    body.addresseeId = req.body.id;
+
+    API.put('order', body, res)
     .then(() => res.json({}));
 });
 

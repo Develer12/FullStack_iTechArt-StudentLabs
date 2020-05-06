@@ -187,7 +187,6 @@ async function OpenOrder(elem){
             let priceF = 0;
             ItemsList = res.products;
             priceF = DrowOrderItems();
-            console.log(res)
             let customerName = res.CustomerInfo.firstName +' '+ res.CustomerInfo.lastName;
             DrowOrderStat(res.ShipTo, res.ProcessorInfo, customerName);
             StatusO(document.getElementById(openInfo), openInfo);
@@ -357,6 +356,10 @@ function DrowOrderStat(ship, processor, customerName){
         <hr>
         <table class="status-list">
             <thead>
+                <tr id="status_item" class="js-status">
+                    <td>Addressee ID:</td>
+                    <td class="status black" id="id">${ship.id}</td>
+                </tr>
                 <tr id="status_item" class="js-status">
                     <td>Name:</td>
                     <td class="status black" id="name">${customerName}</td>
@@ -556,7 +559,7 @@ function DrowOrderItemsList(container, row, priceF){
             <td class="left mob-tab">
                 <span class="black" id="products_name">${row.name}</span>
                 <br>
-                <span id="product_id">${row.id}</span>
+                <span id="id">${row.id}</span>
                 <br>
                 <br>
                 <span>Unit Price:</span>
@@ -586,7 +589,7 @@ function DrowOrderItemsList(container, row, priceF){
             <td class="left">
                 <span class="black" id="products_name">${row.name}</span>
                 <br>
-                <span id="product_id">${row.id}</span>
+                <span id="id">${row.id}</span>
             </td>
             <td>
                 <span class="black" id="product_price">${row.price}</span> 

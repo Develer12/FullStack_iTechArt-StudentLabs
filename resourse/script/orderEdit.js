@@ -27,15 +27,10 @@ let view ={
         <input type="number" name="quantity" min="1" placeholder="Quantity">
         <span class="big">Product name:</span>
         <input type="text" name="name" placeholder="Product name" readonly>
-        <span class="big">Quantity:</span>
-        <input type="number" name="quantity" min="1" placeholder="Quantity">
         <span class="big">Price of unit:</span>
         <input type="number" name="price" step="0.01" min="0" placeholder="Unit Price" readonly>
         <span class="big">Price currency:</span>
-        <select name="currency">
-            <option disabled>Currency</option>
-            <option selected value="EUR">EUR</option>
-        </select>
+        <input type="text" name="currency" placeholder="Currency" readonly>
         <input type="submit" id="search" value="Send"></button>
     `,
     ship: 
@@ -128,19 +123,6 @@ let editOrder = (elem, sender) => {
 
     if(elem == 'item'){
         sender = sender.parentNode.parentNode;
-        form.querySelector('[name=quantity]').value = sender.querySelector('#product_quantity').innerHTML;
-        form.querySelector('[name=prod_id]').value = sender.querySelector('#product_id').innerHTML;
-        form.querySelector('[name=prod_id]').readOnly = true;
-        form.querySelector('[name=name]').value = sender.querySelector('#products_name').innerHTML;
-        form.querySelector('[name=price]').value = sender.querySelector('#product_price').innerHTML;
-
-        let currency = sender.querySelector('#product_currency').innerHTML;
-        if(currency == 'EUR'){
-            form.querySelector('[name=currency]').selectedIndex = 1;
-        }
-        else if(currency == 'USD'){
-            form.querySelector('[name=currency]').selectedIndex = 2;
-        }
     }
     else if(elem == 'order'){
         sender = document.getElementsByClassName('list-order-contentC')[0];
@@ -170,69 +152,36 @@ let editOrder = (elem, sender) => {
         date = date.slice(6, 10) + '-' + date.slice(3, 5) + '-' + date.slice(0, 2);
 
         form.querySelector('[name=acceptedAt]').value = date;
-    }
-    else if(elem == 'ship'){
 
-        let LINK = `/api/orders/ship`;
-        fetch(LINK, {method: 'GET'}).then(res => res.json()).then(res =>{
-            sender = document.getElementsByClassName('status-list')[0];
-            form = form.querySelector('[name=id]')
-            if(sender){
-                tempArray = [];
-                res.forEach(el => {
-                    tempArray.push(el);
-                    let option = document.createElement('option');
-                    option.value = el.id;
-                    option.innerHTML = el.id;
-                    form.append(option);
-                });
-            }
-        })
-        .then(() => {
-            sender = document.getElementsByClassName('status-list')[0];
-            sender = sender.querySelector('#id').innerHTML;
-            if(sender){
-                let i = 0;
-                tempArray.forEach(el => {
-                    ++i;
-                    if(el.id == sender){
-                        form.selectedIndex = i;
-                        form.onchange();
-                    }
-                });
-            }
-        })
-        .catch((err) => console.log(`Fetch ERROR by ${LINK}: ${err}`));
+        sender = null;
     }
-    else if(elem == 'process'){
-        let LINK = `/api/orders/process`;
+    else if(elem == 'ship' || elem == 'process'){
+        sender = document.getElementsByClassName('status-list')[0];
+    }
+
+    if(sender){
+        sender = sender.querySelector('#id').innerHTML;
+        let LINK = `/api/orders/${elem}`;
         fetch(LINK, {method: 'GET'}).then(res => res.json()).then(res =>{
-            sender = document.getElementsByClassName('status-list')[0];
             form = form.querySelector('[name=id]')
-            if(sender){
-                tempArray = [];
-                res.forEach(el => {
-                    tempArray.push(el);
-                    let option = document.createElement('option');
-                    option.value = el.id;
-                    option.innerHTML = el.id;
-                    form.append(option);
-                });
-            }
+            tempArray = [];
+            res.forEach(el => {
+                tempArray.push(el);
+                let option = document.createElement('option');
+                option.value = el.id;
+                option.innerHTML = el.id;
+                form.append(option);
+            });
         })
         .then(() => {
-            sender = document.getElementsByClassName('status-list')[0];
-            sender = sender.querySelector('#id').innerHTML;
-            if(sender){
-                let i = 0;
-                tempArray.forEach(el => {
-                    ++i;
-                    if(el.id == sender){
-                        form.selectedIndex = i;
-                        form.onchange();
-                    }
-                });
-            }
+            let i = 0;
+            tempArray.forEach(el => {
+                ++i;
+                if(el.id == sender){
+                    form.selectedIndex = i;
+                    form.onchange();
+                }
+            });
         })
         .catch((err) => console.log(`Fetch ERROR by ${LINK}: ${err}`));
     }
@@ -258,6 +207,12 @@ let chooseSelect = (sender, elem) => {
             form.querySelector('[name=zip]').value = arr.zip;
             form.querySelector('[name=region]').value = arr.region;
             form.querySelector('[name=country]').value = arr.country;
+        }
+        else if(elem == 'item'){
+            form.querySelector('[name=quantity]').value = arr.quantity;
+            form.querySelector('[name=name]').value = arr.name;
+            form.querySelector('[name=price]').value = arr.price;
+            form.querySelector('[name=currency]').value = arr.currency;
         }
     }
 };
@@ -378,6 +333,7 @@ let delOrder = (sender) => {
 let closeWindow = () => {
     let win = document.getElementsByClassName('change-window')[0];
     if(win){
+        tempArray = [];
         win.parentNode.removeChild(win);
     }
 };
