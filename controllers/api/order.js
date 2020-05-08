@@ -167,13 +167,14 @@ Route.get('/:n(\\d+)/', (req, res) =>{
         });
         
         //products
-        let query = `select products.id, name, price, quantity, currency from products, listproducts 
+        let query = `select products.id, prod_id, name, price, quantity, currency from products, listproducts 
             where prod_id = listproducts.id and order_id = ${id};`
         await API.raw(query, res)
         .then(results => {
             results[0].forEach(el => {
                 OrderList.products.push({
-                    id: el.id,
+                    id: el.prod_id,
+                    list: el.id,
                     quantity: el.quantity,
                     name: el.name,
                     price: el.price,
@@ -258,17 +259,14 @@ Route.get('/ship', (req, res)=>{
 //Get order products
 Route.get('/item', (req, res)=>{
     let List= [];
-    let query = `select products.id, name, price, quantity, currency from products, listproducts
-        where prod_id = listproducts.id`;
-    API.raw(query, res)
+    API.get('listproduct', res)
     .then(results => {
-        results[0].forEach(el => {
+        results.forEach(el => {
             List.push({
                 id: el.id,
                 name: el.name,
                 price: el.price,
                 currency: el.currency,
-                quantity: el.quantity
             });
         });
 
@@ -317,23 +315,32 @@ Route.get('/item/search', (req, res) =>{
 
 //edit order products
 Route.post('/item/:order_id(\\d+)/', (req, res)=>{
-    req.body.order_id = req.params.order_id;
-    API.post('product', req.body, res)
+    let body = {
+        order_id: req.params.order_id,
+        prod_id: req.body.id,
+        quantity: req.body.quantity
+    };
+    API.post('product', body, res)
     .then(() => res.json({}));
 });
 
 Route.put('/item/:order_id(\\d+)/', (req, res)=>{
     let item = req.body.prod_id;
     let order = req.params.order_id;
-    req.body.update_id = {prod_id: item, order_id: order};
-    API.put('product', req.body, res)
+    let body = {
+        prod_id: req.body.id,
+        quantity: req.body.quantity,
+        update_id: {id: item, order_id: order}
+    };
+    console.log(body)
+    API.put('product', body, res)
     .then(() => res.json({}));
 });
 
 Route.delete('/item/:item_id(\\d+)/:order_id(\\d+)/', (req, res)=>{
     let item = req.params.item_id;
     let order = req.params.order_id;
-    API.delete('product', {prod_id: item, order_id: order}, res)
+    API.delete('product', {id: item, order_id: order}, res)
     .then(() => res.json({}));
 });
 

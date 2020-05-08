@@ -73,7 +73,7 @@ header{
     min-height: 32;
 }
 .order-bar header{
-    display: contents;
+    display: block;
 }
 
 /* Style for footer tags */

@@ -54,7 +54,7 @@ function checkMobile(){
         order_bar.classList.remove('visible');
         header.innerHTML = 
         `<div class="blue-header order-header">
-            <p class="blue-header text-header">Order</p>
+            <div class="blue-header text-header">Order</div>
             <button class="menu-ico min-but" onclick="SideBar(this)" id="OpenSideBar"></button> 
         </div>
         <hr>`;
@@ -169,6 +169,8 @@ async function OpenOrder(elem){
         SideBar(close);
     }
     if(id!=openOrder){
+        document.getElementById('order_scroll').style = 'display: block;';
+
         if(openOrder && document.getElementById(openOrder)){
             OrderC(document.getElementById(openOrder));
         }
@@ -554,6 +556,7 @@ function SortProducts(elem){
 function DrowOrderItemsList(container, row, priceF){
     priceF += Number(row.totalPrice);
     let tab = document.createElement('tr');
+    tab.id = row.list;
     if(MobStatus || isMobile()){
         tab.innerHTML = `
             <td class="left mob-tab">

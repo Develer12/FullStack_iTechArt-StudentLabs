@@ -23,6 +23,24 @@ let view ={
         <select name="id" onchange="chooseSelect(this, 'item')">
             <option disabled selected>Product ID</option>
         </select>
+        <span class="big">Order Item ID:</span>
+        <input type="number" name="prod_id" min="1" placeholder="Order Item ID">
+        <span class="big">Quantity:</span>
+        <input type="number" name="quantity" min="1" placeholder="Quantity">
+        <span class="big">Product name:</span>
+        <input type="text" name="name" placeholder="Product name" readonly>
+        <span class="big">Price of unit:</span>
+        <input type="number" name="price" step="0.01" min="0" placeholder="Unit Price" readonly>
+        <span class="big">Price currency:</span>
+        <input type="text" name="currency" placeholder="Currency" readonly>
+        <input type="submit" id="search" value="Send"></button>
+    `,
+    itemAdd: 
+    `
+        <span class="big">Product ID:</span>
+        <select name="id" onchange="chooseSelect(this, 'item')">
+            <option disabled selected>Product ID</option>
+        </select>
         <span class="big">Quantity:</span>
         <input type="number" name="quantity" min="1" placeholder="Quantity">
         <span class="big">Product name:</span>
@@ -98,23 +116,29 @@ let changeOrder = (elem, action, sender) => {
     if(close && MobStatus){
         SideBar(close);
     }
-
+    let win;
     let form = view[elem];
     if(form){
         closeWindow();
         let main = document.getElementsByClassName('main')[0];
-        let win = document.createElement('div');
+        win = document.createElement('div');
         win.className = 'change-window';
+        let elemSender = (elem == 'itemAdd')? 'item': elem;
         win.innerHTML =
         `
             <button class="close-ico min-but visible" onclick="closeWindow()"></button>
-            <form id="order-change" onsubmit="submitOrder('${action}', '${elem}'); return false">${form}</form>
+            <form id="order-change" onsubmit="submitOrder('${action}', '${elemSender}'); return false">${form}</form>
         `;
         main.append(win);
     }
 
     if(action == 'change'){
         editOrder(elem, sender);
+    }
+    else{
+        if(elem == 'itemAdd'){
+            drowChooselist(win, 'item', null);
+        }
     }
 };
 
@@ -123,6 +147,8 @@ let editOrder = (elem, sender) => {
 
     if(elem == 'item'){
         sender = sender.parentNode.parentNode;
+        form.querySelector('[name=quantity]').value = sender.querySelector('#product_quantity').innerHTML;
+        form.querySelector('[name=prod_id]').value = sender.id;
     }
     else if(elem == 'order'){
         sender = document.getElementsByClassName('list-order-contentC')[0];
@@ -159,21 +185,24 @@ let editOrder = (elem, sender) => {
         sender = document.getElementsByClassName('status-list')[0];
     }
 
-    if(sender){
-        sender = sender.querySelector('#id').innerHTML;
-        let LINK = `/api/orders/${elem}`;
-        fetch(LINK, {method: 'GET'}).then(res => res.json()).then(res =>{
-            form = form.querySelector('[name=id]')
-            tempArray = [];
-            res.forEach(el => {
-                tempArray.push(el);
-                let option = document.createElement('option');
-                option.value = el.id;
-                option.innerHTML = el.id;
-                form.append(option);
-            });
-        })
-        .then(() => {
+    drowChooselist(form, elem, sender);
+};
+
+let drowChooselist = (form, elem,sender) => {
+    let LINK = `/api/orders/${elem}`;
+    fetch(LINK, {method: 'GET'}).then(res => res.json()).then(res =>{
+        form = form.querySelector('[name=id]')
+        tempArray = [];
+        res.forEach(el => {
+            tempArray.push(el);
+            let option = document.createElement('option');
+            option.value = el.id;
+            option.innerHTML = el.id;
+            form.append(option);
+        });
+    })
+    .then(() => {
+        if(sender){
             let i = 0;
             tempArray.forEach(el => {
                 ++i;
@@ -182,9 +211,9 @@ let editOrder = (elem, sender) => {
                     form.onchange();
                 }
             });
-        })
-        .catch((err) => console.log(`Fetch ERROR by ${LINK}: ${err}`));
-    }
+        }
+    })
+    .catch((err) => console.log(`Fetch ERROR by ${LINK}: ${err}`));
 };
 
 let chooseSelect = (sender, elem) => {
@@ -209,7 +238,6 @@ let chooseSelect = (sender, elem) => {
             form.querySelector('[name=country]').value = arr.country;
         }
         else if(elem == 'item'){
-            form.querySelector('[name=quantity]').value = arr.quantity;
             form.querySelector('[name=name]').value = arr.name;
             form.querySelector('[name=price]').value = arr.price;
             form.querySelector('[name=currency]').value = arr.currency;
@@ -264,6 +292,10 @@ let checkNull = (text)=> {
 };
 
 let searchFilter = () => {
+    let close = document.getElementById('CloseSideBar');
+    if(close && MobStatus){
+        SideBar(close);
+    }
     closeWindow();
     let main = document.getElementsByClassName('main')[0];
     let win = document.createElement('div');
@@ -272,35 +304,40 @@ let searchFilter = () => {
     `
         <button class="close-ico min-but visible" onclick="closeWindow()"></button>
         <div class="search-filter">
-            <input type="radio" name="searchfilter" onchange="SearchFilter='all';" checked/>
-            <span class="big">All</span>
+            <input type="radio" id="all" name="searchfilter" onchange="SearchFilter='all';" checked/>
+            <label class="big" for="all">All</label>
         </div>
         <div class="search-filter">
-            <input type="radio" name="searchfilter" onchange="SearchFilter='number';"/>
-            <span class="big">Order №</span>
+            <input type="radio" id="number" name="searchfilter" onchange="SearchFilter='number';"/>
+            <label class="big" for="number">Order №</label>
         </div>
         <div class="search-filter">
-            <input type="radio" name="searchfilter" onchange="SearchFilter='customer';"/>
-            <span class="big">Customer Name</span>
+            <input type="radio" id="customer" name="searchfilter" onchange="SearchFilter='customer';"/>
+            <label class="big" for="customer">Customer Name</label>
+
         </div>
         <div class="search-filter">
-            <input type="radio" name="searchfilter" onchange="SearchFilter='shipped';"/>
-            <span class="big">Ship Date</span>
+            <input type="radio" id="shipped" name="searchfilter" onchange="SearchFilter='shipped';"/>
+            <label class="big" for="shipped">Ship Date</label>
         </div>
         <div class="search-filter">
-            <input type="radio" name="searchfilter" onchange="SearchFilter='accepted';"/>
-            <span class="big">Accepte Date</span>
+            <input type="radio" id="accepted" name="searchfilter" onchange="SearchFilter='accepted';"/>
+            <label class="big" for="accepted">Accepte Date</label>
         </div>
     `;
     main.append(win);
+
+    if(SearchFilter){
+        main.querySelector(`[id='${SearchFilter}']`).checked = true;
+    }
 };
 
 let delOrder = (sender) => {
     let LINK = `/api/orders`;
 
-    let id = sender.parentNode.parentNode.querySelector('#product_id');
-    if(id){
-        id = id.innerHTML;
+    let id = sender.parentNode.parentNode.querySelector('#id');
+    if(id.querySelector('#id')){
+        id = id.id;
         LINK = `${LINK}/item/${id}/${openOrder}`
     }
     else{
@@ -314,7 +351,7 @@ let delOrder = (sender) => {
             errorWindow(res.error);
         }
         else{
-            id = sender.parentNode.parentNode.querySelector('#product_id')
+            id = sender.parentNode.parentNode.querySelector('#id')
             if(!id){ 
                 GetOrders();
             } 

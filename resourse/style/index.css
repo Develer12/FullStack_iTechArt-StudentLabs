@@ -111,6 +111,7 @@ span.fat{
 .blue-header.text-header{
     padding-left: 45%;
     margin: 0;
+    height: 93%;
 }
 .text-header{
     margin: 0 40% 0 0;
@@ -124,6 +125,7 @@ span.fat{
     height: 95%;
     overflow-y: auto;
     overflow-x: hidden;
+    display: none;
 }
 .order-items{
     height: 30%;
@@ -159,6 +161,7 @@ span.fat{
 }
 .blue-header.order-header{
     display: flex;
+    height: 95%;
 }
 .list-order-content{
     display: flex;

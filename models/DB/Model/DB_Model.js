@@ -106,7 +106,7 @@ const listproduct = (Sequelize, sequelize) =>{
     {
         id: {
             type: Sequelize.INTEGER,
-            allowNull: false,
+            autoIncrement: true,
             primaryKey: true
         },
         name: {
@@ -126,7 +126,7 @@ const product = (Sequelize, sequelize) =>{
     {
         id: {
             type: Sequelize.INTEGER,
-            allowNull: false,
+            autoIncrement: true,
             primaryKey: true
         },
         prod_id: {
