@@ -168,7 +168,9 @@ async function OpenOrder(elem){
     if(!(close.className.indexOf('hidden') + 1)){
         SideBar(close);
     }
+
     if(id!=openOrder){
+        elem.scrollIntoView();
         document.getElementById('order_scroll').style = 'display: block;';
 
         if(openOrder && document.getElementById(openOrder)){

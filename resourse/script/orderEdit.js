@@ -2,13 +2,13 @@ let view ={
     order: 
     `
         <span class="big">Order №:</span>
-        <input type="number" name="id" min="1" placeholder="Order №">
+        <input type="number" name="id" min="1" placeholder="Order №" required>
         <span class="big">Customer name:</span>
-        <input type="text" name="customer" placeholder="Customer">
+        <input type="text" name="customer" placeholder="Customer" required>
         <span class="big">Ship Date:</span>
-        <input type="date" name="shippedAt" placeholder="Date of shiping">
+        <input type="date" name="shippedAt" placeholder="Date of shiping" required>
         <span class="big">Accept Date:</span>
-        <input type="date" name="acceptedAt" placeholder="Date of shiping">
+        <input type="date" name="acceptedAt" placeholder="Date of shiping" required>
         <span class="big">Order status:</span>
         <select name="status">
             <option disabled>Order status</option>
@@ -20,13 +20,13 @@ let view ={
     item: 
     `
         <span class="big">Product ID:</span>
-        <select name="id" onchange="chooseSelect(this, 'item')">
+        <select name="id" onchange="chooseSelect(this, 'item')" required>
             <option disabled selected>Product ID</option>
         </select>
         <span class="big">Order Item ID:</span>
-        <input type="number" name="prod_id" min="1" placeholder="Order Item ID">
+        <input type="number" name="prod_id" min="1" placeholder="Order Item ID" readonly>
         <span class="big">Quantity:</span>
-        <input type="number" name="quantity" min="1" placeholder="Quantity">
+        <input type="number" name="quantity" min="1" placeholder="Quantity" required>
         <span class="big">Product name:</span>
         <input type="text" name="name" placeholder="Product name" readonly>
         <span class="big">Price of unit:</span>
@@ -38,11 +38,11 @@ let view ={
     itemAdd: 
     `
         <span class="big">Product ID:</span>
-        <select name="id" onchange="chooseSelect(this, 'item')">
+        <select name="id" onchange="chooseSelect(this, 'item')" required>
             <option disabled selected>Product ID</option>
         </select>
         <span class="big">Quantity:</span>
-        <input type="number" name="quantity" min="1" placeholder="Quantity">
+        <input type="number" name="quantity" min="1" placeholder="Quantity" required>
         <span class="big">Product name:</span>
         <input type="text" name="name" placeholder="Product name" readonly>
         <span class="big">Price of unit:</span>
@@ -54,7 +54,7 @@ let view ={
     ship: 
     `
         <span class="big">Addressee ID:</span>
-        <select name="id" onchange="chooseSelect(this, 'ship')">
+        <select name="id" onchange="chooseSelect(this, 'ship')" required>
             <option disabled selected>Addressee ID</option>
         </select>
         <span class="big">First name:</span>
@@ -76,7 +76,7 @@ let view ={
     process:
     `
         <span class="big">Processor ID:</span>
-        <select name="id" onchange="chooseSelect(this, 'process')">
+        <select name="id" onchange="chooseSelect(this, 'process')" required>
             <option disabled selected>Processor Id</option>
         </select>
         <span class="big">Processor name:</span>
@@ -188,7 +188,7 @@ let editOrder = (elem, sender) => {
     drowChooselist(form, elem, sender);
 };
 
-let drowChooselist = (form, elem,sender) => {
+let drowChooselist = (form, elem, sender) => {
     let LINK = `/api/orders/${elem}`;
     fetch(LINK, {method: 'GET'}).then(res => res.json()).then(res =>{
         form = form.querySelector('[name=id]')
@@ -204,6 +204,12 @@ let drowChooselist = (form, elem,sender) => {
     .then(() => {
         if(sender){
             let i = 0;
+            if(elem == 'item'){
+                sender = sender.id;
+            }
+            else{
+                sender = sender.querySelector('#id').innerHTML;
+            }
             tempArray.forEach(el => {
                 ++i;
                 if(el.id == sender){
@@ -335,9 +341,8 @@ let searchFilter = () => {
 let delOrder = (sender) => {
     let LINK = `/api/orders`;
 
-    let id = sender.parentNode.parentNode.querySelector('#id');
-    if(id.querySelector('#id')){
-        id = id.id;
+    let id = sender.parentNode.parentNode.id;
+    if(id){
         LINK = `${LINK}/item/${id}/${openOrder}`
     }
     else{
