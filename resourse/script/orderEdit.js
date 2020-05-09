@@ -11,7 +11,7 @@ let view ={
         <input type="date" name="acceptedAt" placeholder="Date of shiping" required>
         <span class="big">Order status:</span>
         <select name="status">
-            <option disabled>Order status</option>
+            <option value="" disabled>Order status</option>
             <option selected value="Accepted">In time</option>
             <option value="Pending">Urgent</option>
         </select>
@@ -21,7 +21,7 @@ let view ={
     `
         <span class="big">Product ID:</span>
         <select name="id" onchange="chooseSelect(this, 'item')" required>
-            <option disabled selected>Product ID</option>
+            <option value="" disabled selected>Product ID</option>
         </select>
         <span class="big">Order Item ID:</span>
         <input type="number" name="prod_id" min="1" placeholder="Order Item ID" readonly>
@@ -39,7 +39,7 @@ let view ={
     `
         <span class="big">Product ID:</span>
         <select name="id" onchange="chooseSelect(this, 'item')" required>
-            <option disabled selected>Product ID</option>
+            <option value="" disabled selected>Product ID</option>
         </select>
         <span class="big">Quantity:</span>
         <input type="number" name="quantity" min="1" placeholder="Quantity" required>
@@ -55,7 +55,7 @@ let view ={
     `
         <span class="big">Addressee ID:</span>
         <select name="id" onchange="chooseSelect(this, 'ship')" required>
-            <option disabled selected>Addressee ID</option>
+            <option value="" disabled selected>Addressee ID</option>
         </select>
         <span class="big">First name:</span>
         <input type="text" name="firstName" placeholder="First Name" readonly>
@@ -77,7 +77,7 @@ let view ={
     `
         <span class="big">Processor ID:</span>
         <select name="id" onchange="chooseSelect(this, 'process')" required>
-            <option disabled selected>Processor Id</option>
+            <option value="" disabled selected>Processor Id</option>
         </select>
         <span class="big">Processor name:</span>
         <input type="text" name="name" placeholder="Name" readonly>
@@ -144,7 +144,6 @@ let changeOrder = (elem, action, sender) => {
 
 let editOrder = (elem, sender) => {
     let form = document.getElementById('order-change');
-
     if(elem == 'item'){
         sender = sender.parentNode.parentNode;
         form.querySelector('[name=quantity]').value = sender.querySelector('#product_quantity').innerHTML;
@@ -185,7 +184,9 @@ let editOrder = (elem, sender) => {
         sender = document.getElementsByClassName('status-list')[0];
     }
 
-    drowChooselist(form, elem, sender);
+    if(sender){
+        drowChooselist(form, elem, sender);
+    }
 };
 
 let drowChooselist = (form, elem, sender) => {
@@ -202,22 +203,15 @@ let drowChooselist = (form, elem, sender) => {
         });
     })
     .then(() => {
-        if(sender){
-            let i = 0;
-            if(elem == 'item'){
-                sender = sender.id;
+        let i = 0;
+        sender = sender.querySelector('#id').innerHTML;
+        tempArray.forEach(el => {
+            ++i;
+            if(el.id == sender){
+                form.selectedIndex = i;
+                form.onchange();
             }
-            else{
-                sender = sender.querySelector('#id').innerHTML;
-            }
-            tempArray.forEach(el => {
-                ++i;
-                if(el.id == sender){
-                    form.selectedIndex = i;
-                    form.onchange();
-                }
-            });
-        }
+        });
     })
     .catch((err) => console.log(`Fetch ERROR by ${LINK}: ${err}`));
 };

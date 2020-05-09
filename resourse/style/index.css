@@ -240,6 +240,13 @@ span.fat{
     flex-direction: column;
     font-size: 1em;
 }
+.map{
+    width: 96%;
+    margin: 5% auto;
+    height: auto;
+    min-height: 300;
+    border: solid 0.5px #d9e2eb;
+}
 
 /* Text color of order status*/
 .Intime{
@@ -269,4 +276,3 @@ span.fat{
     padding-top: 2%;
     padding-bottom: 1%;
 }
-

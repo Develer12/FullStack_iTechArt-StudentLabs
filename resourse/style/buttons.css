@@ -160,12 +160,12 @@
     background-position-y: 50%;
     outline: none;
 }
-.map{
+.ymap{
     background-image: url(button/map_blue.png);
     background-position-x: 50%;
     background-position-y: 50%;
 }
-.mapC{
+.ymapC{
     background-image: url(button/map_white.png);
     background-position-x: 50%;
     background-position-y: 50%;

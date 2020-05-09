@@ -8,6 +8,7 @@ let ItemsListSorted = {};
 let ItemsList = {};
 let ItemsHeader = '';
 let SearchFilter = 'all';
+let mapAddress = {};
 
 let Stat = {
 delivery: 
@@ -26,10 +27,13 @@ processor:
         </div>
         <hr>
     </div>`,
-map:
+ymap:
     `<div class="left">
         <span class="fat big">Address</span>
         <hr>
+        <div class="map" id="map">
+        
+        </div>
     </div>`,
 };
 
@@ -80,25 +84,21 @@ function checkMobile(){
 }
 
 function SideBar(elem){
-    let id = elem.id;
     let sidebar = document.getElementById('list_bar');
     let close = document.getElementById('CloseSideBar');
-    if(id == 'OpenSideBar'){
+
+    if(elem.id == 'OpenSideBar'){
         closeWindow();
-        
-        let bar = document.getElementById('order_bar');
 
         document.addEventListener('click', e => {
             let target = e.target;  
-            let isbar = target == bar || bar.contains(target);
-            let isopen = elem.contains(target);
-            let SideBarActive = close.classList.contains('visible');     
-            if (isbar && SideBarActive && !isopen) {
+            let isopen = target == elem || sidebar.contains(target);
+            if (target.id != 'OpenSideBar' && !isopen) {
                 SideBar(close);
             }
         });
 
-
+                
         close.classList.remove('hidden');
         close.classList.add('visible');
         sidebar.classList = ' ';
@@ -147,6 +147,10 @@ function StatusO(elem, id){
 
     openInfo = id;
     document.getElementById('order_status').innerHTML=Stat[openInfo];
+
+    if(openInfo == 'ymap'){
+        initMap();
+    }
 
     let items = document.getElementsByClassName('js-status');
     Array.from(items).forEach(item => {
@@ -205,6 +209,12 @@ async function OpenOrder(elem){
             document.getElementById('sendmail').formAction = `mailto:${res.CustomerInfo.email}`;
 
             ItemCount(res.products.length);
+
+            mapAddress = {
+                country: res.ShipTo.Country, 
+                region: res.ShipTo.Region, 
+                address: res.ShipTo.Address
+            }
 
             let url = window.location.pathname;
             if(url != '/orders')
