@@ -175,7 +175,7 @@ async function OpenOrder(elem){
 
     if(id!=openOrder){
         elem.scrollIntoView();
-        document.getElementById('order_scroll').style = 'display: block;';
+        document.getElementById('order_scroll').style = 'display: none;';
 
         if(openOrder && document.getElementById(openOrder)){
             OrderC(document.getElementById(openOrder));
@@ -193,6 +193,7 @@ async function OpenOrder(elem){
         let LINK = `/api/orders/${id}`;
         fetch(LINK, {method: 'GET'}).then(res => res.json()).then(res =>{
             let priceF = 0;
+            OpenStatus(document.getElementById('delivery'));
             ItemsList = res.products;
             priceF = DrowOrderItems();
             let customerName = res.CustomerInfo.firstName +' '+ res.CustomerInfo.lastName;
@@ -220,6 +221,9 @@ async function OpenOrder(elem){
             if(url != '/orders')
             url = url.substring(0, url.lastIndexOf("/"));
             history.pushState(null, null, `${url}/${id}`);
+        })
+        .then(() => {
+            document.getElementById('order_scroll').style = 'display: block;';
         })
         .catch((err) => console.log(`Fetch ERROR by ${LINK}: ${err}`));
 

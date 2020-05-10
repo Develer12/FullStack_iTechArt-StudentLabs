@@ -1,0 +1,191 @@
+UI:
+
+URL: http://localhost:3000/
+URL: http://localhost:3000/orders
+URL: http://localhost:3000/orders/2
+URL: http://localhost:3000/orders/200
+
+
+--------------BACK------------------------
+
+[ORDER]
+
+GET
+URL: http://localhost:3000/api/orders/
+URL: http://localhost:3000/api/orders/search?i=ca&&number=customer
+URL: http://localhost:3000/api/orders/3
+POST
+URL: http://localhost:3000/api/orders/
+BODY:
+{
+    "id": 15,
+    "customer": "da da",
+    "status": "Accepted",
+    "acceptedAt": "2020-04-14",
+    "shippedAt": "2020-04-14"
+}
+PUT
+URL: http://localhost:3000/api/orders/
+BODY:
+{
+    "id": 15,
+    "customer": "da net",
+    "status": "Accepted",
+    "acceptedAt": "2020-04-14",
+    "shippedAt": "2020-04-14"
+}
+URL: http://localhost:3000/api/orders/process/15
+BODY:
+{
+    "id": 1
+}
+URL: http://localhost:3000/api/orders/ship/15
+BODY:
+{
+    "id": 1
+}
+DELETE
+URL: http://localhost:3000/api/orders/15
+
+
+
+[PROCESSOR]
+
+GET
+URL: http://localhost:3000/api/orders/process/1
+POST
+URL: http://localhost:3000/api/orders/process
+BODY:
+{
+    "id": 15,
+    "name": "da da",
+    "jobTitle": "Busman",
+    "phone": "375291612121"
+}
+PUT
+URL: http://localhost:3000/api/orders/process
+BODY:
+{
+    "id": 15,
+    "name": "da dasddsdsaa",
+    "jobTitle": "Busman",
+    "phone": "375291612121"
+}
+DELETE
+URL: http://localhost:3000/api/orders/process/15
+
+
+
+[Addressee/ship]
+
+GET
+URL: http://localhost:3000/api/orders/ship/addresses
+URL: http://localhost:3000/api/orders/ship/
+POST
+URL: http://localhost:3000/api/orders/ship
+BODY:
+{
+    "id": 15,
+    "firstName": "Stiven",
+    "lastName": "Turner",
+    "email": "dada@mail.ru",
+    "shipId": 4
+}
+PUT
+URL: http://localhost:3000/api/orders/ship
+BODY:
+{
+    "id": 15,
+    "firstName": "Sda",
+    "lastName": "Turner",
+    "email": "dada@mail.ru",
+    "shipId": 4
+}
+DELETE
+URL: http://localhost:3000/api/orders/ship/15
+
+
+
+[Addresses]
+
+GET
+URL: http://localhost:3000/api/orders/address/2
+URL: http://localhost:3000/api/orders/address
+POST
+URL: http://localhost:3000/api/orders/address
+BODY:
+{
+    "id": 15,
+    "address": "Marta 11",
+    "zip": "12325463",
+    "region": "Moskow",
+    "country": "Russia"
+}
+PUT
+URL: http://localhost:3000/api/orders/address
+BODY:
+{
+    "id": 15,
+    "address": "da",
+    "zip": "12325463",
+    "region": "Moskow",
+    "country": "Russia"
+}
+DELETE
+URL: http://localhost:3000/api/orders/address/15
+
+
+
+
+[PRODUCTS]
+
+GET
+URL: http://localhost:3000/api/orders/item/full
+URL: http://localhost:3000/api/orders/item/
+URL: http://localhost:3000/api/orders/item/search?i=po&&id=2
+POST
+URL: http://localhost:3000/api/orders/item/13
+BODY:
+{
+    "id": 1,
+    "quantity": 11
+}
+PUT
+URL: http://localhost:3000/api/orders/item/13
+BODY:
+{
+    "id": 1,
+    "quantity": 11,
+    "prod_id": 34 //поверить в бд
+}
+DELETE
+URL: http://localhost:3000/api/orders/item/34 проверить в бд/13
+
+
+
+
+[List products]
+
+GET
+URL: http://localhost:3000/api/orders/itemlist
+URL: http://localhost:3000/api/orders/itemlist
+POST
+URL: http://localhost:3000/api/orders/itemlist
+BODY:
+{
+    "id": 25,
+    "name": "Belarus Lime",
+    "price": 3,
+    "currency": "EUR"
+}
+PUT
+URL: http://localhost:3000/api/orders/itemlist
+BODY:
+{
+    "id": 25,
+    "name": "Belarus Lime",
+    "price": 3.42,
+    "currency": "EUR"
+}
+DELETE
+URL: http://localhost:3000/api/orders/itemlist/25
