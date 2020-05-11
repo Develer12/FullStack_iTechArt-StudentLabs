@@ -24,8 +24,7 @@ Route.get('/addresses', (req, res)=>{
 
 //Insert customer
 Route.post('/', (req, res)=>{
-    API.post('customer', req.body, res)
-    .then(() => res.json({}));
+    API.post('customer', req.body, res);
 });
 
 //Update customer
@@ -33,16 +32,14 @@ Route.put('/', (req, res)=>{
     req.body.update_id = { id: req.body.id};
     delete req.body.id;
     
-    API.put('customer', req.body, res)
-    .then(() => res.json({}));
+    API.put('customer', req.body, res);
 });
 
 //Delete customer
 Route.delete('/:id(\\d+)/', (req, res)=>{
     let id = req.params.id;
 
-    API.delete('customer', {id: id}, res)
-    .then(() => res.json({}));
+    API.delete('customer', {id: id}, res);
 });
 
 ///////////////////////
@@ -79,8 +76,7 @@ Route.put('/:order_id(\\d+)/', (req, res)=>{
     body.update_id = { id: req.params.order_id};
     body.addresseeId = req.body.id;
 
-    API.put('order', body, res)
-    .then(() => res.json({}));
+    API.put('order', body, res);
 });
 
 

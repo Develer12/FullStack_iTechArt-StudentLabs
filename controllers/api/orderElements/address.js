@@ -46,8 +46,7 @@ Route.get('/:id(\\d+)/', (req, res)=>{
 
 //Insert order ship address
 Route.post('/', (req, res)=>{
-    API.post('ship', req.body, res)
-    .then(() => res.json({}));
+    API.post('ship', req.body, res);
 });
 
 //Update order ship address
@@ -56,16 +55,14 @@ Route.put('/', (req, res)=>{
     req.body.update_id = { id: id};
     delete req.body.id;
 
-    API.put('ship', req.body, res)
-    .then(() => res.json({}));
+    API.put('ship', req.body, res);
 });
 
 //Delete customer
 Route.delete('/:id(\\d+)/', (req, res)=>{
     let id = req.params.id;
 
-    API.delete('ship', {id: id}, res)
-    .then(() => res.json({}));
+    API.delete('ship', {id: id}, res);
 });
 
 

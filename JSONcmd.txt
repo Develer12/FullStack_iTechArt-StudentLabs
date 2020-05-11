@@ -24,12 +24,28 @@ BODY:
     "acceptedAt": "2020-04-14",
     "shippedAt": "2020-04-14"
 }
+[error]
+{
+    "id": 1,
+    "customer": "da da",
+    "status": "Accepted",
+    "acceptedAt": "2020-04-14",
+    "shippedAt": "2020-04-14"
+}
 PUT
 URL: http://localhost:3000/api/orders/
 BODY:
 {
     "id": 15,
     "customer": "da net",
+    "status": "Accepted",
+    "acceptedAt": "2020-04-14",
+    "shippedAt": "2020-04-14"
+}
+[error]
+{
+    "id": 150,
+    "customer": "da da",
     "status": "Accepted",
     "acceptedAt": "2020-04-14",
     "shippedAt": "2020-04-14"
@@ -46,7 +62,7 @@ BODY:
 }
 DELETE
 URL: http://localhost:3000/api/orders/15
-
+[error] http://localhost:3000/api/orders/1512
 
 
 [PROCESSOR]

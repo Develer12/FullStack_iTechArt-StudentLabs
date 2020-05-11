@@ -191,21 +191,18 @@ Route.get('/:n(\\d+)/', (req, res) =>{
 
 //Edit order
 Route.post('/', (req, res)=>{
-    API.post('order', req.body, res)
-    .then(() => res.json({}));
+    API.post('order', req.body, res);
 });
 
 Route.put('/', (req, res)=>{
     req.body.update_id = { id: req.body.id};
-    API.put('order', req.body, res)
-    .then(() => res.json({}));
+    API.put('order', req.body, res);
 });
 
 Route.delete('/:order_id(\\d+)/', (req, res)=>{
     let id = req.params.order_id;
     
-    API.delete('order', {id: id}, res)
-    .then(() => res.json({}));
+    API.delete('order', {id: id}, res);
 });
 
 

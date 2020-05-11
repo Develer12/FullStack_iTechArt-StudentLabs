@@ -45,13 +45,10 @@ module.exports = {
     post: (tab, body, res) => {
         return DB.Insert(tab, body)
         .then(results => {
-            return results;
+            res.json({});
         })
         .catch(err => {
             res.statusCode = 400;
-                
-            console.log(err);
-
             res.json({error: err.toString()});
         });
     },
@@ -59,13 +56,10 @@ module.exports = {
         return DB.Update(tab, body)
         .then(results => {
             if (results[0]){
-                return results;
+                res.json({});
             }
             else {
                 res.statusCode = 400;
-                
-                console.log(err);
-
                 res.json({error: 'This records not founded'});
             }
         })
@@ -78,12 +72,9 @@ module.exports = {
         return DB.Delete(tab, id)
         .then(results => {
             if (results)
-                return results;
+                res.json({});
             else {
                 res.statusCode = 400;
-                                
-                console.log(err);
-
                 res.json({error: 'This records not founded'});
             }
         })

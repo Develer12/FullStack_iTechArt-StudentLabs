@@ -85,8 +85,7 @@ Route.post('/:order_id(\\d+)/', (req, res)=>{
         prod_id: req.body.id,
         quantity: req.body.quantity
     };
-    API.post('product', body, res)
-    .then(() => res.json({}));
+    API.post('product', body, res);
 });
 
 Route.put('/:order_id(\\d+)/', (req, res)=>{
@@ -97,15 +96,13 @@ Route.put('/:order_id(\\d+)/', (req, res)=>{
         quantity: req.body.quantity,
         update_id: {id: item, order_id: order}
     };
-    API.put('product', body, res)
-    .then(() => res.json({}));
+    API.put('product', body, res);
 });
 
 Route.delete('/:item_id(\\d+)/:order_id(\\d+)/', (req, res)=>{
     let item = req.params.item_id;
     let order = req.params.order_id;
-    API.delete('product', {id: item, order_id: order}, res)
-    .then(() => res.json({}));
+    API.delete('product', {id: item, order_id: order}, res);
 });
 
 

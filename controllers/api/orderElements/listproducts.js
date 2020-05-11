@@ -26,8 +26,7 @@ Route.get('/:id(\\d+)/', (req, res)=>{
 
 //Insert order ship list products
 Route.post('/', (req, res)=>{
-    API.post('listproduct', req.body, res)
-    .then(() => res.json({}));
+    API.post('listproduct', req.body, res);
 });
 
 //Update order ship list products
@@ -41,16 +40,14 @@ Route.put('/', (req, res)=>{
         update_id: {id: id}
     };
 
-    API.put('listproduct', body, res)
-    .then(() => res.json({}));
+    API.put('listproduct', body, res);
 });
 
 //Delete order ship list products
 Route.delete('/:id(\\d+)/', (req, res)=>{
     let id = req.params.id;
 
-    API.delete('listproduct', {id: id}, res)
-    .then(() => res.json({}));
+    API.delete('listproduct', {id: id}, res);
 });
 
 
