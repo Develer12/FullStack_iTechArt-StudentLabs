@@ -68,7 +68,7 @@ URL: http://localhost:3000/api/orders/15
 [PROCESSOR]
 
 GET
-URL: http://localhost:3000/api/orders/process/1
+URL: http://localhost:3000/api/orders/process
 POST
 URL: http://localhost:3000/api/orders/process
 BODY:
@@ -183,8 +183,7 @@ URL: http://localhost:3000/api/orders/item/34 проверить в бд/13
 [List products]
 
 GET
-URL: http://localhost:3000/api/orders/itemlist
-URL: http://localhost:3000/api/orders/itemlist
+URL: http://localhost:3000/api/orders/itemlist/1
 POST
 URL: http://localhost:3000/api/orders/itemlist
 BODY:
