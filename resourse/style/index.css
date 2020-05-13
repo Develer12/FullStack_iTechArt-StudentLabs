@@ -159,6 +159,9 @@ span.fat{
 .order-table tr{
     text-align: center;
 }
+.order-table tr:hover{
+    background-color: #d7e4f3;
+}
 .blue-header.order-header{
     display: flex;
     height: 95%;
@@ -179,6 +182,10 @@ span.fat{
 }
 .list-order-contentC:hover{
     background-color: #d7e4f3;
+}
+.order-content{
+    display: flex;
+    flex-direction: column;
 }
 .order-bar-c{
     display: flex;

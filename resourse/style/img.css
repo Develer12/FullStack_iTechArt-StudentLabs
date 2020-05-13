@@ -7,6 +7,9 @@
 .order-scroll .emptyImg{
     max-height: 100px;
 }
+.order-content .emptyImg{
+    height: 70%;
+}
 .js-empty{
     margin-top: 0 !important;
     margin-bottom: auto !important;

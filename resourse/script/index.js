@@ -184,7 +184,11 @@ async function OpenOrder(elem){
         OrderO(elem, id);
         document.getElementById('order-items-search').querySelector('input').value = '';
 
+        let order_content = document.getElementById('order_content');
+        order_content.innerHTML = '';
+        Drowjsloading('order_content');
         Drowjsloading('order_items');
+
         let tab = document.getElementById('table_items');
         if(tab.childElementCount){
             tab.innerHTML = '';
@@ -207,7 +211,9 @@ async function OpenOrder(elem){
             document.getElementById('order_ord').innerHTML = `Ordered: ${res.OrderInfo.acceptedAt}`;
             document.getElementById('order_customer').innerHTML = `Customer: ${res.CustomerInfo.firstName} ${res.CustomerInfo.lastName}`;
             document.getElementById('order_id').innerHTML = `Order ${res.id}`;
-            document.getElementById('sendmail').formAction = `mailto:${res.CustomerInfo.email}`;
+            document.getElementById('sendmail').onclick = () => {
+                location.href =`mailto:${res.CustomerInfo.email}`;
+            };
 
             ItemCount(res.products.length);
 
@@ -223,6 +229,7 @@ async function OpenOrder(elem){
             history.pushState(null, null, `${url}/${id}`);
         })
         .then(() => {
+            order_content.removeChild(document.getElementsByClassName('js-loading')[0]);
             document.getElementById('order_scroll').style = 'display: block;';
         })
         .catch((err) => console.log(`Fetch ERROR by ${LINK}: ${err}`));
@@ -296,14 +303,14 @@ async function SearchHandler(elem){
 
     }
     else if(id == 'order-search'){
+        let container = document.getElementById('list_order');
+        container.innerHTML = ' ';
         Drowjsloading('list_order');
 
         let LINK = `/api/orders/search?i=${input}&filter=${SearchFilter}`;
         fetch(LINK, {method: 'GET'})
         .then(res => res.json())
         .then(res =>{
-            let container = document.getElementById('list_order');
-            container.innerHTML = ' ';
             res.forEach(row => {
                 container.append(DrowOrderList(row));
             });
