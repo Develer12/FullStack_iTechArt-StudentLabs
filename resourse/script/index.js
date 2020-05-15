@@ -82,19 +82,25 @@ function checkMobile(){
         DrowOrderItems();
     }
 }
+let SideBarListener 
 
 function SideBar(elem){
     let sidebar = document.getElementById('list_bar');
     let close = document.getElementById('CloseSideBar');
+    let dark = document.getElementById('curtain');
 
     if(elem.id == 'OpenSideBar'){
         closeWindow();
+        makeDarkness();
 
         document.addEventListener('click', e => {
             let target = e.target;  
             let isopen = target == elem || sidebar.contains(target);
-            if (target.id != 'OpenSideBar' && !isopen) {
+            let isdark = dark.classList.contains('darkness');
+            let win = document.getElementsByClassName('change-window')[0];
+            if (target.id != 'OpenSideBar' && !isopen && isdark && !win) {
                 SideBar(close);
+                console.log('ev')
             }
         });
 
@@ -106,6 +112,7 @@ function SideBar(elem){
         sidebar.classList.add('side-bar');
     }
     else{
+        makeDarkness();
         elem.classList.add('visible');
         close.classList.add('hidden');
         close.classList.remove('visible');
@@ -651,3 +658,17 @@ function Drowjsloading(block){
         <div class="circle"></div>`;
     container.append(div);
 }
+
+let makeDarkness = () => {
+    let dark = document.getElementById('curtain');
+    if(!dark.classList.contains('darkness')){
+        dark.classList.add('darkness');
+        dark.classList.remove('lightness');
+        console.log('dark')
+    }
+    else{
+        dark.classList.remove('darkness');
+        dark.classList.add('lightness');
+        console.log('lig')
+    }
+};

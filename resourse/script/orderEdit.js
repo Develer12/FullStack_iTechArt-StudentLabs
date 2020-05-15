@@ -113,8 +113,19 @@ let openOrderUrl = () => {
 
 let changeOrder = (elem, action, sender) => {
     let close = document.getElementById('CloseSideBar');
+    let isopenBar = document.getElementById('list_bar').classList;
     if(close && MobStatus){
+        makeDarkness();
+        console.log('mob')
+
         SideBar(close);
+        console.log('sd')
+
+    }
+    else if(isopenBar.contains('side-barC')){
+        makeDarkness();
+        console.log('barC')
+
     }
     let win;
     let form = view[elem];
@@ -130,6 +141,11 @@ let changeOrder = (elem, action, sender) => {
             <form id="order-change" onsubmit="submitOrder('${action}', '${elemSender}'); return false">${form}</form>
         `;
         main.append(win);
+        let dark = document.getElementById('curtain');
+        let isdark = dark.classList.contains('darkness');
+        if(!isdark){
+            makeDarkness();
+        }
     }
 
     if(action == 'change'){
@@ -369,6 +385,7 @@ let delOrder = (sender) => {
 let closeWindow = () => {
     let win = document.getElementsByClassName('change-window')[0];
     if(win){
+        makeDarkness();
         tempArray = [];
         win.parentNode.removeChild(win);
     }
@@ -376,6 +393,7 @@ let closeWindow = () => {
 
 let errorWindow = (err) => {
     closeWindow();
+    makeDarkness();
     let main = document.getElementsByClassName('main')[0];
     let win = document.createElement('div');
     win.className = 'change-window';
