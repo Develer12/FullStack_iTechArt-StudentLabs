@@ -116,16 +116,10 @@ let changeOrder = (elem, action, sender) => {
     let isopenBar = document.getElementById('list_bar').classList;
     if(close && MobStatus){
         makeDarkness();
-        console.log('mob')
-
         SideBar(close);
-        console.log('sd')
-
     }
     else if(isopenBar.contains('side-barC')){
         makeDarkness();
-        console.log('barC')
-
     }
     let win;
     let form = view[elem];
@@ -369,6 +363,18 @@ let delOrder = (sender) => {
             id = sender.parentNode.parentNode.querySelector('#id')
             if(!id){ 
                 GetOrders();
+                let order_content = document.getElementById('order_content');
+                document.getElementById('order_scroll').style = 'display: none;';
+                order_content.innerHTML = 
+                `
+                    <img src="/resourse/style/img/empty.png" class="emptyImg">
+                    <span class="big fat js-empty">Empty</span>
+                `;
+
+                let url = window.location.pathname;
+                if(url != '/orders')
+                    url = url.substring(0, url.lastIndexOf("/"));
+                history.pushState(null, null, `${url}`);
             } 
             else{
                 openOrder = 0;

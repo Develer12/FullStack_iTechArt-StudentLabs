@@ -100,7 +100,6 @@ function SideBar(elem){
             let win = document.getElementsByClassName('change-window')[0];
             if (target.id != 'OpenSideBar' && !isopen && isdark && !win) {
                 SideBar(close);
-                console.log('ev')
             }
         });
 
@@ -232,7 +231,7 @@ async function OpenOrder(elem){
 
             let url = window.location.pathname;
             if(url != '/orders')
-            url = url.substring(0, url.lastIndexOf("/"));
+                url = url.substring(0, url.lastIndexOf("/"));
             history.pushState(null, null, `${url}/${id}`);
         })
         .then(() => {
@@ -664,11 +663,9 @@ let makeDarkness = () => {
     if(!dark.classList.contains('darkness')){
         dark.classList.add('darkness');
         dark.classList.remove('lightness');
-        console.log('dark')
     }
     else{
         dark.classList.remove('darkness');
         dark.classList.add('lightness');
-        console.log('lig')
     }
 };
