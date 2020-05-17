@@ -12,7 +12,7 @@ Route.get('/:n(\\d+)/', (req, res)=>{
     let id = req.params.n;
     request({
         method: 'GET',
-        uri: 'http://localhost:3000/api/orders',
+        uri: 'https://tehorder.herokuapp.com/api/orders',
         json: true
     })
     .then((response) => {
