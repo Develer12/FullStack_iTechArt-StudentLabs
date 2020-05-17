@@ -92,12 +92,11 @@ function SideBar(elem){
     if(elem.id == 'OpenSideBar'){
         closeWindow();
         makeDarkness();
-
         document.addEventListener('click', e => {
             let target = e.target;  
             let isopen = target == elem || sidebar.contains(target);
             let isdark = dark.classList.contains('darkness');
-            let win = document.getElementsByClassName('change-window')[0];
+            let win = document.getElementById('change_window');
             if (target.id != 'OpenSideBar' && !isopen && isdark && !win) {
                 SideBar(close);
             }
@@ -202,6 +201,7 @@ async function OpenOrder(elem){
 
         let LINK = `/api/orders/${id}`;
         fetch(LINK, {method: 'GET'}).then(res => res.json()).then(res =>{
+            console.log(res)
             let priceF = 0;
             OpenStatus(document.getElementById('delivery'));
             ItemsList = res.products;
@@ -346,6 +346,8 @@ async function GetOrders(){
 }
 
 function DrowOrderStat(ship, processor, customerName){
+    processor.phone = processor.phone == undefined? '':processor.phone;
+
     Stat.processor = `
     <div class="left">
         <div class="items-header">
@@ -660,9 +662,9 @@ function Drowjsloading(block){
 
 let makeDarkness = () => {
     let dark = document.getElementById('curtain');
-    if(!dark.classList.contains('darkness')){
-        dark.classList.add('darkness');
+    if(dark.classList.contains('lightness')){
         dark.classList.remove('lightness');
+        dark.classList.add('darkness');
     }
     else{
         dark.classList.remove('darkness');

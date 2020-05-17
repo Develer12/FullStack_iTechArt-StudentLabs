@@ -2,6 +2,9 @@
   "name": "FSTeh",
   "version": "1.0.0",
   "author": "Develer12",
+  "scripts": {
+    "start": "node index.js"
+  },
   "dependencies": {
     "express": "^4.17.1",
     "body-parser": "^1.19.0",

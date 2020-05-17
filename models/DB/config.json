@@ -1,10 +1,24 @@
 {
-    "username": "Develer12",
-    "password": "admin",
-    "database": "TehOrder",
-    "host": "localhost",
-    "dialect": "mssql",
-    "dialectOptions": {
-        "multipleStatements": true
+    "local":
+    {
+        "username": "Develer12",
+        "password": "admin",
+        "database": "TehOrder",
+        "host": "localhost",
+        "dialect": "mssql",
+        "dialectOptions": {
+            "multipleStatements": true
+        }
+    },
+    "server": 
+    {
+        "username": "DB_A61705_Develer12_admin",
+        "password": "DB_admin12",
+        "database": "DB_A61705_Develer12",
+        "host": "sql5049.site4now.net",
+        "dialect": "mssql",
+        "dialectOptions": {
+            "multipleStatements": true
+        }
     }
 }

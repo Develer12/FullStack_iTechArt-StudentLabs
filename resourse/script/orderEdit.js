@@ -128,6 +128,7 @@ let changeOrder = (elem, action, sender) => {
         let main = document.getElementsByClassName('main')[0];
         win = document.createElement('div');
         win.className = 'change-window';
+        win.id = 'change_window';
         let elemSender = (elem == 'itemAdd')? 'item': elem;
         win.innerHTML =
         `
@@ -306,10 +307,12 @@ let searchFilter = () => {
     if(close && MobStatus){
         SideBar(close);
     }
+    makeDarkness();
     closeWindow();
     let main = document.getElementsByClassName('main')[0];
     let win = document.createElement('div');
     win.className = 'change-window';
+    win.id = 'change_window';
     win.innerHTML =
     `
         <button class="close-ico min-but visible" onclick="closeWindow()"></button>
@@ -389,7 +392,7 @@ let delOrder = (sender) => {
 };
 
 let closeWindow = () => {
-    let win = document.getElementsByClassName('change-window')[0];
+    let win = document.getElementById('change_window');
     if(win){
         makeDarkness();
         tempArray = [];
@@ -403,6 +406,7 @@ let errorWindow = (err) => {
     let main = document.getElementsByClassName('main')[0];
     let win = document.createElement('div');
     win.className = 'change-window';
+    win.id = 'change_window';
     win.innerHTML =
     `
         <button class="close-ico min-but visible" onclick="closeWindow()"></button>

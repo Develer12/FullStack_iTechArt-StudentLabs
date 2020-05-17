@@ -6,7 +6,7 @@ let sequelize;
 
 class DB {
     constructor(){
-        sequelize = new Sequelize(config);
+        sequelize = new Sequelize(config.server);
         sequelize.authenticate().then(()=>{
             let childOption = {};
   

@@ -35,6 +35,7 @@ Route.get('/:n(\\d+)/', (req, res)=>{
     })
     .catch(function (err) {
         console.log(`Request (module) ERROR: ${err}`);
+        res.send(404);
     })
 });
 

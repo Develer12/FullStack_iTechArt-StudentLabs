@@ -7,7 +7,7 @@ const app = express();
 app.use('/',express.static(__dirname ));
 app.use(bodyParser.json());
 
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 /*
 app.get('/api/orders', (req, res) =>{  
