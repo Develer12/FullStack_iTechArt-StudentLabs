@@ -12,8 +12,6 @@ let initMap = () => {
 
 let searchAddress = () => {
     if(mapAddress){
-        console.log(`${mapAddress.country} ${mapAddress.region} ${mapAddress.address}`)
-
         ymaps.geocode(`${mapAddress.country} ${mapAddress.region} ${mapAddress.address}`, { 
             results: 1,
             kind: 'street'

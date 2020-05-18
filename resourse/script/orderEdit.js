@@ -4,7 +4,7 @@ let view ={
         <span class="big">Order №:</span>
         <input type="number" name="id" min="1" placeholder="Order №" required>
         <span class="big">Customer name:</span>
-        <input type="text" name="customer" placeholder="Customer" required>
+        <input type="text" name="customer" maxlength="50" placeholder="Customer" required>
         <span class="big">Ship Date:</span>
         <input type="date" name="shippedAt" placeholder="Date of shiping" required>
         <span class="big">Accept Date:</span>
@@ -136,6 +136,7 @@ let changeOrder = (elem, action, sender) => {
             <form id="order-change" onsubmit="submitOrder('${action}', '${elemSender}'); return false">${form}</form>
         `;
         main.append(win);
+
         let dark = document.getElementById('curtain');
         let isdark = dark.classList.contains('darkness');
         if(!isdark){
@@ -268,7 +269,8 @@ let submitOrder = (action, elem) => {
         convertedJSON[key] = value;
     });
 
-    console.log(convertedJSON)
+    form.innerHTML = '';
+    Drowjsloading('order-change');
 
     fetch(LINK, {
         method: action=='change'?'PUT':'POST',
@@ -374,6 +376,15 @@ let delOrder = (sender) => {
                     <span class="big fat js-empty">Empty</span>
                 `;
 
+                let orderButtons = document.getElementById('order_bar');
+                orderButtons = orderButtons.getElementsByTagName('footer')[0];
+                orderButtons = orderButtons.querySelectorAll('.min-but');
+                if(orderButtons){
+                    orderButtons.forEach(button => {
+                        button.classList.add('visibilityN');
+                    });
+                }
+
                 let url = window.location.pathname;
                 if(url != '/orders')
                     url = url.substring(0, url.lastIndexOf("/"));
@@ -410,7 +421,7 @@ let errorWindow = (err) => {
     win.innerHTML =
     `
         <button class="close-ico min-but visible" onclick="closeWindow()"></button>
-        <span>${err}</span>
+        <span class="error">${err}</span>
     `;
     main.append(win);
 };

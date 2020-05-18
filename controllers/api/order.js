@@ -37,6 +37,9 @@ Route.get('/search', (req, res) =>{
     .then(results => {
         results.forEach(element => {
             element = element.dataValues;
+            
+            element.acceptedAt = moment(element.acceptedAt.toString()).format('DD.MM.YYYY');
+            element.shippedAt = moment(element.shippedAt.toString()).format('DD.MM.YYYY');
 
             for(e in element){
                 element[e] = element[e] == null? '' : element[e];
@@ -48,10 +51,10 @@ Route.get('/search', (req, res) =>{
                 || (('order '+element.id.toString()).indexOf(input.toLowerCase()) + 1);
             }
             else if(filter == 'shipped'){
-                filterBool = (element.shippedAt.toString().indexOf(input) + 1);
+                filterBool = (element.shippedAt.indexOf(input) + 1);
             }
             else if(filter == 'accepted'){
-                filterBool = (element.acceptedAt.toString().indexOf(input) + 1);
+                filterBool = (element.acceptedAt.indexOf(input) + 1);
             }
             else if(filter == 'customer'){
                 filterBool = (element.customer.toLowerCase().indexOf(input.toLowerCase()) + 1);
@@ -59,19 +62,18 @@ Route.get('/search', (req, res) =>{
             else{
                 filterBool = (element.id.toString().indexOf(input) + 1) 
                 || (('order '+element.id.toString()).indexOf(input.toLowerCase()) + 1)
-                || (element.acceptedAt.toString().indexOf(input) + 1) 
+                || (element.acceptedAt.indexOf(input) + 1) 
                 || (element.customer.toLowerCase().indexOf(input.toLowerCase()) + 1) 
-                || (element.shippedAt.toString().indexOf(input) + 1);
+                || (element.shippedAt.indexOf(input) + 1);
             }
-
 
             if(filterBool){
                 OrderList.push( {
                     id: element.id, 
-                    acceptedAt: moment(element.acceptedAt).format('DD.MM.YYYY'),
+                    acceptedAt: element.acceptedAt,
                     customer: element.customer,
                     status: element.status,
-                    shippedAt: moment(element.shippedAt).format('DD.MM.YYYY')
+                    shippedAt: element.shippedAt
                 });
             }
         });
@@ -191,6 +193,7 @@ Route.get('/:n(\\d+)/', (req, res) =>{
 
 //Edit order
 Route.post('/', (req, res)=>{
+    console.log('"'+req.body.id+'"')
     API.post('order', req.body, res);
 });
 

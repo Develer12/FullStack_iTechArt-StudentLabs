@@ -54,6 +54,33 @@ table thead{
 tbody{
     font-size: 0.8em;
 }
+tbody td:last-child{
+    display: flex;
+    justify-content: flex-end;
+    margin-right: 5%;
+}
+td.mob-tab-button{
+    margin-top: 80%;
+}
+table.order-table td{
+    width: 80%;
+    max-width: 150;
+}
+td span.textCut{
+    width: 95%;
+    -webkit-line-clamp: 2;
+}
+td.mob-tab span{
+    font-size: 1.2em;
+}
+td.mob-tab{
+    width: 80%;
+    max-width: 150;
+}
+td.mob-tab span.textCut{
+    width: 95%;
+    -webkit-line-clamp: 2;
+}
 button{
     cursor: pointer;
 }

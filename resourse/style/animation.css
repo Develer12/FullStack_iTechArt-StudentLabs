@@ -6,6 +6,14 @@ div.js-loading{
 .order-content div.js-loading{
     margin: 12% 40% auto 40%;
 }  
+.change-window div.js-loading{
+    margin-left: 43%;
+    margin-top: 5%;
+}
+.order-items div.js-loading{
+    margin-left: 40%;
+}
+
 div.circle {
     border-radius: 50%;
     background: #fff;

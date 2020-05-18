@@ -49,7 +49,7 @@ function checkMobile(){
     let list_bar = document.getElementById('list_bar');
     let order_bar = document.getElementById('order_bar');
     let header = document.getElementById('header');
-    if(((window.innerWidth < window.innerHeight + 50) && !MobStatus) || isMobile()){
+    if(((window.innerWidth < window.innerHeight + 60) && !MobStatus) || isMobile()){
         MobStatus = true;
         list_bar.classList.add('hidden');
         list_bar.classList.remove('visible');
@@ -66,7 +66,7 @@ function checkMobile(){
         StatusO(document.getElementById(openInfo), openInfo);
         DrowOrderItems();
     }
-    else if(((window.innerWidth > window.innerHeight) && MobStatus) || isMobile()){
+    else if(((window.innerWidth > window.innerHeight - 60) && MobStatus) || isMobile()){
         MobStatus = false;
         list_bar.classList = ' ';
         list_bar.classList.add('list-bar');
@@ -201,7 +201,6 @@ async function OpenOrder(elem){
 
         let LINK = `/api/orders/${id}`;
         fetch(LINK, {method: 'GET'}).then(res => res.json()).then(res =>{
-            console.log(res)
             let priceF = 0;
             OpenStatus(document.getElementById('delivery'));
             ItemsList = res.products;
@@ -308,15 +307,16 @@ async function SearchHandler(elem){
         .catch((err) => console.log(`Fetch ERROR by ${LINK}: ${err}`));
 
     }
-    else if(id == 'order-search'){
+    else if(id == 'order-search' && input){
         let container = document.getElementById('list_order');
-        container.innerHTML = ' ';
+        container.innerHTML = '';        
         Drowjsloading('list_order');
 
         let LINK = `/api/orders/search?i=${input}&filter=${SearchFilter}`;
         fetch(LINK, {method: 'GET'})
         .then(res => res.json())
         .then(res =>{
+            container.innerHTML = '';
             res.forEach(row => {
                 container.append(DrowOrderList(row));
             });
@@ -327,14 +327,16 @@ async function SearchHandler(elem){
 }
 
 async function GetOrders(){
-    Drowjsloading('list_order');
+    let container = document.getElementById('list_order');
+    container.innerHTML = '';
 
+    Drowjsloading('list_order');
+    
     let LINK = '/api/orders';
     fetch(LINK, {method: 'GET'})
     .then(res => res.json())
     .then(res =>{
-        let container = document.getElementById('list_order');
-        container.innerHTML = ' ';
+        container.innerHTML = '';
 
         res.forEach(row => {
             container.append(DrowOrderList(row));
@@ -342,7 +344,7 @@ async function GetOrders(){
         OrderCount(res.length);
     })
     .then(() => openOrderUrl())
-    
+    .catch((err) => console.log(`Fetch ERROR by ${LINK}: ${err}`));
 }
 
 function DrowOrderStat(ship, processor, customerName){
@@ -591,28 +593,28 @@ function DrowOrderItemsList(container, row, priceF){
     if(MobStatus || isMobile()){
         tab.innerHTML = `
             <td class="left mob-tab">
-                <span class="black" id="products_name">${row.name}</span>
+                <span class="black textCut" id="products_name">${row.name}</span>
                 <br>
-                <span id="id">${row.id}</span>
+                <span class="textCut" id="id">${row.id}</span>
                 <br>
                 <br>
                 <span>Unit Price:</span>
                 <br>
-                <span class="black" id="product_price">${row.price}</span> 
+                <span class="black textCut" id="product_price">${row.price}</span> 
                 <span class="money" id="product_currency">${row.currency}</span>
                 <br>
                 <br>
                 <span>Quantity:</span>
                 <br>
-                <span id="product_quantity">${row.quantity}</span>
+                <span class="textCut" id="product_quantity">${row.quantity}</span>
                 <br>
                 <br>
                 <span>Total:</span>
                 <br>
-                <span class="black" id="product_totalPrice">${row.totalPrice}</span> 
+                <span class="black textCut" id="product_totalPrice">${row.totalPrice}</span> 
                 <span class="money" id="product_currency">${row.currency}</span>
             </td>
-            <td>                
+            <td class="mob-tab-button">                
                 <button class="editItem-ico min-but" onclick="changeOrder('item', 'change', this)"></button> 
                 <button class="delOrder-ico min-but" onclick="delOrder(this)"></button>
             </td>    
@@ -621,7 +623,7 @@ function DrowOrderItemsList(container, row, priceF){
     else{
         tab.innerHTML = `
             <td class="left">
-                <span class="black" id="products_name">${row.name}</span>
+                <span class="black textCut" id="products_name">${row.name}</span>
                 <br>
                 <span id="id">${row.id}</span>
             </td>

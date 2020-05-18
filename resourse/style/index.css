@@ -265,10 +265,12 @@ span.fat{
 
 /* Text cut style */
 .textCut{
-    display: -webkit-box;
     overflow: hidden;
     text-overflow: ellipsis;
     -webkit-box-orient: vertical;
+}
+.order-content-l{
+    width: 60%;
 }
 .order-content-l .textCut{
     width: 100%;

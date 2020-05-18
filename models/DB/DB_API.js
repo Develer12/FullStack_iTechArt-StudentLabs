@@ -48,8 +48,12 @@ module.exports = {
             res.json({});
         })
         .catch(err => {
+            console.log(err.parent.number)
             res.statusCode = 400;
-            res.json({error: err.toString()});
+            err = (err.parent.number == 2627 && tab == 'order')
+                ? `Order ID ${body.id} is booked. Order ID must be unique, try another ID`
+                : err.toString();
+            res.json({error: err});
         });
     },
     put: (tab, body, res) => {
