@@ -2,7 +2,7 @@ let view ={
     order: 
     `
         <span class="big">Order №:</span>
-        <input type="number" name="id" min="1" placeholder="Order №" required>
+        <input type="number" name="id" min="1" placeholder="Order №">
         <span class="big">Customer name:</span>
         <input type="text" name="customer" maxlength="50" placeholder="Customer" required>
         <span class="big">Ship Date:</span>
